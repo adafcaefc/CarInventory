@@ -66,12 +66,12 @@ public abstract class DataRecord
         return children.size();
     }
 
-    public int countChildrenRecurively()
+    public int countChildrenRecursively()
     {
         int totalChildren = children.size();
         for (DataRecord child : children)
         {
-            totalChildren += child.countChildrenRecurively();
+            totalChildren += child.countChildrenRecursively();
         }
         return totalChildren;
     }
