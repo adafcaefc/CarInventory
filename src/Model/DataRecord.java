@@ -55,4 +55,15 @@ public class DataRecord
         children.clear();
     }
 
+
+    public DataRecord getChildAt(int index)
+    {
+        return children.get(index);
+    }
+
+    public int countChildren()
+    {
+        return children.size();
+    }
+
 }
