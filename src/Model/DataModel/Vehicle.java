@@ -11,9 +11,9 @@ public class Vehicle extends DataRecord
         return this.VIN;
     }
 
-    public void setVIN(String numVIN)
+    public void setVIN(String newVIN)
     {
-        this.VIN = numVIN;
+        this.VIN = newVIN;
     }
 
     public String getLicensePlate()
