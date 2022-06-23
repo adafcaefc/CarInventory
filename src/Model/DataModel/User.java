@@ -1,6 +1,6 @@
 package Model.DataModel;
 
-public class User 
+public class User extends DataRecord
 {
     private String userName;
     private String password;
