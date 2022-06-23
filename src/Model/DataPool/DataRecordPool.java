@@ -3,28 +3,26 @@ package Model.DataPool;
 import Model.DataModel.DataRecord;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
-public class DataRecordPool
+public abstract class DataRecordPool
 {
-    private final ArrayList<DataRecord> componentObjects = new ArrayList<>();;
+    private final ArrayList<DataRecord> componentObjects = new ArrayList<>();
     private final DataRecordPool nextPool;
 
-    public DataRecord getComponentAt(int index)
+    public DataRecordPool(DataRecordPool nextPool)
     {
-        return componentObjects.get(index);
+        this.nextPool = nextPool;
     }
 
-    public int getIndexForComponent(DataRecord component)
+    public void registerComponent(DataRecord object)
     {
-        return componentObjects.indexOf(component);
+        if (!componentObjects.contains(object))
+        {
+            componentObjects.add(object);
+        }
     }
 
-    public int countRegisteredComponents()
-    {
-        return componentObjects.size();
-    }
-
-    public boolean componentIsRegisteredAtPool(DataRecord object) { return componentObjects.contains(object); }
     protected void cleanupOrphanedChildren()
     {
         if (nextPool == null) { return; }
@@ -42,13 +40,6 @@ public class DataRecordPool
         }
         nextPool.cleanupOrphanedChildren();
     }
-    public void registerComponent(DataRecord object)
-    {
-        if (!componentObjects.contains(object))
-        {
-            componentObjects.add(object);
-        }
-    }
 
     public void unregisterComponent(DataRecord object)
     {
@@ -60,8 +51,37 @@ public class DataRecordPool
         }
         cleanupOrphanedChildren();
     }
-    public DataRecordPool(DataRecordPool nextPool)
+
+    public void updateComponent(DataRecord oldObject, DataRecord newObject)
     {
-        this.nextPool = nextPool;
+        final int oldObjectIndex = componentObjects.indexOf(oldObject);
+        if (oldObjectIndex == -1) { return; }
+        for (int i = 0; i < oldObject.countChildren(); i++)
+        {
+            DataRecord child = oldObject.getChildAt(i);
+            newObject.addChild(child);
+        }
+        var parent = oldObject.getParent();
+        if (parent != null) { parent.addChild(newObject); }
+        componentObjects.set(oldObjectIndex, newObject);
+        oldObject.removeAllChildren();
+        oldObject.removeFromParent();
     }
+
+    public DataRecord getComponentAt(int index)
+    {
+        return componentObjects.get(index);
+    }
+
+    public int getIndexForComponent(DataRecord component)
+    {
+        return componentObjects.indexOf(component);
+    }
+
+    public int countRegisteredComponents()
+    {
+        return componentObjects.size();
+    }
+
+    public boolean componentIsRegisteredAtPool(DataRecord object) { return componentObjects.contains(object); }
 }
