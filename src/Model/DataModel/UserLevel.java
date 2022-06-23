@@ -1,0 +1,15 @@
+package Model.DataModel;
+
+import java.util.HashMap;
+
+public enum UserLevel 
+{
+    ADMIN(0),
+    SALES_MANAGER(1),
+    PRODUCT_MANAGER(2);
+
+    private final int value;
+    public static final HashMap<Integer, UserLevel> map = new HashMap<>();
+
+    UserLevel(int value) { this.value = value; }
+}
