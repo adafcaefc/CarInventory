@@ -1,9 +1,11 @@
 package Model.DataModel;
 
-public class User {
+public class User 
+{
     private String userName;
     private String password;
     private String salt;
+    private UserLevel userLevel;
 
     public String getUserName()
     {
@@ -33,5 +35,15 @@ public class User {
     public void setSalt(String salt)
     {
         this.salt = salt;
+    }
+
+    public UserLevel getUserLevel()
+    {
+        return userLevel;
+    }
+
+    public void setUserLevel(UserLevel userLevel)
+    {
+        this.userLevel = userLevel;
     }
 }
