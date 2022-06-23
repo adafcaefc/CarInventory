@@ -2,7 +2,7 @@ package Model.DataPool;
 
 public class BrandPool extends DataRecordPool
 {
-    private static final BrandPool intsance = new BrandPool();
+    private static final BrandPool instance = new BrandPool();
 
     private BrandPool()
     {
@@ -11,6 +11,6 @@ public class BrandPool extends DataRecordPool
 
     public static BrandPool get()
     {
-        return intsance;
+        return instance;
     }
 }
