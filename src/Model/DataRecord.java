@@ -15,4 +15,44 @@ public class DataRecord
     {
         parent = newParent;
     }
+
+    public void addChild(DataRecord child)
+    {
+        if (child.parent != this)
+        {
+            child.setParent(this);
+            children.add(child);
+        }
+    }
+
+    public void removeAllChildrenRecursively()
+    {
+        for (int i = children.size(); i > 0; i--)
+        {
+            DataRecord targetChild = children.get(0);
+            targetChild.removeAllChildrenRecursively();
+            targetChild.removeFromParent();
+        }
+    }
+
+    public void removeFromParent()
+    {
+        if (parent != null)
+        {
+            parent.removeChild(this);
+            parent = null;
+        }
+    }
+
+    public void removeChild(DataRecord child)
+    {
+        children.remove(child);
+    }
+
+
+    public void removeAllChildren()
+    {
+        children.clear();
+    }
+
 }
