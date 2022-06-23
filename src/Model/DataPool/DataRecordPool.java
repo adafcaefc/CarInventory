@@ -5,8 +5,10 @@ import Model.DataModel.DataRecord;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public abstract class DataRecordPool
+public abstract class DataRecordPool implements Iterable<DataRecord>
 {
+    @Override
+    public Iterator<DataRecord> iterator() { return componentObjects.iterator(); }
     private final ArrayList<DataRecord> componentObjects = new ArrayList<>();
     private final DataRecordPool nextPool;
 
