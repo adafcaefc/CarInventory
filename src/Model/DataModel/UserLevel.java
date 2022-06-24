@@ -2,7 +2,7 @@ package Model.DataModel;
 
 import java.util.HashMap;
 
-public enum UserLevel 
+public enum UserLevel
 {
     ADMIN(0),
     SALES_MANAGER(1),
