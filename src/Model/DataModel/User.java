@@ -1,5 +1,9 @@
 package Model.DataModel;
 
+import Controller.Utility.PasswordHelper;
+
+import java.security.NoSuchAlgorithmException;
+
 public class User extends DataRecord
 {
     private String userName;
@@ -45,5 +49,11 @@ public class User extends DataRecord
     public void setUserLevel(UserLevel userLevel)
     {
         this.userLevel = userLevel;
+    }
+
+    public void setPasswordRaw(String str) throws NoSuchAlgorithmException
+    {
+        this.salt = PasswordHelper.generateSalt();
+        this.password = PasswordHelper.sha256Salted(str,this.salt);
     }
 }

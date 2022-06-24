@@ -1,4 +1,10 @@
-public class Model {
+package Model.DataModel;
+
+import Model.Exception.DataNotBoundToPool;
+import Model.DataPool.BrandPool;
+
+public class Model extends DataRecord
+{
     private String modelName;
     private Integer modelYear = 0;
     private Boolean hasSunroof = false;
@@ -6,6 +12,20 @@ public class Model {
     private Integer seatCount = 0;
     private Double fuelCapacity = 0.0;
 
+    public Model(Brand brand) throws DataNotBoundToPool
+    {
+        if (brand == null) { return; }
+        if (!BrandPool.get().componentIsRegisteredAtPool(brand))
+        {
+            throw new DataNotBoundToPool("The 'brand' object passed to bindToBrand does not exist inside BrandPool");
+        }
+        brand.addChild(this);
+    }
+
+    public Brand getBrand()
+    {
+        return (Brand) getParent();
+    }
 
     public String getModelName()
     {

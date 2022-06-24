@@ -2,7 +2,8 @@ package Model.DataModel;
 
 import java.util.GregorianCalendar;
 
-public class SoldVehicle {
+public class SoldVehicle extends DataRecord implements Cloneable
+{
     private String brandName;
     private String modelName;
     private Integer modelYear = 0;
@@ -16,6 +17,26 @@ public class SoldVehicle {
     private Double mileage = 0.0;
     private GregorianCalendar dateOfSale;
     private Double paidAmount;
+
+    public SoldVehicle() { }
+
+    public SoldVehicle(Vehicle sourceVehicle)
+    {
+        VIN = sourceVehicle.getVIN();
+        licensePlate = sourceVehicle.getLicensePlate();
+        color = sourceVehicle.getColor();
+        mileage = sourceVehicle.getMileage();
+
+        Model sourceModel = sourceVehicle.getModel();
+        modelName = sourceModel.getModelName();
+        modelYear = sourceModel.getModelYear();
+        hasSunroof = sourceModel.getHasSunroof();
+        doorCount = sourceModel.getDoorCount();
+        seatCount = sourceModel.getSeatCount();
+        fuelCapacity = sourceModel.getFuelCapacity();
+
+        brandName = sourceModel.getBrand().getBrandName();
+    }
 
     public String getBrandName()
     {
@@ -109,5 +130,25 @@ public class SoldVehicle {
     public void setPaidAmount(Double paidAmount)
     {
         this.paidAmount = paidAmount;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException
+    {
+        SoldVehicle newObj = new SoldVehicle();
+        newObj.brandName = brandName;
+        newObj.modelName = modelName;
+        newObj.modelYear = modelYear;
+        newObj.hasSunroof = hasSunroof;
+        newObj.doorCount = doorCount;
+        newObj.seatCount = seatCount;
+        newObj.fuelCapacity = fuelCapacity;
+        newObj.VIN = VIN;
+        newObj.licensePlate = licensePlate;
+        newObj.color = color;
+        newObj.mileage = mileage;
+        newObj.dateOfSale = dateOfSale;
+        newObj.paidAmount = paidAmount;
+        return newObj;
     }
 }
