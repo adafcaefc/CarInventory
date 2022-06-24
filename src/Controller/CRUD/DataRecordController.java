@@ -1,5 +1,6 @@
 package Controller.CRUD;
 
-public class DataRecordController
+public abstract class DataRecordController
 {
+    protected UpdateListener updateListener;
 }
