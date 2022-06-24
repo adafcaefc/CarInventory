@@ -1,4 +1,8 @@
 package Model.DataModel;
+
+import Model.Exception.DataNotBoundToPool;
+import Model.DataPool.ModelPool;
+
 public class Vehicle extends DataRecord
 {
     private String VIN;
@@ -6,14 +10,29 @@ public class Vehicle extends DataRecord
     private String color;
     private Double mileage = 0.0;
 
+    public Vehicle(Model model) throws DataNotBoundToPool
+    {
+        if (model == null) { return; }
+        if (!ModelPool.get().componentIsRegisteredAtPool(model))
+        {
+            throw new DataNotBoundToPool("The 'model' object passed to bindToModel does not exist inside ModelPool");
+        }
+        model.addChild(this);
+    }
+
+    public Model getModel()
+    {
+        return (Model) getParent();
+    }
+
     public String getVIN()
     {
         return this.VIN;
     }
 
-    public void setVIN(String newVIN)
+    public void setVIN(String numVIN)
     {
-        this.VIN = newVIN;
+        this.VIN = numVIN;
     }
 
     public String getLicensePlate()
