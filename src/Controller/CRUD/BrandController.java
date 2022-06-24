@@ -13,6 +13,18 @@ public class BrandController extends DataRecordController
         super(table, updateListener);
     }
 
+    @Override
+    public void openCreateWindow(JFrame parent)
+    {
+
+    }
+
+    @Override
+    public void openModifyWindow(JFrame parent)
+    {
+
+    }
+
 
     @Override
     public void openDeleteWindow()
