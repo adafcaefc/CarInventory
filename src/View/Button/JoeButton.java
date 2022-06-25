@@ -5,7 +5,8 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class JoeButton extends JButton {
+public class JoeButton extends JButton
+{
     public static final Color SELECTED_COLOR = new Color(0x183265);
     public static final Color UNSELECTED_COLOR = new Color(0x1F4690);
 
@@ -17,21 +18,26 @@ public class JoeButton extends JButton {
 
     public static final Font JOE_BUTTON_FONT = new Font("Century Gothic", Font.BOLD, 16);
 
-    public boolean isJoeSelected() {
+
+    public boolean isJoeSelected()
+    {
         return isJoeSelected;
     }
 
-    public void setJoeSelected(boolean joeSelected) {
+    public void setJoeSelected(boolean joeSelected)
+    {
         setSelected(joeSelected);
         isJoeSelected = joeSelected;
         updateAppearance();
     }
 
-    public boolean isJoeEnabled() {
+    public boolean isJoeEnabled()
+    {
         return isJoeEnabled;
     }
 
-    public void setJoeEnabled(boolean joeEnabled) {
+    public void setJoeEnabled(boolean joeEnabled)
+    {
         setEnabled(joeEnabled);
         isJoeEnabled = joeEnabled;
         updateAppearance();
@@ -40,37 +46,40 @@ public class JoeButton extends JButton {
     boolean isJoeSelected = false;
     boolean isJoeEnabled = true;
 
-    private Color getSelectedColor() {
+    private Color getSelectedColor()
+    {
         return isJoeSelected ? SELECTED_COLOR : UNSELECTED_COLOR;
     }
 
-    private Color getTextColor() {
+    private Color getTextColor()
+    {
         return isJoeEnabled ? TEXT_COLOR : DISABLED_TEXT_COLOR;
     }
 
-    public void updateAppearance() {
+    public void updateAppearance()
+    {
         setBackground(getSelectedColor());
         setForeground(getTextColor());
     }
 
-    public JoeButton(String text) {
+    public JoeButton(String text)
+    {
         super(text);
-        // setBorder(BorderFactory.createEmptyBorder());
         setFocusPainted(false);
         setBorderPainted(false);
         setRolloverEnabled(false);
-        // setContentAreaFilled(false);
         updateAppearance();
-        addMouseListener(new MouseAdapter() {
+        addMouseListener(new MouseAdapter()
+        {
             @Override
-            public void mouseEntered(MouseEvent evt) {
-                if (isEnabled()) {
-                    setBackground(HOVER_COLOR);
-                }
+            public void mouseEntered(MouseEvent evt)
+            {
+                if (isEnabled()) { setBackground(HOVER_COLOR); }
             }
 
             @Override
-            public void mouseExited(MouseEvent evt) {
+            public void mouseExited(MouseEvent evt)
+            {
                 setBackground(getSelectedColor());
             }
         });
