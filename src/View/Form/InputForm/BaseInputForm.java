@@ -1,5 +1,6 @@
 package View.Form.InputForm;
 
+import Controller.CRUD.UpdateListener;
 import Model.DataModel.DataRecord;
 import Model.DataPool.DataRecordPool;
 import View.Form.BaseForm;
@@ -12,6 +13,7 @@ public abstract class BaseInputForm extends BaseForm
     private final boolean updateRecord;
     private final DataRecord originalRecord;
     private final DataRecordPool componentPool;
+    private UpdateListener updateListener;
 
     public BaseInputForm(
             boolean updateRecord,
@@ -30,16 +32,15 @@ public abstract class BaseInputForm extends BaseForm
         return originalRecord;
     }
 
-    public abstract boolean validateInputs();
     public abstract DataRecord getFinishedRecord() throws Exception;
 
-    public final void commitRecord(DataRecord newRecord)
+    public abstract boolean validateInputs();
+
+    public final void bindUpdateListener(UpdateListener listener)
     {
-        if (componentPool == null || newRecord == null) { return; }
-        if (updateRecord) { componentPool.updateComponent(originalRecord, newRecord); }
-        else { componentPool.registerComponent(newRecord); }
-        dispose();
+        updateListener = listener;
     }
+
     @Override
     public void bindButtons(JButton okButton, JButton cancelButton)
     {
@@ -68,6 +69,14 @@ public abstract class BaseInputForm extends BaseForm
         cancelButton.addActionListener(e -> dispose());
     }
 
+    public final void commitRecord(DataRecord newRecord)
+    {
+        if (componentPool == null || newRecord == null) { return; }
+        if (updateRecord) { componentPool.updateComponent(originalRecord, newRecord); }
+        else { componentPool.registerComponent(newRecord); }
+        if (updateListener != null) { updateListener.onDataModelsChanged(); }
+        dispose();
+    }
 
     public boolean isUpdateRecord() { return updateRecord; }
 }

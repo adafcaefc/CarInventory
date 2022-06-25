@@ -7,34 +7,44 @@ import View.Utility.SpringUtilities;
 import javax.swing.*;
 import java.security.NoSuchAlgorithmException;
 
-public class LoginForm extends BaseForm {
+public class LoginForm extends BaseForm
+{
     private final JTextField userNameTextField = new JTextField();
     private final JPasswordField passwordTextField = new JPasswordField();
 
-    private User logIn() throws NoSuchAlgorithmException {
+    private User logIn() throws NoSuchAlgorithmException
+    {
         String userName = userNameTextField.getText();
         String password = String.valueOf(passwordTextField.getPassword());
         return SessionManager.get().logIn(userName, password);
     }
 
     @Override
-    public void bindButtons(JButton okButton, JButton cancelButton) {
-        okButton.addActionListener(e -> {
-            try {
+    public void bindButtons(JButton okButton, JButton cancelButton)
+    {
+        okButton.addActionListener(e ->
+        {
+            try
+            {
                 User user = logIn();
-                if (user != null) {
+                if (user != null)
+                {
                     JOptionPane.showMessageDialog(
                             null, String.format("Welcome, %s!", user.getUserName()),
                             "Login Success",
                             JOptionPane.INFORMATION_MESSAGE);
                     dispose();
-                } else {
+                }
+                else
+                {
                     JOptionPane.showMessageDialog(
                             null, "Invalid username or password!",
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
                 }
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 JOptionPane.showMessageDialog(
                         null, ex.getMessage(),
                         "Error",
@@ -45,7 +55,8 @@ public class LoginForm extends BaseForm {
         cancelButton.addActionListener(e -> dispose());
     }
 
-    public LoginForm() {
+    public LoginForm()
+    {
         super();
 
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);

@@ -25,7 +25,6 @@ public class BrandController extends DataRecordController
 
     }
 
-
     @Override
     public void openDeleteWindow()
     {

@@ -31,3 +31,4 @@ public abstract class DataRecordController
 
     public abstract void loadViewTable();
 }
+

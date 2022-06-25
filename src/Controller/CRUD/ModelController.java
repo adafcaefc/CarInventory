@@ -1,18 +1,38 @@
 package Controller.CRUD;
 
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-
 import Model.DataModel.Model;
 import Model.DataPool.ModelPool;
+import View.Form.InputForm.ModelForm;
 
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 
-public class ModelController extends DataRecordController {
-
-    public ModelController(JTable table, UpdateListener updateListener) {
+public class ModelController extends DataRecordController
+{
+    public ModelController(JTable table, UpdateListener updateListener)
+    {
         super(table, updateListener);
     }
+
+    @Override
+    public void openCreateWindow(JFrame parent)
+    {
+        ModelForm form = new ModelForm(parent, false, null);
+        form.bindUpdateListener(updateListener);
+        form.setVisible(true);
+    }
+
+    @Override
+    public void openModifyWindow(JFrame parent)
+    {
+        Model model = (Model) getSelectedItem(ModelPool.get());
+        if (model == null) { return; }
+        ModelForm form = new ModelForm(parent, true, model);
+        form.bindUpdateListener(updateListener);
+        form.setVisible(true);
+    }
+
     @Override
     public void openDeleteWindow()
     {
@@ -46,17 +66,8 @@ public class ModelController extends DataRecordController {
     }
 
     @Override
-    public void openCreateWindow(JFrame parent) {
-
-    }
-
-    @Override
-    public void openModifyWindow(JFrame parent) {
-
-    }
-
-    @Override
-    public void loadViewTable() {
+    public void loadViewTable()
+    {
         String[] header = new String[]
                 {
                         "Name",
@@ -66,7 +77,7 @@ public class ModelController extends DataRecordController {
                         "Seats",
                         "Fuel",
                         "Brand",
-                };
+                        };
 
         var tableDataMatrix = new ArrayList<ArrayList<Object>>();
         for (var obj : ModelPool.get())
