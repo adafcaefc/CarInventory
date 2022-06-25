@@ -5,16 +5,19 @@ import View.Utility.SpringUtilities;
 
 import javax.swing.*;
 
-public class ShowReceipt extends BaseForm {
+public class ShowReceipt extends BaseForm
+{
     private final SoldVehicle soldVehicle;
 
     @Override
-    public void bindButtons(JButton okButton, JButton cancelButton) {
+    public void bindButtons(JButton okButton, JButton cancelButton)
+    {
         okButton.addActionListener(e -> dispose());
         cancelButton.addActionListener(e -> dispose());
     }
 
-    public ShowReceipt(SoldVehicle soldVehicle) {
+    public ShowReceipt(SoldVehicle soldVehicle)
+    {
         super();
 
         this.soldVehicle = soldVehicle;
