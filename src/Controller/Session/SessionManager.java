@@ -8,7 +8,6 @@ import javax.swing.*;
 import java.io.*;
 import java.security.NoSuchAlgorithmException;
 
-// singleton
 public class SessionManager
 {
     User currentUser = null;
