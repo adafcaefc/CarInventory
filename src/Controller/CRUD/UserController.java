@@ -1,11 +1,10 @@
 package Controller.CRUD;
 
-import Model.DataModel.User;
-import Model.DataPool.UserPool;
-import View.Form.InputForm.UserForm;
+import Model.Record.UserRecord;
+import Model.Pool.UserPool;
+import View.Form.Input.UserInputForm;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 
 public class UserController extends DataRecordController
@@ -18,7 +17,7 @@ public class UserController extends DataRecordController
     @Override
     public void openCreateWindow(JFrame parent)
     {
-        UserForm form = new UserForm(parent, false, null);
+        UserInputForm form = new UserInputForm(parent, false, null);
         form.bindUpdateListener(updateListener);
         form.setVisible(true);
     }
@@ -26,9 +25,9 @@ public class UserController extends DataRecordController
     @Override
     public void openModifyWindow(JFrame parent)
     {
-        User user = (User) getSelectedItem(UserPool.get());
-        if (user == null) { return; }
-        UserForm form = new UserForm(parent, true, user);
+        UserRecord userRecord = (UserRecord) getSelectedItem(UserPool.get());
+        if (userRecord == null) { return; }
+        UserInputForm form = new UserInputForm(parent, true, userRecord);
         form.bindUpdateListener(updateListener);
         form.setVisible(true);
     }
@@ -36,21 +35,21 @@ public class UserController extends DataRecordController
     @Override
     public void openDeleteWindow()
     {
-        User user = (User) getSelectedItem(UserPool.get());
-        if (user == null) { return; }
-        int userIndex = UserPool.get().getIndexForComponent(user);
+        UserRecord userRecord = (UserRecord) getSelectedItem(UserPool.get());
+        if (userRecord == null) { return; }
+        int userIndex = UserPool.get().getIndexForComponent(userRecord);
         String deleteMsg = String.format(
-                "Are you sure you want to delete user no.%d (%s)?",
+                "Are you sure you want to delete userRecord no.%d (%s)?",
                 userIndex + 1,
-                user.getUserName());
+                userRecord.getUserName());
         int choice = JOptionPane.showConfirmDialog(
                 null,
                 deleteMsg,
-                "Delete User",
+                "Delete UserRecord",
                 JOptionPane.YES_NO_OPTION);
         if (choice == JOptionPane.YES_OPTION)
         {
-            UserPool.get().unregisterComponent(user);
+            UserPool.get().unregisterComponent(userRecord);
             updateListener.onDataModelsChanged();
         }
     }
@@ -60,25 +59,20 @@ public class UserController extends DataRecordController
     {
         String[] header = new String[]
                 {
-                        "User Name",
-                        "User Type",
+                        "UserRecord Name",
+                        "UserRecord Type",
                 };
 
         var tableDataMatrix = new ArrayList<ArrayList<Object>>();
         for (var obj : UserPool.get())
         {
-            User user = (User) obj;
+            UserRecord userRecord = (UserRecord) obj;
             ArrayList<Object> innerData = new ArrayList<>();
-            innerData.add(user.getUserName());
-            innerData.add(user.getUserLevel().name());
+            innerData.add(userRecord.getUserName());
+            innerData.add(userRecord.getUserLevel().name());
             tableDataMatrix.add(innerData);
         }
 
-        DefaultTableModel tableModel = new DefaultTableModel(header, 0);
-        for (ArrayList<Object> row : tableDataMatrix) { tableModel.addRow(row.toArray()); }
-
-        table.setModel(tableModel);
-        table.setDefaultEditor(Object.class, null); // disable editor
-        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        setTableSettings(header, tableDataMatrix);
     }
 }

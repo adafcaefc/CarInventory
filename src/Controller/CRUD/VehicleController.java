@@ -1,11 +1,10 @@
 package Controller.CRUD;
 
-import Model.DataModel.Vehicle;
-import Model.DataPool.VehiclePool;
-import View.Form.InputForm.VehicleForm;
+import Model.Record.VehicleRecord;
+import Model.Pool.VehiclePool;
+import View.Form.Input.VehicleInputForm;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 
 public class VehicleController extends DataRecordController
@@ -18,7 +17,7 @@ public class VehicleController extends DataRecordController
     @Override
     public void openCreateWindow(JFrame parent)
     {
-        VehicleForm form = new VehicleForm(parent, false, null);
+        VehicleInputForm form = new VehicleInputForm(parent, false, null);
         form.bindUpdateListener(updateListener);
         form.setVisible(true);
     }
@@ -26,9 +25,9 @@ public class VehicleController extends DataRecordController
     @Override
     public void openModifyWindow(JFrame parent)
     {
-        Vehicle vehicle = (Vehicle) getSelectedItem(VehiclePool.get());
-        if (vehicle == null) { return; }
-        VehicleForm form = new VehicleForm(parent, true, vehicle);
+        VehicleRecord vehicleRecord = (VehicleRecord) getSelectedItem(VehiclePool.get());
+        if (vehicleRecord == null) { return; }
+        VehicleInputForm form = new VehicleInputForm(parent, true, vehicleRecord);
         form.bindUpdateListener(updateListener);
         form.setVisible(true);
     }
@@ -36,17 +35,17 @@ public class VehicleController extends DataRecordController
     @Override
     public void openDeleteWindow()
     {
-        Vehicle vehicle = (Vehicle) getSelectedItem(VehiclePool.get());
-        if (vehicle == null) { return; }
-        int vehicleIndex = VehiclePool.get().getIndexForComponent(vehicle);
+        VehicleRecord vehicleRecord = (VehicleRecord) getSelectedItem(VehiclePool.get());
+        if (vehicleRecord == null) { return; }
+        int vehicleIndex = VehiclePool.get().getIndexForComponent(vehicleRecord);
         String deleteMsg = String.format(
-                "Are you sure you want to delete vehicle no.%d with Vehicle Identification Number %s?",
+                "Are you sure you want to delete vehicleRecord no.%d with VehicleRecord Identification Number %s?",
                 vehicleIndex + 1,
-                vehicle.getVIN());
-        int choice = JOptionPane.showConfirmDialog(null, deleteMsg, "Delete Vehicle", JOptionPane.YES_NO_OPTION);
+                vehicleRecord.getVIN());
+        int choice = JOptionPane.showConfirmDialog(null, deleteMsg, "Delete VehicleRecord", JOptionPane.YES_NO_OPTION);
         if (choice == JOptionPane.YES_OPTION)
         {
-            VehiclePool.get().unregisterComponent(vehicle);
+            VehiclePool.get().unregisterComponent(vehicleRecord);
             updateListener.onDataModelsChanged();
         }
     }
@@ -56,7 +55,7 @@ public class VehicleController extends DataRecordController
     {
         String[] header = new String[]
                 {
-                        "Vehicle ID",
+                        "VehicleRecord ID",
                         "Plate Number",
                         "Colour",
                         "Mileage",
@@ -66,21 +65,16 @@ public class VehicleController extends DataRecordController
         var tableDataMatrix = new ArrayList<ArrayList<Object>>();
         for (var obj : VehiclePool.get())
         {
-            Vehicle vehicleObject = (Vehicle) obj;
+            VehicleRecord vehicleRecord = (VehicleRecord) obj;
             ArrayList<Object> innerData = new ArrayList<>();
-            innerData.add(vehicleObject.getVIN());
-            innerData.add(vehicleObject.getLicensePlate());
-            innerData.add(vehicleObject.getColor());
-            innerData.add(vehicleObject.getMileage());
-            innerData.add(vehicleObject.getModel().getModelName());
+            innerData.add(vehicleRecord.getVIN());
+            innerData.add(vehicleRecord.getLicensePlate());
+            innerData.add(vehicleRecord.getColor());
+            innerData.add(vehicleRecord.getMileage());
+            innerData.add(vehicleRecord.getModel().getModelName());
             tableDataMatrix.add(innerData);
         }
 
-        DefaultTableModel tableModel = new DefaultTableModel(header, 0);
-        for (ArrayList<Object> row : tableDataMatrix) { tableModel.addRow(row.toArray()); }
-
-        table.setModel(tableModel);
-        table.setDefaultEditor(Object.class, null); // disable Editing
-        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        setTableSettings(header, tableDataMatrix);
     }
 }

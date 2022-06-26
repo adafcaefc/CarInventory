@@ -2,5 +2,5 @@ package View.Utility;
 
 public class FormUtilities
 {
-    static public double calculate_rainbow(double value) { return Math.sin(value) * .5 + .5; }
+    static public double calculateRainbow(double value) { return Math.sin(value) * .5 + .5; }
 }
