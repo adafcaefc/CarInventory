@@ -1,11 +1,14 @@
 package Controller.CRUD;
 
 import Model.Model.Brand;
+import Model.Model.Model;
 import Model.Pool.BrandPool;
+import Model.Pool.ModelPool;
 import View.Form.Input.BrandInputForm;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.util.ArrayList;
 
 public class BrandController extends DataRecordController
 {
@@ -56,13 +59,16 @@ public class BrandController extends DataRecordController
     public void loadViewTable()
     {
         String[] header = new String[]{ "Brand Name" };
-        DefaultTableModel tableModel = new DefaultTableModel(header, 0);
+
+        var tableDataMatrix = new ArrayList<ArrayList<Object>>();
         for (var obj : BrandPool.get())
         {
-            var brandObject = (Brand) obj;
-            tableModel.addRow(new Object[]{ brandObject.getBrandName() });
+            Brand brandObject = (Brand) obj;
+            ArrayList<Object> innerData = new ArrayList<>();
+            innerData.add(brandObject.getBrandName());
+            tableDataMatrix.add(innerData);
         }
-        table.setModel(tableModel);
-        table.setDefaultEditor(Object.class, null); // disable editor
+
+        setTableSettings(header, tableDataMatrix);
     }
 }

@@ -74,11 +74,6 @@ public class UserController extends DataRecordController
             tableDataMatrix.add(innerData);
         }
 
-        DefaultTableModel tableModel = new DefaultTableModel(header, 0);
-        for (ArrayList<Object> row : tableDataMatrix) { tableModel.addRow(row.toArray()); }
-
-        table.setModel(tableModel);
-        table.setDefaultEditor(Object.class, null); // disable editor
-        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        setTableSettings(header, tableDataMatrix);
     }
 }
