@@ -351,8 +351,8 @@ public class MainWindow extends JFrame implements UpdateListener
 
         logInButton.addActionListener(e ->
         {
-            //LoginForm loginForm = new LoginForm(this);
-            //loginForm.setVisible(true);
+            LoginForm loginForm = new LoginForm(this);
+            loginForm.setVisible(true);
         });
 
         logOutButton.addActionListener(e ->
