@@ -7,9 +7,11 @@ import Model.DataPool.SoldVehiclePool;
 import java.util.Calendar;
 import java.util.HashMap;
 
-public class SoldVehicleSerializer implements DataRecordSerializer {
+public class SoldVehicleSerializer implements DataRecordSerializer
+{
     @Override
-    public HashMap<String, String> serialize(DataRecord component) {
+    public HashMap<String, String> serialize(DataRecord component)
+    {
         var soldVehicle = (SoldVehicle) component;
         HashMap<String, String> map = new HashMap<>();
         int objIndex = SoldVehiclePool.get().getIndexForComponent(soldVehicle);
@@ -20,10 +22,10 @@ public class SoldVehicleSerializer implements DataRecordSerializer {
 
         map.put("modelName", soldVehicle.getModelName());
         map.put("modelYear", String.valueOf(soldVehicle.getModelYear()));
-        map.put("seatCount", String.valueOf(soldVehicle.getSeatCount()));
-        map.put("fuelCapacity", String.valueOf(soldVehicle.getFuelCapacity()));
         map.put("hasSunroof", String.valueOf(soldVehicle.getHasSunroof() ? 1 : 0));
         map.put("doorCount", String.valueOf(soldVehicle.getDoorCount()));
+        map.put("seatCount", String.valueOf(soldVehicle.getSeatCount()));
+        map.put("fuelCapacity", String.valueOf(soldVehicle.getFuelCapacity()));
 
         map.put("VIN", soldVehicle.getVIN());
         map.put("licensePlate", soldVehicle.getLicensePlate());

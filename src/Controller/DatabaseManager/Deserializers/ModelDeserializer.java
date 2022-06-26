@@ -3,14 +3,16 @@ package Controller.DatabaseManager.Deserializers;
 import Model.DataModel.Brand;
 import Model.DataModel.DataRecord;
 import Model.DataModel.Model;
-import Model.DataPool.BrandPool;
 import Model.Exception.DataNotBoundToPool;
+import Model.DataPool.BrandPool;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ModelDeserializer implements DataRecordDeserializer {
-    public DataRecord deserialize(ResultSet rs) throws SQLException, DataNotBoundToPool {
+public class ModelDeserializer implements DataRecordDeserializer
+{
+    public DataRecord deserialize(ResultSet rs) throws SQLException, DataNotBoundToPool
+    {
         Brand parentObj = (Brand) BrandPool.get().getComponentAt(rs.getInt("parentBrandId"));
         var model = new Model(parentObj);
 
