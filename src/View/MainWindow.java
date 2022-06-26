@@ -1,15 +1,5 @@
 package View;
 
-
-import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-
-
 import Controller.CRUD.*;
 import Controller.DatabaseManager.DatabaseManager;
 import Controller.Session.SessionManager;
@@ -24,6 +14,14 @@ import View.Form.LoginForm;
 import View.Utility.FormUtilities;
 import View.Utility.SpringUtilities;
 
+import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+
 public class MainWindow extends JFrame implements UpdateListener
 {
     private static final Color BACKGROUND_COLOR = new Color(0x2C394B);
@@ -33,11 +31,6 @@ public class MainWindow extends JFrame implements UpdateListener
     public final static String VEHICLE_ID = "Card.Vehicle.Panel";
     public final static String SALES_ID = "Card.Sales.Panel";
     public final static String USER_ID = "Card.Sales.User";
-    private final DatabaseManager databaseManager;
-    private DataRecordController crudController;
-    private HashMap<String, JoeButton> idToButtonMap;
-    private HashMap<String, DataRecordController> idToCRUDControllerMap;
-
 
     private final JoeButton vehiclesButton = new JoeButton("VEHICLES");
     private final JoeButton modelsButton = new JoeButton("MODELS");
@@ -59,87 +52,11 @@ public class MainWindow extends JFrame implements UpdateListener
     private final JoeButton sellButton = new JoeButton("SELL");
     private final JoeButton receiptButton = new JoeButton("SHOW");
 
-   
-    public void updateMenuState(String id)
-    {
-        JButton button = idToButtonMap.get(id);
-        DataRecordController controller = idToCRUDControllerMap.get(id);
-        if (button != null && controller != null)
-        {
-            highlightButton(button);
-            crudController = controller;
-            crudController.loadViewTable();
-        }
-        else
-        {
-            JOptionPane.showMessageDialog(null, "Invalid ID to Object mapping", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+    private final DatabaseManager databaseManager;
+    private DataRecordController crudController;
+    private HashMap<String, JoeButton> idToButtonMap;
+    private HashMap<String, DataRecordController> idToCRUDControllerMap;
 
-        var user = SessionManager.get().getCurrentUser();
-
-        if (user == null)
-        {
-            welcomeLabel.setText("You are not logged in, please log in.");
-
-            logInButton.setJoeEnabled(true);
-            logOutButton.setJoeEnabled(false);
-
-            vehiclesButton.setJoeEnabled(false);
-            modelsButton.setJoeEnabled(false);
-            brandsButton.setJoeEnabled(false);
-            salesButton.setJoeEnabled(false);
-            userButton.setJoeEnabled(false);
-
-            insertButton.setJoeEnabled(false);
-            modifyButton.setJoeEnabled(false);
-            deleteButton.setJoeEnabled(false);
-            sellButton.setJoeEnabled(false);
-            receiptButton.setJoeEnabled(false);
-
-            cCenterPanel.setVisible(false);
-
-            sellButton.setVisible(false);
-            receiptButton.setVisible(false);
-        }
-        else
-        {
-            welcomeLabel.setText(String.format("Welcome, %s! You are logged in as %s.", user.getUserName(), user.getUserLevel().toString()));
-
-            logInButton.setJoeEnabled(false);
-            logOutButton.setJoeEnabled(true);
-
-            boolean salesAccess = user.getUserLevel() == UserLevel.ADMIN || user.getUserLevel() == UserLevel.SALES_MANAGER;
-            boolean adminAccess = user.getUserLevel() == UserLevel.ADMIN;
-            boolean managerAccess =  user.getUserLevel() == UserLevel.ADMIN ||user.getUserLevel() == UserLevel.PRODUCT_MANAGER;
-
-            vehiclesButton.setJoeEnabled(true);
-            salesButton.setJoeEnabled(salesAccess);
-            brandsButton.setJoeEnabled(managerAccess);
-            modelsButton.setJoeEnabled(managerAccess);
-            userButton.setJoeEnabled(adminAccess);
-
-            sellButton.setJoeEnabled(id.equals(VEHICLE_ID));
-            receiptButton.setJoeEnabled(id.equals(SALES_ID));
-            insertButton.setJoeEnabled(!id.equals(SALES_ID));
-            modifyButton.setJoeEnabled(true);
-            deleteButton.setJoeEnabled(true);
-
-            cCenterPanel.setVisible(true);
-
-            sellButton.setVisible(id.equals(VEHICLE_ID));
-            receiptButton.setVisible(id.equals(SALES_ID));
-        }
-    }
-
-    private void setupSidebarButtons()
-    {
-        vehiclesButton.addActionListener(e -> updateMenuState(VEHICLE_ID));
-        modelsButton.addActionListener(e -> updateMenuState(MODEL_ID));
-        brandsButton.addActionListener(e -> updateMenuState(BRAND_ID));
-        salesButton.addActionListener(e -> updateMenuState(SALES_ID));
-        userButton.addActionListener(e -> updateMenuState(USER_ID));
-    }
     public MainWindow(DatabaseManager databaseManager)
     {
         super("JoeCar");
@@ -323,6 +240,87 @@ public class MainWindow extends JFrame implements UpdateListener
             currButton.setJoeSelected(targetButton == currButton);
             currButton.updateAppearance();
         }
+    }
+
+    public void updateMenuState(String id)
+    {
+        JButton button = idToButtonMap.get(id);
+        DataRecordController controller = idToCRUDControllerMap.get(id);
+        if (button != null && controller != null)
+        {
+            highlightButton(button);
+            crudController = controller;
+            crudController.loadViewTable();
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "Invalid ID to Object mapping", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        var user = SessionManager.get().getCurrentUser();
+
+        if (user == null)
+        {
+            welcomeLabel.setText("You are not logged in, please log in.");
+
+            logInButton.setJoeEnabled(true);
+            logOutButton.setJoeEnabled(false);
+
+            vehiclesButton.setJoeEnabled(false);
+            modelsButton.setJoeEnabled(false);
+            brandsButton.setJoeEnabled(false);
+            salesButton.setJoeEnabled(false);
+            userButton.setJoeEnabled(false);
+
+            insertButton.setJoeEnabled(false);
+            modifyButton.setJoeEnabled(false);
+            deleteButton.setJoeEnabled(false);
+            sellButton.setJoeEnabled(false);
+            receiptButton.setJoeEnabled(false);
+
+            cCenterPanel.setVisible(false);
+
+            sellButton.setVisible(false);
+            receiptButton.setVisible(false);
+        }
+        else
+        {
+            welcomeLabel.setText(String.format("Welcome, %s! You are logged in as %s.", user.getUserName(), user.getUserLevel().toString()));
+
+            logInButton.setJoeEnabled(false);
+            logOutButton.setJoeEnabled(true);
+
+            boolean salesAccess = user.getUserLevel() == UserLevel.ADMIN || user.getUserLevel() == UserLevel.SALES_MANAGER;
+            boolean adminAccess = user.getUserLevel() == UserLevel.ADMIN;
+            boolean managerAccess =  user.getUserLevel() == UserLevel.ADMIN ||user.getUserLevel() == UserLevel.PRODUCT_MANAGER;
+
+            vehiclesButton.setJoeEnabled(true);
+            salesButton.setJoeEnabled(salesAccess);
+            brandsButton.setJoeEnabled(managerAccess);
+            modelsButton.setJoeEnabled(managerAccess);
+            userButton.setJoeEnabled(adminAccess);
+
+            sellButton.setJoeEnabled(id.equals(VEHICLE_ID));
+            receiptButton.setJoeEnabled(id.equals(SALES_ID));
+            insertButton.setJoeEnabled(!id.equals(SALES_ID));
+            modifyButton.setJoeEnabled(true);
+            deleteButton.setJoeEnabled(true);
+
+            cCenterPanel.setVisible(true);
+
+            sellButton.setVisible(id.equals(VEHICLE_ID));
+            receiptButton.setVisible(id.equals(SALES_ID));
+        }
+    }
+
+    private void setupSidebarButtons()
+    {
+        vehiclesButton.addActionListener(e -> updateMenuState(VEHICLE_ID));
+        modelsButton.addActionListener(e -> updateMenuState(MODEL_ID));
+        brandsButton.addActionListener(e -> updateMenuState(BRAND_ID));
+        salesButton.addActionListener(e -> updateMenuState(SALES_ID));
+        userButton.addActionListener(e -> updateMenuState(USER_ID));
     }
 
     private void setupCRUDButtons()
