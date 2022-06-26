@@ -10,7 +10,7 @@ import Model.Model.Vehicle;
 import Model.Pool.SoldVehiclePool;
 import Model.Pool.VehiclePool;
 import View.Button.JoeButton;
-import View.Form.LoginForm;
+import View.Form.Login.LoginForm;
 import View.Utility.FormUtilities;
 import View.Utility.SpringUtilities;
 

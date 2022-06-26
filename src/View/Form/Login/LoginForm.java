@@ -1,7 +1,8 @@
-package View.Form;
+package View.Form.Login;
 
 import Controller.Session.SessionManager;
 import Model.Model.User;
+import View.Form.BaseForm;
 import View.MainWindow;
 import View.Utility.SpringUtilities;
 

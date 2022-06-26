@@ -1,11 +1,12 @@
-package View.Form;
+package View.Form.Information;
 
 import Model.Model.SoldVehicle;
+import View.Form.BaseForm;
 import View.Utility.SpringUtilities;
 
 import javax.swing.*;
 
-public class SoldVehicleShowForm extends BaseForm
+public class ShowSoldVehicleForm extends BaseForm
 {
     private final SoldVehicle soldVehicle;
 
@@ -16,7 +17,7 @@ public class SoldVehicleShowForm extends BaseForm
         cancelButton.addActionListener(e -> dispose());
     }
 
-    public SoldVehicleShowForm(SoldVehicle soldVehicle)
+    public ShowSoldVehicleForm(SoldVehicle soldVehicle)
     {
         super();
 

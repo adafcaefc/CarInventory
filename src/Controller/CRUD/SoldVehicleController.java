@@ -3,7 +3,7 @@ package Controller.CRUD;
 import Model.Model.SoldVehicle;
 import Model.Pool.SoldVehiclePool;
 import View.Form.Input.SoldVehicleInputForm;
-import View.Form.SoldVehicleShowForm;
+import View.Form.Information.ShowSoldVehicleForm;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -41,7 +41,7 @@ public class SoldVehicleController extends DataRecordController
     {
         SoldVehicle soldVehicle = (SoldVehicle) getSelectedItem(SoldVehiclePool.get());
         if (soldVehicle == null) { return; }
-        SoldVehicleShowForm form = new SoldVehicleShowForm(soldVehicle);
+        ShowSoldVehicleForm form = new ShowSoldVehicleForm(soldVehicle);
         form.setVisible(true);
     }
 
