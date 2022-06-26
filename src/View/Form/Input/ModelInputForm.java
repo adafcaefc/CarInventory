@@ -1,9 +1,9 @@
 package View.Form.Input;
 
 import Controller.Utility.ValidationUtilities;
-import Model.Model.Brand;
-import Model.Model.DataRecord;
-import Model.Model.Model;
+import Model.Record.BrandRecord;
+import Model.Record.DataRecord;
+import Model.Record.ModelRecord;
 import Model.Pool.BrandPool;
 import Model.Pool.ModelPool;
 import View.Utility.SpringUtilities;
@@ -24,7 +24,7 @@ public class ModelInputForm extends BaseInputForm
     public ModelInputForm(
             JFrame parentFrame,
             boolean updateRecord,
-            Model originalRecord)
+            ModelRecord originalRecord)
     throws HeadlessException
     {
         super(updateRecord, originalRecord, ModelPool.get());
@@ -101,36 +101,36 @@ public class ModelInputForm extends BaseInputForm
     public DataRecord getFinishedRecord() throws Exception
     {
         DataRecord parentBrand = BrandPool.get().getComponentAt(brandDropdownBox.getSelectedIndex());
-        Model model = new Model((Brand) parentBrand);
-        model.setModelName(nameTextField.getText());
-        model.setModelYear(Integer.parseInt(yearTextField.getText()));
-        model.setHasSunroof(hasSunroofCheckbox.isSelected());
-        model.setDoorCount((int) doorCountSpinner.getValue());
-        model.setSeatCount((int) seatCountSpinner.getValue());
-        model.setFuelCapacity(Double.parseDouble(capacityTextField.getText()));
-        return model;
+        ModelRecord modelRecord = new ModelRecord((BrandRecord) parentBrand);
+        modelRecord.setModelName(nameTextField.getText());
+        modelRecord.setModelYear(Integer.parseInt(yearTextField.getText()));
+        modelRecord.setHasSunroof(hasSunroofCheckbox.isSelected());
+        modelRecord.setDoorCount((int) doorCountSpinner.getValue());
+        modelRecord.setSeatCount((int) seatCountSpinner.getValue());
+        modelRecord.setFuelCapacity(Double.parseDouble(capacityTextField.getText()));
+        return modelRecord;
     }
 
     public void populateBrandCombobox()
     {
         for (var obj : BrandPool.get())
         {
-            Brand brand = (Brand) obj;
-            brandDropdownBox.addItem(brand.getBrandName());
+            BrandRecord brandRecord = (BrandRecord) obj;
+            brandDropdownBox.addItem(brandRecord.getBrandName());
         }
         brandDropdownBox.setSelectedItem(null);
     }
 
-    public void loadModelData(Model modelObj)
+    public void loadModelData(ModelRecord modelRecord)
     {
-        if (modelObj == null) { return; }
-        nameTextField.setText(modelObj.getModelName());
-        yearTextField.setText(modelObj.getModelYear().toString());
-        hasSunroofCheckbox.setSelected(modelObj.getHasSunroof());
-        doorCountSpinner.setValue(modelObj.getDoorCount());
-        seatCountSpinner.setValue(modelObj.getSeatCount());
-        capacityTextField.setText(modelObj.getFuelCapacity().toString());
-        int brandIndex = BrandPool.get().getIndexForComponent(modelObj.getBrand());
+        if (modelRecord == null) { return; }
+        nameTextField.setText(modelRecord.getModelName());
+        yearTextField.setText(modelRecord.getModelYear().toString());
+        hasSunroofCheckbox.setSelected(modelRecord.getHasSunroof());
+        doorCountSpinner.setValue(modelRecord.getDoorCount());
+        seatCountSpinner.setValue(modelRecord.getSeatCount());
+        capacityTextField.setText(modelRecord.getFuelCapacity().toString());
+        int brandIndex = BrandPool.get().getIndexForComponent(modelRecord.getBrand());
         brandDropdownBox.setSelectedIndex(brandIndex);
     }
 }

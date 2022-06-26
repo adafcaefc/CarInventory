@@ -1,6 +1,6 @@
 package Model.Pool;
 
-import Model.Model.DataRecord;
+import Model.Record.DataRecord;
 
 import java.util.ArrayList;
 import java.util.Iterator;

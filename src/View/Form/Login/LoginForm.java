@@ -1,7 +1,7 @@
 package View.Form.Login;
 
 import Controller.Session.SessionManager;
-import Model.Model.User;
+import Model.Record.UserRecord;
 import View.Form.BaseForm;
 import View.MainWindow;
 import View.Utility.SpringUtilities;
@@ -15,7 +15,7 @@ public class LoginForm extends BaseForm
     private final JPasswordField passwordTextField = new JPasswordField();
     private final MainWindow mainWindow;
 
-    private User logIn() throws NoSuchAlgorithmException
+    private UserRecord logIn() throws NoSuchAlgorithmException
     {
         String userName = userNameTextField.getText();
         String password = String.valueOf(passwordTextField.getPassword());
@@ -29,11 +29,11 @@ public class LoginForm extends BaseForm
         {
             try
             {
-                User user = logIn();
-                if (user != null)
+                UserRecord userRecord = logIn();
+                if (userRecord != null)
                 {
                     JOptionPane.showMessageDialog(
-                            null, String.format("Welcome, %s!", user.getUserName()),
+                            null, String.format("Welcome, %s!", userRecord.getUserName()),
                             "Login Success",
                             JOptionPane.INFORMATION_MESSAGE);
                     mainWindow.updateMenuState(MainWindow.VEHICLE_ID);
@@ -69,7 +69,7 @@ public class LoginForm extends BaseForm
 
         mainBody.setLayout(new SpringLayout());
 
-        addLabeledComponent("User Name", userNameTextField);
+        addLabeledComponent("UserRecord Name", userNameTextField);
         addLabeledComponent("Password", passwordTextField);
 
         mainBody.add(okButton);

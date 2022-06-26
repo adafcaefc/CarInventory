@@ -1,4 +1,4 @@
-package Model.Model;
+package Model.Record;
 
 import java.util.ArrayList;
 

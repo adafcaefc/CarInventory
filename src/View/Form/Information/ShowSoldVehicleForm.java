@@ -1,6 +1,6 @@
 package View.Form.Information;
 
-import Model.Model.SoldVehicle;
+import Model.Record.SoldVehicleRecord;
 import View.Form.BaseForm;
 import View.Utility.SpringUtilities;
 
@@ -8,7 +8,7 @@ import javax.swing.*;
 
 public class ShowSoldVehicleForm extends BaseForm
 {
-    private final SoldVehicle soldVehicle;
+    private final SoldVehicleRecord soldVehicleRecord;
 
     @Override
     public void bindButtons(JButton okButton, JButton cancelButton)
@@ -17,11 +17,11 @@ public class ShowSoldVehicleForm extends BaseForm
         cancelButton.addActionListener(e -> dispose());
     }
 
-    public ShowSoldVehicleForm(SoldVehicle soldVehicle)
+    public ShowSoldVehicleForm(SoldVehicleRecord soldVehicleRecord)
     {
         super();
 
-        this.soldVehicle = soldVehicle;
+        this.soldVehicleRecord = soldVehicleRecord;
 
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setContentPane(mainBody);
@@ -29,22 +29,22 @@ public class ShowSoldVehicleForm extends BaseForm
 
         mainBody.setLayout(new SpringLayout());
 
-        addLabeledComponent("Vehicle ID", new JLabel(soldVehicle.getVIN()));
-        addLabeledComponent("Plate Number", new JLabel(soldVehicle.getLicensePlate()));
-        addLabeledComponent("Colour", new JLabel(soldVehicle.getColor()));
-        addLabeledComponent("Mileage", new JLabel(String.valueOf(soldVehicle.getMileage())));
-        addLabeledComponent("Model", new JLabel(soldVehicle.getModelName()));
-        addLabeledComponent("Model Year", new JLabel(String.valueOf(soldVehicle.getModelYear())));
-        addLabeledComponent("Sunroof", new JLabel(soldVehicle.getHasSunroof() ? "Yes" : "No"));
-        addLabeledComponent("Number of Doors", new JLabel(String.valueOf(soldVehicle.getDoorCount())));
-        addLabeledComponent("Number of Seats", new JLabel(String.valueOf(soldVehicle.getSeatCount())));
-        addLabeledComponent("Fuel Capacity", new JLabel(String.valueOf(soldVehicle.getFuelCapacity())));
-        addLabeledComponent("Brand", new JLabel(soldVehicle.getBrandName()));
+        addLabeledComponent("VehicleRecord ID", new JLabel(soldVehicleRecord.getVIN()));
+        addLabeledComponent("Plate Number", new JLabel(soldVehicleRecord.getLicensePlate()));
+        addLabeledComponent("Colour", new JLabel(soldVehicleRecord.getColor()));
+        addLabeledComponent("Mileage", new JLabel(String.valueOf(soldVehicleRecord.getMileage())));
+        addLabeledComponent("Model", new JLabel(soldVehicleRecord.getModelName()));
+        addLabeledComponent("Model Year", new JLabel(String.valueOf(soldVehicleRecord.getModelYear())));
+        addLabeledComponent("Sunroof", new JLabel(soldVehicleRecord.getHasSunroof() ? "Yes" : "No"));
+        addLabeledComponent("Number of Doors", new JLabel(String.valueOf(soldVehicleRecord.getDoorCount())));
+        addLabeledComponent("Number of Seats", new JLabel(String.valueOf(soldVehicleRecord.getSeatCount())));
+        addLabeledComponent("Fuel Capacity", new JLabel(String.valueOf(soldVehicleRecord.getFuelCapacity())));
+        addLabeledComponent("Brand", new JLabel(soldVehicleRecord.getBrandName()));
 
         mainBody.add(cancelButton);
         mainBody.add(okButton);
 
-        setTitle("Vehicle Sold");
+        setTitle("VehicleRecord Sold");
 
         cancelButton.setVisible(false);
         okButton.setText("Close");

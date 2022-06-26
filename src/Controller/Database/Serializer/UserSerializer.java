@@ -1,7 +1,7 @@
 package Controller.Database.Serializer;
 
-import Model.Model.DataRecord;
-import Model.Model.User;
+import Model.Record.DataRecord;
+import Model.Record.UserRecord;
 import Model.Pool.UserPool;
 
 import java.util.HashMap;
@@ -11,7 +11,7 @@ public class UserSerializer implements DataRecordSerializer
     @Override
     public HashMap<String, String> serialize(DataRecord component)
     {
-        var user = (User) component;
+        var user = (UserRecord) component;
 
         HashMap<String, String> map = new HashMap<>();
         int objIndex = UserPool.get().getIndexForComponent(user);

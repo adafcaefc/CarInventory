@@ -4,9 +4,9 @@ import Controller.CRUD.*;
 import Controller.Database.DatabaseManager;
 import Controller.Session.SessionManager;
 import Controller.Utility.ValidationUtilities;
-import Model.Model.SoldVehicle;
-import Model.Model.UserLevel;
-import Model.Model.Vehicle;
+import Model.Record.SoldVehicleRecord;
+import Model.Record.UserLevel;
+import Model.Record.VehicleRecord;
 import Model.Pool.SoldVehiclePool;
 import Model.Pool.VehiclePool;
 import View.Button.JoeButton;
@@ -28,9 +28,9 @@ public class MainWindow extends JFrame implements UpdateListener
 
     public final static String BRAND_ID = "Card.Brand.Panel";
     public final static String MODEL_ID = "Card.Model.Panel";
-    public final static String VEHICLE_ID = "Card.Vehicle.Panel";
+    public final static String VEHICLE_ID = "Card.VehicleRecord.Panel";
     public final static String SALES_ID = "Card.Sales.Panel";
-    public final static String USER_ID = "Card.Sales.User";
+    public final static String USER_ID = "Card.Sales.UserRecord";
 
     private final JoeButton vehiclesButton = new JoeButton("VEHICLES");
     private final JoeButton modelsButton = new JoeButton("MODELS");
@@ -230,7 +230,7 @@ public class MainWindow extends JFrame implements UpdateListener
         initializeIdToObjectMappings();
         setupSidebarButtons();
         setupCRUDButtons();
-        updateMenuState(VEHICLE_ID); // Set the "Vehicle" menu as the starting position
+        updateMenuState(VEHICLE_ID); // Set the "VehicleRecord" menu as the starting position
     }
 
     private void highlightButton(JButton targetButton)
@@ -335,8 +335,8 @@ public class MainWindow extends JFrame implements UpdateListener
             String amount = JOptionPane.showInputDialog("Enter the amount for which the vehicle will be sold");
             if (amount != null && ValidationUtilities.isNumeric(amount))
             {
-                var vehicle = (Vehicle) VehiclePool.get().getComponentAt(row);
-                var soldVehicle = new SoldVehicle(vehicle);
+                var vehicle = (VehicleRecord) VehiclePool.get().getComponentAt(row);
+                var soldVehicle = new SoldVehicleRecord(vehicle);
                 soldVehicle.setPaidAmount(Double.parseDouble(amount));
                 soldVehicle.setDateOfSale(new GregorianCalendar());
                 SoldVehiclePool.get().registerComponent(soldVehicle);

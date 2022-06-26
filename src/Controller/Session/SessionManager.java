@@ -1,7 +1,7 @@
 package Controller.Session;
 
 import Controller.Utility.PasswordUtilities;
-import Model.Model.User;
+import Model.Record.UserRecord;
 import Model.Pool.UserPool;
 
 import javax.swing.*;
@@ -10,25 +10,25 @@ import java.security.NoSuchAlgorithmException;
 
 public class SessionManager
 {
-    User currentUser = null;
+    UserRecord currentUserRecord = null;
     String fileName = "JoeCarSession.dat";
     private SessionManager() { }
     private static final SessionManager instance = new SessionManager();
     public static SessionManager get() { return instance; }
 
-    public User getCurrentUser()
+    public UserRecord getCurrentUser()
     {
-        return currentUser;
+        return currentUserRecord;
     }
 
     public boolean isLoggedIn()
     {
-        return currentUser != null;
+        return currentUserRecord != null;
     }
 
     public void logOut()
     {
-        currentUser = null;
+        currentUserRecord = null;
     }
 
     public void saveSession()
@@ -39,7 +39,7 @@ public class SessionManager
             FileOutputStream file = new FileOutputStream(fileName);
             ObjectOutputStream out = new ObjectOutputStream(file);
 
-            out.writeObject(new ActiveSession(currentUser));
+            out.writeObject(new ActiveSession(currentUserRecord));
 
             out.close();
             file.close();
@@ -61,7 +61,7 @@ public class SessionManager
             FileInputStream file = new FileInputStream(fileName);
             ObjectInputStream in = new ObjectInputStream(file);
 
-            currentUser = ((ActiveSession) in.readObject()).getUser();
+            currentUserRecord = ((ActiveSession) in.readObject()).getUser();
 
             in.close();
             file.close();
@@ -75,16 +75,16 @@ public class SessionManager
         }
     }
 
-    public User logIn(String userName, String password) throws NoSuchAlgorithmException
+    public UserRecord logIn(String userName, String password) throws NoSuchAlgorithmException
     {
         for (var obj : UserPool.get())
         {
-            User user = (User) obj;
-            if (user.getUserName().equals(userName) && user.getPassword().equals(PasswordUtilities.sha256Salted(password, user.getSalt())))
+            UserRecord userRecord = (UserRecord) obj;
+            if (userRecord.getUserName().equals(userName) && userRecord.getPassword().equals(PasswordUtilities.sha256Salted(password, userRecord.getSalt())))
             {
-                currentUser = user;
+                currentUserRecord = userRecord;
                 saveSession();
-                return user;
+                return userRecord;
             }
         }
         return null;

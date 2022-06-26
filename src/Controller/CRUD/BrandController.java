@@ -1,13 +1,10 @@
 package Controller.CRUD;
 
-import Model.Model.Brand;
-import Model.Model.Model;
+import Model.Record.BrandRecord;
 import Model.Pool.BrandPool;
-import Model.Pool.ModelPool;
 import View.Form.Input.BrandInputForm;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 
 public class BrandController extends DataRecordController
@@ -28,9 +25,9 @@ public class BrandController extends DataRecordController
     @Override
     public void openModifyWindow(JFrame parent)
     {
-        Brand brand = (Brand) getSelectedItem(BrandPool.get());
-        if (brand == null) { return; }
-        BrandInputForm form = new BrandInputForm(parent, true, brand);
+        BrandRecord brandRecord = (BrandRecord) getSelectedItem(BrandPool.get());
+        if (brandRecord == null) { return; }
+        BrandInputForm form = new BrandInputForm(parent, true, brandRecord);
         form.bindUpdateListener(updateListener);
         form.setVisible(true);
     }
@@ -38,11 +35,11 @@ public class BrandController extends DataRecordController
     @Override
     public void openDeleteWindow()
     {
-        Brand brand = (Brand) getSelectedItem(BrandPool.get());
-        if (brand == null) { return; }
-        int brandIndex = BrandPool.get().getIndexForComponent(brand);
-        int childrenCount = brand.countChildren();
-        String deleteMsg = String.format("Are you sure you want to delete model no.%d (%s)?", brandIndex + 1, brand.getBrandName());
+        BrandRecord brandRecord = (BrandRecord) getSelectedItem(BrandPool.get());
+        if (brandRecord == null) { return; }
+        int brandIndex = BrandPool.get().getIndexForComponent(brandRecord);
+        int childrenCount = brandRecord.countChildren();
+        String deleteMsg = String.format("Are you sure you want to delete model no.%d (%s)?", brandIndex + 1, brandRecord.getBrandName());
         if (childrenCount > 0)
         {
             deleteMsg += "\nAll " + childrenCount + " models with this brand will also be deleted";
@@ -50,7 +47,7 @@ public class BrandController extends DataRecordController
         int choice = JOptionPane.showConfirmDialog(null, deleteMsg, "Delete Brands", JOptionPane.YES_NO_OPTION);
         if (choice == JOptionPane.YES_OPTION)
         {
-            BrandPool.get().unregisterComponent(brand);
+            BrandPool.get().unregisterComponent(brandRecord);
             updateListener.onDataModelsChanged();
         }
     }
@@ -63,9 +60,9 @@ public class BrandController extends DataRecordController
         var tableDataMatrix = new ArrayList<ArrayList<Object>>();
         for (var obj : BrandPool.get())
         {
-            Brand brandObject = (Brand) obj;
+            BrandRecord brandRecord = (BrandRecord) obj;
             ArrayList<Object> innerData = new ArrayList<>();
-            innerData.add(brandObject.getBrandName());
+            innerData.add(brandRecord.getBrandName());
             tableDataMatrix.add(innerData);
         }
 

@@ -1,7 +1,7 @@
 package Controller.Database.Serializer;
 
-import Model.Model.Brand;
-import Model.Model.DataRecord;
+import Model.Record.BrandRecord;
+import Model.Record.DataRecord;
 import Model.Pool.BrandPool;
 
 import java.util.HashMap;
@@ -11,7 +11,7 @@ public class BrandSerializer implements DataRecordSerializer
     @Override
     public HashMap<String, String> serialize(DataRecord component)
     {
-        var brand = (Brand) component;
+        var brand = (BrandRecord) component;
 
         HashMap<String, String> map = new HashMap<>();
         int objIndex = BrandPool.get().getIndexForComponent(brand);

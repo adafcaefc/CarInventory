@@ -1,6 +1,6 @@
 package Controller.Session;
 
-import Model.Model.User;
+import Model.Record.UserRecord;
 import Model.Pool.UserPool;
 
 public class ActiveSession implements java.io.Serializable
@@ -9,28 +9,28 @@ public class ActiveSession implements java.io.Serializable
     private final String password;
     private final String salt;
 
-    public ActiveSession(User user)
+    public ActiveSession(UserRecord userRecord)
     {
-        this.userName = user.getUserName();
-        this.password = user.getPassword();
-        this.salt = user.getSalt();
+        this.userName = userRecord.getUserName();
+        this.password = userRecord.getPassword();
+        this.salt = userRecord.getSalt();
     }
 
-    public boolean isTheSame(User user)
+    public boolean isTheSame(UserRecord userRecord)
     {
-        return user.getUserName().equals(userName)
-                && user.getPassword().equals(password)
-                && user.getSalt().equals(salt);
+        return userRecord.getUserName().equals(userName)
+                && userRecord.getPassword().equals(password)
+                && userRecord.getSalt().equals(salt);
     }
 
-    public User getUser()
+    public UserRecord getUser()
     {
         for (var obj : UserPool.get())
         {
-            User user = (User) obj;
-            if (isTheSame(user))
+            UserRecord userRecord = (UserRecord) obj;
+            if (isTheSame(userRecord))
             {
-                return user;
+                return userRecord;
             }
         }
         return null;

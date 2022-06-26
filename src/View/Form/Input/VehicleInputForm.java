@@ -1,9 +1,9 @@
 package View.Form.Input;
 
 import Controller.Utility.ValidationUtilities;
-import Model.Model.DataRecord;
-import Model.Model.Model;
-import Model.Model.Vehicle;
+import Model.Record.DataRecord;
+import Model.Record.ModelRecord;
+import Model.Record.VehicleRecord;
 import Model.Pool.ModelPool;
 import Model.Pool.VehiclePool;
 import View.Utility.SpringUtilities;
@@ -21,7 +21,7 @@ public class VehicleInputForm extends BaseInputForm
     public VehicleInputForm(
             JFrame parentFrame,
             boolean updateRecord,
-            Vehicle originalRecord)
+            VehicleRecord originalRecord)
     {
         super(updateRecord, originalRecord, VehiclePool.get());
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -30,7 +30,7 @@ public class VehicleInputForm extends BaseInputForm
 
         mainBody.setLayout(new SpringLayout());
 
-        addLabeledComponent("Vehicle ID", vinTextField);
+        addLabeledComponent("VehicleRecord ID", vinTextField);
         addLabeledComponent("License Plate", licensePlateTextField);
         addLabeledComponent("Colour", colorTextField);
         addLabeledComponent("Mileage", mileageTextField);
@@ -41,7 +41,7 @@ public class VehicleInputForm extends BaseInputForm
         mainBody.add(okButton);
         mainBody.add(cancelButton);
 
-        setTitle("Vehicle Form");
+        setTitle("VehicleRecord Form");
 
         SpringUtilities.makeCompactGrid(mainBody, 6, 2, 6, 6, 6, 6);
 
@@ -56,8 +56,8 @@ public class VehicleInputForm extends BaseInputForm
     {
         for (var obj : ModelPool.get())
         {
-            Model model = (Model) obj;
-            modelDropdownBox.addItem(model.getModelName());
+            ModelRecord modelRecord = (ModelRecord) obj;
+            modelDropdownBox.addItem(modelRecord.getModelName());
         }
         modelDropdownBox.setSelectedItem(null);
     }
@@ -78,22 +78,22 @@ public class VehicleInputForm extends BaseInputForm
     public DataRecord getFinishedRecord() throws Exception
     {
         DataRecord parentModel = ModelPool.get().getComponentAt(modelDropdownBox.getSelectedIndex());
-        Vehicle vehicle = new Vehicle((Model) parentModel);
-        vehicle.setVIN(vinTextField.getText());
-        vehicle.setLicensePlate(licensePlateTextField.getText());
-        vehicle.setColor(colorTextField.getText());
-        vehicle.setMileage(Double.parseDouble(mileageTextField.getText()));
-        return vehicle;
+        VehicleRecord vehicleRecord = new VehicleRecord((ModelRecord) parentModel);
+        vehicleRecord.setVIN(vinTextField.getText());
+        vehicleRecord.setLicensePlate(licensePlateTextField.getText());
+        vehicleRecord.setColor(colorTextField.getText());
+        vehicleRecord.setMileage(Double.parseDouble(mileageTextField.getText()));
+        return vehicleRecord;
     }
 
-    public void loadVehicleData(Vehicle vehicleObj)
+    public void loadVehicleData(VehicleRecord vehicleRecord)
     {
-        if (vehicleObj == null) { return; }
-        vinTextField.setText(vehicleObj.getVIN());
-        licensePlateTextField.setText(vehicleObj.getLicensePlate());
-        colorTextField.setText(vehicleObj.getColor());
-        mileageTextField.setText(vehicleObj.getMileage().toString());
-        int modelIndex = ModelPool.get().getIndexForComponent(vehicleObj.getModel());
+        if (vehicleRecord == null) { return; }
+        vinTextField.setText(vehicleRecord.getVIN());
+        licensePlateTextField.setText(vehicleRecord.getLicensePlate());
+        colorTextField.setText(vehicleRecord.getColor());
+        mileageTextField.setText(vehicleRecord.getMileage().toString());
+        int modelIndex = ModelPool.get().getIndexForComponent(vehicleRecord.getModel());
         modelDropdownBox.setSelectedIndex(modelIndex);
     }
 }

@@ -1,8 +1,8 @@
 package View.Form.Input;
 
-import Model.Model.DataRecord;
-import Model.Model.User;
-import Model.Model.UserLevel;
+import Model.Record.DataRecord;
+import Model.Record.UserRecord;
+import Model.Record.UserLevel;
 import Model.Pool.UserPool;
 import View.Utility.SpringUtilities;
 
@@ -19,7 +19,7 @@ public class UserInputForm extends BaseInputForm
     public UserInputForm(
             JFrame parentFrame,
             boolean updateRecord,
-            User originalRecord)
+            UserRecord originalRecord)
     throws HeadlessException
     {
         super(updateRecord, originalRecord, UserPool.get());
@@ -29,15 +29,15 @@ public class UserInputForm extends BaseInputForm
 
         mainBody.setLayout(new SpringLayout());
 
-        addLabeledComponent("User Name", userNameTextField);
+        addLabeledComponent("UserRecord Name", userNameTextField);
         addLabeledComponent("Password", passwordTextField);
         addLabeledComponent("Retype", passwordConfirmationTextField);
-        addLabeledComponent("User Level", userLevelDropdownBox);
+        addLabeledComponent("UserRecord Level", userLevelDropdownBox);
 
         mainBody.add(okButton);
         mainBody.add(cancelButton);
 
-        setTitle("User Form");
+        setTitle("UserRecord Form");
 
         SpringUtilities.makeCompactGrid(mainBody, 5, 2, 6, 6, 6, 6);
 
@@ -67,8 +67,8 @@ public class UserInputForm extends BaseInputForm
         {
             for (var obj : UserPool.get())
             {
-                User user = (User) obj;
-                if (user.getUserName().equals(userNameTextField.getText()))
+                UserRecord userRecord = (UserRecord) obj;
+                if (userRecord.getUserName().equals(userNameTextField.getText()))
                 {
                     userNameTextField.setBackground(getErrorBackgroundColor());
                     inputIsValid = false;
@@ -100,11 +100,11 @@ public class UserInputForm extends BaseInputForm
     @Override
     public DataRecord getFinishedRecord() throws Exception
     {
-        User user = new User();
-        user.setUserName(userNameTextField.getText());
-        user.setPasswordRaw(new String(passwordTextField.getPassword()));
-        user.setUserLevel(UserLevel.valueOf(userLevelDropdownBox.getSelectedIndex()));
-        return user;
+        UserRecord userRecord = new UserRecord();
+        userRecord.setUserName(userNameTextField.getText());
+        userRecord.setPasswordRaw(new String(passwordTextField.getPassword()));
+        userRecord.setUserLevel(UserLevel.valueOf(userLevelDropdownBox.getSelectedIndex()));
+        return userRecord;
     }
 
     public void populateUserLevelCombobox()
@@ -115,10 +115,10 @@ public class UserInputForm extends BaseInputForm
         }
     }
 
-    public void loadUserData(User user)
+    public void loadUserData(UserRecord userRecord)
     {
-        if (user == null) { return; }
-        userNameTextField.setText(user.getUserName());
-        userLevelDropdownBox.setSelectedIndex(user.getUserLevel().getValue());
+        if (userRecord == null) { return; }
+        userNameTextField.setText(userRecord.getUserName());
+        userLevelDropdownBox.setSelectedIndex(userRecord.getUserLevel().getValue());
     }
 }

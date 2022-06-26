@@ -1,7 +1,7 @@
 package View.Form.Input;
 
 import Controller.CRUD.UpdateListener;
-import Model.Model.DataRecord;
+import Model.Record.DataRecord;
 import Model.Pool.DataRecordPool;
 import View.Form.BaseForm;
 

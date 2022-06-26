@@ -1,7 +1,7 @@
 package Controller.Database.Deserializer;
 
-import Model.Model.DataRecord;
-import Model.Model.SoldVehicle;
+import Model.Record.DataRecord;
+import Model.Record.SoldVehicleRecord;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,7 +11,7 @@ public class SoldVehicleDeserializer implements DataRecordDeserializer
 {
     public DataRecord deserialize(ResultSet rs) throws SQLException
     {
-        var soldVehicle = new SoldVehicle();
+        var soldVehicle = new SoldVehicleRecord();
 
         soldVehicle.setBrandName(rs.getString("brandName"));
 

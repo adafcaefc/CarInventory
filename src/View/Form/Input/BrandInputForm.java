@@ -1,7 +1,7 @@
 package View.Form.Input;
 
-import Model.Model.Brand;
-import Model.Model.DataRecord;
+import Model.Record.BrandRecord;
+import Model.Record.DataRecord;
 import Model.Pool.BrandPool;
 import View.Utility.SpringUtilities;
 
@@ -11,9 +11,9 @@ public class BrandInputForm extends BaseInputForm
 {
     private final JTextField nameTextField = new JTextField();
 
-    public BrandInputForm(JFrame parentFrame, boolean updateRecord, Brand originalBrand)
+    public BrandInputForm(JFrame parentFrame, boolean updateRecord, BrandRecord originalBrandRecord)
     {
-        super(updateRecord, originalBrand, BrandPool.get());
+        super(updateRecord, originalBrandRecord, BrandPool.get());
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setContentPane(mainBody);
         bindButtons(okButton, cancelButton);
@@ -32,15 +32,15 @@ public class BrandInputForm extends BaseInputForm
         pack();
         setLocationRelativeTo(parentFrame);
 
-        loadBrandData(originalBrand);
+        loadBrandData(originalBrandRecord);
     }
 
     @Override
     public DataRecord getFinishedRecord()
     {
-        Brand brand = new Brand();
-        brand.setBrandName(nameTextField.getText());
-        return brand;
+        BrandRecord brandRecord = new BrandRecord();
+        brandRecord.setBrandName(nameTextField.getText());
+        return brandRecord;
     }
 
     @Override
@@ -49,9 +49,9 @@ public class BrandInputForm extends BaseInputForm
         return true;
     }
 
-    public void loadBrandData(Brand brandObj)
+    public void loadBrandData(BrandRecord brandRecord)
     {
-        if (brandObj == null) { return; }
-        nameTextField.setText(brandObj.getBrandName());
+        if (brandRecord == null) { return; }
+        nameTextField.setText(brandRecord.getBrandName());
     }
 }

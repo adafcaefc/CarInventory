@@ -1,8 +1,8 @@
-package Model.Model;
+package Model.Record;
 
 import java.util.GregorianCalendar;
 
-public class SoldVehicle extends DataRecord implements Cloneable
+public class SoldVehicleRecord extends DataRecord implements Cloneable
 {
     private String brandName;
     private String modelName;
@@ -18,24 +18,24 @@ public class SoldVehicle extends DataRecord implements Cloneable
     private GregorianCalendar dateOfSale;
     private Double paidAmount;
 
-    public SoldVehicle() { }
+    public SoldVehicleRecord() { }
 
-    public SoldVehicle(Vehicle sourceVehicle)
+    public SoldVehicleRecord(VehicleRecord sourceVehicleRecord)
     {
-        VIN = sourceVehicle.getVIN();
-        licensePlate = sourceVehicle.getLicensePlate();
-        color = sourceVehicle.getColor();
-        mileage = sourceVehicle.getMileage();
+        VIN = sourceVehicleRecord.getVIN();
+        licensePlate = sourceVehicleRecord.getLicensePlate();
+        color = sourceVehicleRecord.getColor();
+        mileage = sourceVehicleRecord.getMileage();
 
-        Model sourceModel = sourceVehicle.getModel();
-        modelName = sourceModel.getModelName();
-        modelYear = sourceModel.getModelYear();
-        hasSunroof = sourceModel.getHasSunroof();
-        doorCount = sourceModel.getDoorCount();
-        seatCount = sourceModel.getSeatCount();
-        fuelCapacity = sourceModel.getFuelCapacity();
+        ModelRecord sourceModelRecord = sourceVehicleRecord.getModel();
+        modelName = sourceModelRecord.getModelName();
+        modelYear = sourceModelRecord.getModelYear();
+        hasSunroof = sourceModelRecord.getHasSunroof();
+        doorCount = sourceModelRecord.getDoorCount();
+        seatCount = sourceModelRecord.getSeatCount();
+        fuelCapacity = sourceModelRecord.getFuelCapacity();
 
-        brandName = sourceModel.getBrand().getBrandName();
+        brandName = sourceModelRecord.getBrand().getBrandName();
     }
 
     public String getBrandName()
@@ -135,7 +135,7 @@ public class SoldVehicle extends DataRecord implements Cloneable
     @Override
     public Object clone() throws CloneNotSupportedException
     {
-        SoldVehicle newObj = new SoldVehicle();
+        SoldVehicleRecord newObj = new SoldVehicleRecord();
         newObj.brandName = brandName;
         newObj.modelName = modelName;
         newObj.modelYear = modelYear;

@@ -1,6 +1,6 @@
 package Controller.Database.Serializer;
 
-import Model.Model.DataRecord;
+import Model.Record.DataRecord;
 
 import java.util.HashMap;
 

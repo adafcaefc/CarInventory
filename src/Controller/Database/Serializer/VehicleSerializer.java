@@ -1,7 +1,7 @@
 package Controller.Database.Serializer;
 
-import Model.Model.DataRecord;
-import Model.Model.Vehicle;
+import Model.Record.DataRecord;
+import Model.Record.VehicleRecord;
 import Model.Pool.ModelPool;
 import Model.Pool.VehiclePool;
 
@@ -12,7 +12,7 @@ public class VehicleSerializer implements DataRecordSerializer
     @Override
     public HashMap<String, String> serialize(DataRecord component)
     {
-        var vehicle = (Vehicle) component;
+        var vehicle = (VehicleRecord) component;
         HashMap<String, String> map = new HashMap<>();
         int objIndex = VehiclePool.get().getIndexForComponent(vehicle);
         int parentObjIndex = ModelPool.get().getIndexForComponent(vehicle.getModel());

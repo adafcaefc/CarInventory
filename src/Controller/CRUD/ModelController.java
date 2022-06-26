@@ -1,11 +1,10 @@
 package Controller.CRUD;
 
-import Model.Model.Model;
+import Model.Record.ModelRecord;
 import Model.Pool.ModelPool;
 import View.Form.Input.ModelInputForm;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 
 public class ModelController extends DataRecordController
@@ -26,9 +25,9 @@ public class ModelController extends DataRecordController
     @Override
     public void openModifyWindow(JFrame parent)
     {
-        Model model = (Model) getSelectedItem(ModelPool.get());
-        if (model == null) { return; }
-        ModelInputForm form = new ModelInputForm(parent, true, model);
+        ModelRecord modelRecord = (ModelRecord) getSelectedItem(ModelPool.get());
+        if (modelRecord == null) { return; }
+        ModelInputForm form = new ModelInputForm(parent, true, modelRecord);
         form.bindUpdateListener(updateListener);
         form.setVisible(true);
     }
@@ -36,16 +35,16 @@ public class ModelController extends DataRecordController
     @Override
     public void openDeleteWindow()
     {
-        Model model = (Model) getSelectedItem(ModelPool.get());
-        if (model == null) { return; }
+        ModelRecord modelRecord = (ModelRecord) getSelectedItem(ModelPool.get());
+        if (modelRecord == null) { return; }
 
-        int modelIndex = ModelPool.get().getIndexForComponent(model);
-        int childrenCount = model.countChildren();
+        int modelIndex = ModelPool.get().getIndexForComponent(modelRecord);
+        int childrenCount = modelRecord.countChildren();
 
         String deleteMsg = String.format(
                 "Are you sure you want to delete model no.%d (%s)?",
                 modelIndex + 1,
-                model.getModelName());
+                modelRecord.getModelName());
 
         if (childrenCount > 0)
         {
@@ -60,7 +59,7 @@ public class ModelController extends DataRecordController
 
         if (choice == JOptionPane.YES_OPTION)
         {
-            ModelPool.get().unregisterComponent(model);
+            ModelPool.get().unregisterComponent(modelRecord);
             updateListener.onDataModelsChanged();
         }
     }
@@ -82,15 +81,15 @@ public class ModelController extends DataRecordController
         var tableDataMatrix = new ArrayList<ArrayList<Object>>();
         for (var obj : ModelPool.get())
         {
-            Model modelObject = (Model) obj;
+            ModelRecord modelRecord = (ModelRecord) obj;
             ArrayList<Object> innerData = new ArrayList<>();
-            innerData.add(modelObject.getModelName());
-            innerData.add(modelObject.getModelYear());
-            innerData.add(modelObject.getHasSunroof() ? "Yes" : "No");
-            innerData.add(modelObject.getDoorCount());
-            innerData.add(modelObject.getSeatCount());
-            innerData.add(modelObject.getFuelCapacity());
-            innerData.add(modelObject.getBrand().getBrandName());
+            innerData.add(modelRecord.getModelName());
+            innerData.add(modelRecord.getModelYear());
+            innerData.add(modelRecord.getHasSunroof() ? "Yes" : "No");
+            innerData.add(modelRecord.getDoorCount());
+            innerData.add(modelRecord.getSeatCount());
+            innerData.add(modelRecord.getFuelCapacity());
+            innerData.add(modelRecord.getBrand().getBrandName());
             tableDataMatrix.add(innerData);
         }
 

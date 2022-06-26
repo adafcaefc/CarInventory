@@ -1,7 +1,7 @@
 package Controller.Database.Serializer;
 
-import Model.Model.DataRecord;
-import Model.Model.Model;
+import Model.Record.DataRecord;
+import Model.Record.ModelRecord;
 import Model.Pool.BrandPool;
 import Model.Pool.ModelPool;
 
@@ -12,7 +12,7 @@ public class ModelSerializer implements DataRecordSerializer
     @Override
     public HashMap<String, String> serialize(DataRecord component)
     {
-        var model = (Model) component;
+        var model = (ModelRecord) component;
         HashMap<String, String> map = new HashMap<>();
 
         int objIndex = ModelPool.get().getIndexForComponent(model);

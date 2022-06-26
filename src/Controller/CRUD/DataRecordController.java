@@ -1,6 +1,6 @@
 package Controller.CRUD;
 
-import Model.Model.DataRecord;
+import Model.Record.DataRecord;
 import Model.Pool.DataRecordPool;
 
 import javax.swing.*;
