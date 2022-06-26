@@ -1,6 +1,6 @@
 package View.Form.Input;
 
-import Controller.Utility.ValidationHelper;
+import Controller.Utility.ValidationUtilities;
 import Model.Model.Brand;
 import Model.Model.DataRecord;
 import Model.Model.Model;
@@ -74,14 +74,14 @@ public class ModelInputForm extends BaseInputForm
 
         for (JComponent c : uiInputs) { c.setBackground(Color.WHITE); }
 
-        if (!ValidationHelper.isWholeNumber(yearTextField.getText()))
+        if (!ValidationUtilities.isWholeNumber(yearTextField.getText()))
         {
             yearTextField.setBackground(getErrorBackgroundColor());
             yearTextField.setText("");
             inputIsValid = false;
         }
 
-        if (!ValidationHelper.isNumeric(capacityTextField.getText()) || capacityTextField.getText().isEmpty())
+        if (!ValidationUtilities.isNumeric(capacityTextField.getText()) || capacityTextField.getText().isEmpty())
         {
             capacityTextField.setBackground(getErrorBackgroundColor());
             capacityTextField.setText("");

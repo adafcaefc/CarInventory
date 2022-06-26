@@ -1,6 +1,6 @@
 package View.Form.Input;
 
-import Controller.Utility.ValidationHelper;
+import Controller.Utility.ValidationUtilities;
 import Model.Model.DataRecord;
 import Model.Model.SoldVehicle;
 import Model.Pool.SoldVehiclePool;
@@ -85,7 +85,7 @@ public class SoldVehicleInputForm extends BaseInputForm
     public boolean validateInputs()
     {
         paidAmountTextField.setBackground(Color.WHITE);
-        if (!ValidationHelper.isNumeric(paidAmountTextField.getText()))
+        if (!ValidationUtilities.isNumeric(paidAmountTextField.getText()))
         {
             paidAmountTextField.setBackground(getErrorBackgroundColor());
             paidAmountTextField.setText("");

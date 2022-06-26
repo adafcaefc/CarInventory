@@ -1,6 +1,6 @@
 package Controller.Session;
 
-import Controller.Utility.PasswordHelper;
+import Controller.Utility.PasswordUtilities;
 import Model.Model.User;
 import Model.Pool.UserPool;
 
@@ -81,7 +81,7 @@ public class SessionManager
         for (var obj : UserPool.get())
         {
             User user = (User) obj;
-            if (user.getUserName().equals(userName) && user.getPassword().equals(PasswordHelper.sha256Salted(password, user.getSalt())))
+            if (user.getUserName().equals(userName) && user.getPassword().equals(PasswordUtilities.sha256Salted(password, user.getSalt())))
             {
                 currentUser = user;
                 saveSession();

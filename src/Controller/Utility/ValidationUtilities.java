@@ -1,8 +1,8 @@
 package Controller.Utility;
 
-public class ValidationHelper
+public class ValidationUtilities
 {
-    private ValidationHelper() { }
+    private ValidationUtilities() { }
 
     public static boolean isNumeric(String str)
     {

@@ -1,6 +1,6 @@
 package View.Form.Input;
 
-import Controller.Utility.ValidationHelper;
+import Controller.Utility.ValidationUtilities;
 import Model.Model.DataRecord;
 import Model.Model.Model;
 import Model.Model.Vehicle;
@@ -66,7 +66,7 @@ public class VehicleInputForm extends BaseInputForm
     public boolean validateInputs()
     {
         boolean inputIsValid = true;
-        if (!ValidationHelper.isNumeric(mileageTextField.getText()))
+        if (!ValidationUtilities.isNumeric(mileageTextField.getText()))
         {
             inputIsValid = false;
             mileageTextField.setBackground(getErrorBackgroundColor());

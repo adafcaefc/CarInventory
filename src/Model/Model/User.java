@@ -1,6 +1,6 @@
 package Model.Model;
 
-import Controller.Utility.PasswordHelper;
+import Controller.Utility.PasswordUtilities;
 
 import java.security.NoSuchAlgorithmException;
 
@@ -53,7 +53,7 @@ public class User extends DataRecord
 
     public void setPasswordRaw(String str) throws NoSuchAlgorithmException
     {
-        this.salt = PasswordHelper.generateSalt();
-        this.password = PasswordHelper.sha256Salted(str,this.salt);
+        this.salt = PasswordUtilities.generateSalt();
+        this.password = PasswordUtilities.sha256Salted(str,this.salt);
     }
 }

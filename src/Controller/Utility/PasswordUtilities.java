@@ -6,9 +6,9 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Random;
 
-public class PasswordHelper
+public class PasswordUtilities
 {
-    private PasswordHelper() { }
+    private PasswordUtilities() { }
 
     private static final Random rng = new SecureRandom();
 

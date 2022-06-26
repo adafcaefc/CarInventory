@@ -1,6 +1,8 @@
 package View.Form.Input;
 
-import Model.Model.*;
+import Model.Model.DataRecord;
+import Model.Model.User;
+import Model.Model.UserLevel;
 import Model.Pool.UserPool;
 import View.Utility.SpringUtilities;
 

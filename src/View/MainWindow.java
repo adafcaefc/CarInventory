@@ -3,12 +3,12 @@ package View;
 import Controller.CRUD.*;
 import Controller.Database.DatabaseManager;
 import Controller.Session.SessionManager;
+import Controller.Utility.ValidationUtilities;
 import Model.Model.SoldVehicle;
 import Model.Model.UserLevel;
 import Model.Model.Vehicle;
 import Model.Pool.SoldVehiclePool;
 import Model.Pool.VehiclePool;
-import Controller.Utility.ValidationHelper;
 import View.Button.JoeButton;
 import View.Form.LoginForm;
 import View.Utility.FormUtilities;
@@ -333,7 +333,7 @@ public class MainWindow extends JFrame implements UpdateListener
             int row = displayTable.getSelectedRow();
             if (row == -1 || row >= VehiclePool.get().countRegisteredComponents()) { return; }
             String amount = JOptionPane.showInputDialog("Enter the amount for which the vehicle will be sold");
-            if (amount != null && ValidationHelper.isNumeric(amount))
+            if (amount != null && ValidationUtilities.isNumeric(amount))
             {
                 var vehicle = (Vehicle) VehiclePool.get().getComponentAt(row);
                 var soldVehicle = new SoldVehicle(vehicle);

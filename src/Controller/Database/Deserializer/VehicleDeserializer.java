@@ -1,9 +1,9 @@
 package Controller.Database.Deserializer;
 
+import Model.Exception.DataNotBoundToPool;
 import Model.Model.DataRecord;
 import Model.Model.Model;
 import Model.Model.Vehicle;
-import Model.Exception.DataNotBoundToPool;
 import Model.Pool.ModelPool;
 
 import java.sql.ResultSet;
