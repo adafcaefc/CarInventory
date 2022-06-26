@@ -40,7 +40,7 @@ public class SessionManager
             FileOutputStream file = new FileOutputStream(fileName);
             ObjectOutputStream out = new ObjectOutputStream(file);
 
-            out.writeObject(new UserSession(currentUser));
+            out.writeObject(new ActiveSession(currentUser));
 
             out.close();
             file.close();
@@ -62,7 +62,7 @@ public class SessionManager
             FileInputStream file = new FileInputStream(fileName);
             ObjectInputStream in = new ObjectInputStream(file);
 
-            currentUser = ((UserSession) in.readObject()).getUser();
+            currentUser = ((ActiveSession) in.readObject()).getUser();
 
             in.close();
             file.close();

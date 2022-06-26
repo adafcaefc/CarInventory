@@ -3,13 +3,13 @@ package Controller.Session;
 import Model.Model.User;
 import Model.Pool.UserPool;
 
-public class UserSession implements java.io.Serializable
+public class ActiveSession implements java.io.Serializable
 {
     private final String userName;
     private final String password;
     private final String salt;
 
-    public UserSession(User user)
+    public ActiveSession(User user)
     {
         this.userName = user.getUserName();
         this.password = user.getPassword();
