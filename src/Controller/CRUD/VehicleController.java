@@ -1,8 +1,8 @@
 package Controller.CRUD;
 
-import Model.DataModel.Vehicle;
-import Model.DataPool.VehiclePool;
-import View.Form.InputForm.VehicleForm;
+import Model.Model.Vehicle;
+import Model.Pool.VehiclePool;
+import View.Form.Input.VehicleInputForm;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -18,7 +18,7 @@ public class VehicleController extends DataRecordController
     @Override
     public void openCreateWindow(JFrame parent)
     {
-        VehicleForm form = new VehicleForm(parent, false, null);
+        VehicleInputForm form = new VehicleInputForm(parent, false, null);
         form.bindUpdateListener(updateListener);
         form.setVisible(true);
     }
@@ -28,7 +28,7 @@ public class VehicleController extends DataRecordController
     {
         Vehicle vehicle = (Vehicle) getSelectedItem(VehiclePool.get());
         if (vehicle == null) { return; }
-        VehicleForm form = new VehicleForm(parent, true, vehicle);
+        VehicleInputForm form = new VehicleInputForm(parent, true, vehicle);
         form.bindUpdateListener(updateListener);
         form.setVisible(true);
     }

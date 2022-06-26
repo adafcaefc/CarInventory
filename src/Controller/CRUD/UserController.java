@@ -1,8 +1,8 @@
 package Controller.CRUD;
 
-import Model.DataModel.User;
-import Model.DataPool.UserPool;
-import View.Form.InputForm.UserForm;
+import Model.Model.User;
+import Model.Pool.UserPool;
+import View.Form.Input.UserInputForm;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -18,7 +18,7 @@ public class UserController extends DataRecordController
     @Override
     public void openCreateWindow(JFrame parent)
     {
-        UserForm form = new UserForm(parent, false, null);
+        UserInputForm form = new UserInputForm(parent, false, null);
         form.bindUpdateListener(updateListener);
         form.setVisible(true);
     }
@@ -28,7 +28,7 @@ public class UserController extends DataRecordController
     {
         User user = (User) getSelectedItem(UserPool.get());
         if (user == null) { return; }
-        UserForm form = new UserForm(parent, true, user);
+        UserInputForm form = new UserInputForm(parent, true, user);
         form.bindUpdateListener(updateListener);
         form.setVisible(true);
     }

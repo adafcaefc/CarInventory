@@ -1,7 +1,7 @@
 package Controller.Session;
 
-import Model.DataModel.User;
-import Model.DataPool.UserPool;
+import Model.Model.User;
+import Model.Pool.UserPool;
 
 public class UserSession implements java.io.Serializable
 {

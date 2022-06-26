@@ -1,7 +1,7 @@
 package View.Form;
 
 import Controller.Session.SessionManager;
-import Model.DataModel.User;
+import Model.Model.User;
 import View.MainWindow;
 import View.Utility.SpringUtilities;
 

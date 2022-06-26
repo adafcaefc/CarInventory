@@ -1,13 +1,11 @@
 package Controller.Session;
 
 import Controller.Utility.PasswordHelper;
-import Model.DataModel.User;
-import Model.DataPool.UserPool;
+import Model.Model.User;
+import Model.Pool.UserPool;
 
 import javax.swing.*;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.security.NoSuchAlgorithmException;
 
 // singleton

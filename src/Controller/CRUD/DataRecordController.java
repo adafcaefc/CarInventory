@@ -1,7 +1,7 @@
 package Controller.CRUD;
 
-import Model.DataModel.DataRecord;
-import Model.DataPool.DataRecordPool;
+import Model.Model.DataRecord;
+import Model.Pool.DataRecordPool;
 
 import javax.swing.*;
 

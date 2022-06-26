@@ -1,9 +1,9 @@
 package Controller.CRUD;
 
-import Model.DataModel.SoldVehicle;
-import Model.DataPool.SoldVehiclePool;
-import View.Form.InputForm.SoldVehicleForm;
-import View.Form.ShowReceipt;
+import Model.Model.SoldVehicle;
+import Model.Pool.SoldVehiclePool;
+import View.Form.Input.SoldVehicleInputForm;
+import View.Form.SoldVehicleShowForm;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -32,7 +32,7 @@ public class SoldVehicleController extends DataRecordController
     {
         SoldVehicle soldVehicle = (SoldVehicle) getSelectedItem(SoldVehiclePool.get());
         if (soldVehicle == null) { return; }
-        SoldVehicleForm form = new SoldVehicleForm(parent, true, soldVehicle);
+        SoldVehicleInputForm form = new SoldVehicleInputForm(parent, true, soldVehicle);
         form.bindUpdateListener(updateListener);
         form.setVisible(true);
     }
@@ -41,7 +41,7 @@ public class SoldVehicleController extends DataRecordController
     {
         SoldVehicle soldVehicle = (SoldVehicle) getSelectedItem(SoldVehiclePool.get());
         if (soldVehicle == null) { return; }
-        ShowReceipt form = new ShowReceipt(soldVehicle);
+        SoldVehicleShowForm form = new SoldVehicleShowForm(soldVehicle);
         form.setVisible(true);
     }
 

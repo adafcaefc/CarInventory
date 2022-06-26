@@ -1,13 +1,13 @@
 package View;
 
 import Controller.CRUD.*;
-import Controller.DatabaseManager.DatabaseManager;
+import Controller.Database.DatabaseManager;
 import Controller.Session.SessionManager;
-import Model.DataModel.SoldVehicle;
-import Model.DataModel.UserLevel;
-import Model.DataModel.Vehicle;
-import Model.DataPool.SoldVehiclePool;
-import Model.DataPool.VehiclePool;
+import Model.Model.SoldVehicle;
+import Model.Model.UserLevel;
+import Model.Model.Vehicle;
+import Model.Pool.SoldVehiclePool;
+import Model.Pool.VehiclePool;
 import Controller.Utility.ValidationHelper;
 import View.Button.JoeButton;
 import View.Form.LoginForm;
@@ -219,9 +219,9 @@ public class MainWindow extends JFrame implements UpdateListener
                 counter += 0.05;
                 while (counter > 2.f * Math.PI) { counter -= 2.f * Math.PI; }
                 var color = new Color(
-                        (int)(FormUtilities.calculate_rainbow(counter + 0) * 255.),
-                        (int)(FormUtilities.calculate_rainbow(counter + 2) * 255.),
-                        (int)(FormUtilities.calculate_rainbow(counter + 4) * 255.));
+                        (int)(FormUtilities.calculateRainbow(counter + 0) * 255.),
+                        (int)(FormUtilities.calculateRainbow(counter + 2) * 255.),
+                        (int)(FormUtilities.calculateRainbow(counter + 4) * 255.));
                 mainPanel.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, color));
             }
         }).start();

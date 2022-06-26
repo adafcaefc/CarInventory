@@ -1,8 +1,8 @@
 package Controller.CRUD;
 
-import Model.DataModel.Model;
-import Model.DataPool.ModelPool;
-import View.Form.InputForm.ModelForm;
+import Model.Model.Model;
+import Model.Pool.ModelPool;
+import View.Form.Input.ModelInputForm;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -18,7 +18,7 @@ public class ModelController extends DataRecordController
     @Override
     public void openCreateWindow(JFrame parent)
     {
-        ModelForm form = new ModelForm(parent, false, null);
+        ModelInputForm form = new ModelInputForm(parent, false, null);
         form.bindUpdateListener(updateListener);
         form.setVisible(true);
     }
@@ -28,7 +28,7 @@ public class ModelController extends DataRecordController
     {
         Model model = (Model) getSelectedItem(ModelPool.get());
         if (model == null) { return; }
-        ModelForm form = new ModelForm(parent, true, model);
+        ModelInputForm form = new ModelInputForm(parent, true, model);
         form.bindUpdateListener(updateListener);
         form.setVisible(true);
     }

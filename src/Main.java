@@ -1,9 +1,6 @@
-import Controller.DatabaseManager.DatabaseManager;
+import Controller.Database.DatabaseManager;
 import Controller.Session.SessionManager;
 import View.MainWindow;
-
-import javax.swing.*;
-import java.awt.*;
 
 public class Main
 {
