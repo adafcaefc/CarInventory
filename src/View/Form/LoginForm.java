@@ -2,6 +2,7 @@ package View.Form;
 
 import Controller.Session.SessionManager;
 import Model.DataModel.User;
+import View.MainWindow;
 import View.Utility.SpringUtilities;
 
 import javax.swing.*;
@@ -11,6 +12,7 @@ public class LoginForm extends BaseForm
 {
     private final JTextField userNameTextField = new JTextField();
     private final JPasswordField passwordTextField = new JPasswordField();
+    private final MainWindow mainWindow;
 
     private User logIn() throws NoSuchAlgorithmException
     {
@@ -33,6 +35,7 @@ public class LoginForm extends BaseForm
                             null, String.format("Welcome, %s!", user.getUserName()),
                             "Login Success",
                             JOptionPane.INFORMATION_MESSAGE);
+                    mainWindow.updateMenuState(MainWindow.VEHICLE_ID);
                     dispose();
                 }
                 else
@@ -55,7 +58,7 @@ public class LoginForm extends BaseForm
         cancelButton.addActionListener(e -> dispose());
     }
 
-    public LoginForm()
+    public LoginForm(MainWindow mainWindow)
     {
         super();
 
@@ -76,5 +79,8 @@ public class LoginForm extends BaseForm
         SpringUtilities.makeCompactGrid(mainBody, 3, 2, 6, 6, 6, 6);
 
         pack();
+        setLocationRelativeTo(mainWindow);
+
+        this.mainWindow = mainWindow;
     }
 }

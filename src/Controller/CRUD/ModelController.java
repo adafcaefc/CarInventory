@@ -77,7 +77,7 @@ public class ModelController extends DataRecordController
                         "Seats",
                         "Fuel",
                         "Brand",
-                        };
+                };
 
         var tableDataMatrix = new ArrayList<ArrayList<Object>>();
         for (var obj : ModelPool.get())

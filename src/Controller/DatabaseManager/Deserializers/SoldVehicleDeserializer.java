@@ -7,8 +7,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.GregorianCalendar;
 
-public class SoldVehicleDeserializer implements DataRecordDeserializer {
-    public DataRecord deserialize(ResultSet rs) throws SQLException {
+public class SoldVehicleDeserializer implements DataRecordDeserializer
+{
+    public DataRecord deserialize(ResultSet rs) throws SQLException
+    {
         var soldVehicle = new SoldVehicle();
 
         soldVehicle.setBrandName(rs.getString("brandName"));

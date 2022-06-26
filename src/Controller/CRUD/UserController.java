@@ -2,6 +2,7 @@ package Controller.CRUD;
 
 import Model.DataModel.User;
 import Model.DataPool.UserPool;
+import View.Form.InputForm.UserForm;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -17,13 +18,19 @@ public class UserController extends DataRecordController
     @Override
     public void openCreateWindow(JFrame parent)
     {
-
+        UserForm form = new UserForm(parent, false, null);
+        form.bindUpdateListener(updateListener);
+        form.setVisible(true);
     }
 
     @Override
     public void openModifyWindow(JFrame parent)
     {
-
+        User user = (User) getSelectedItem(UserPool.get());
+        if (user == null) { return; }
+        UserForm form = new UserForm(parent, true, user);
+        form.bindUpdateListener(updateListener);
+        form.setVisible(true);
     }
 
     @Override
@@ -55,7 +62,7 @@ public class UserController extends DataRecordController
                 {
                         "User Name",
                         "User Type",
-                        };
+                };
 
         var tableDataMatrix = new ArrayList<ArrayList<Object>>();
         for (var obj : UserPool.get())

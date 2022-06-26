@@ -7,9 +7,11 @@ import Model.DataModel.UserLevel;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserDeserializer implements DataRecordDeserializer {
+public class UserDeserializer implements DataRecordDeserializer
+{
     @Override
-    public DataRecord deserialize(ResultSet rs) throws SQLException {
+    public DataRecord deserialize(ResultSet rs) throws SQLException
+    {
         var user = new User();
         user.setUserName(rs.getString("userName"));
         user.setPassword(rs.getString("password"));

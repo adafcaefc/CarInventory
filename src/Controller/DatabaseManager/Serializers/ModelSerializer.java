@@ -7,9 +7,11 @@ import Model.DataPool.ModelPool;
 
 import java.util.HashMap;
 
-public class ModelSerializer implements DataRecordSerializer {
+public class ModelSerializer implements DataRecordSerializer
+{
     @Override
-    public HashMap<String, String> serialize(DataRecord component) {
+    public HashMap<String, String> serialize(DataRecord component)
+    {
         var model = (Model) component;
         HashMap<String, String> map = new HashMap<>();
 

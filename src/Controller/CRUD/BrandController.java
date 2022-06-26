@@ -2,6 +2,7 @@ package Controller.CRUD;
 
 import Model.DataModel.Brand;
 import Model.DataPool.BrandPool;
+import View.Form.InputForm.BrandForm;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -16,13 +17,19 @@ public class BrandController extends DataRecordController
     @Override
     public void openCreateWindow(JFrame parent)
     {
-
+        BrandForm form = new BrandForm(parent, false, null);
+        form.bindUpdateListener(updateListener);
+        form.setVisible(true);
     }
 
     @Override
     public void openModifyWindow(JFrame parent)
     {
-
+        Brand brand = (Brand) getSelectedItem(BrandPool.get());
+        if (brand == null) { return; }
+        BrandForm form = new BrandForm(parent, true, brand);
+        form.bindUpdateListener(updateListener);
+        form.setVisible(true);
     }
 
     @Override

@@ -65,12 +65,12 @@ public class ModelForm extends BaseInputForm
 
         JComponent[] uiInputs = new JComponent[]
                 {
-                        nameTextField,
-                        yearTextField,
-                        capacityTextField,
-                        doorCountSpinner,
-                        seatCountSpinner,
-                        };
+                    nameTextField,
+                    yearTextField,
+                    capacityTextField,
+                    doorCountSpinner,
+                    seatCountSpinner,
+                };
 
         for (JComponent c : uiInputs) { c.setBackground(Color.WHITE); }
 
