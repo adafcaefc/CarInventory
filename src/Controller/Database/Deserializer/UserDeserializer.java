@@ -1,8 +1,8 @@
 package Controller.Database.Deserializer;
 
-import Model.Record.DataRecord;
-import Model.Record.UserRecord;
-import Model.Record.UserLevel;
+import Model.RecordModel.DataRecordModel;
+import Model.RecordModel.UserRecordModel;
+import Model.RecordModel.UserLevel;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,9 +10,9 @@ import java.sql.SQLException;
 public class UserDeserializer implements DataRecordDeserializer
 {
     @Override
-    public DataRecord deserialize(ResultSet rs) throws SQLException
+    public DataRecordModel deserialize(ResultSet rs) throws SQLException
     {
-        var user = new UserRecord();
+        var user = new UserRecordModel();
         user.setUserName(rs.getString("userName"));
         user.setPassword(rs.getString("password"));
         user.setSalt(rs.getString("salt"));

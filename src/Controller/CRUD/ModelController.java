@@ -1,7 +1,7 @@
 package Controller.CRUD;
 
-import Model.Record.ModelRecord;
-import Model.Pool.ModelPool;
+import Model.RecordModel.ModelRecordModel;
+import Model.RecordList.ModelList;
 import View.Form.Input.ModelInputForm;
 
 import javax.swing.*;
@@ -25,7 +25,7 @@ public class ModelController extends DataRecordController
     @Override
     public void openModifyWindow(JFrame parent)
     {
-        ModelRecord modelRecord = (ModelRecord) getSelectedItem(ModelPool.get());
+        ModelRecordModel modelRecord = (ModelRecordModel) getSelectedItem(ModelList.get());
         if (modelRecord == null) { return; }
         ModelInputForm form = new ModelInputForm(parent, true, modelRecord);
         form.bindUpdateListener(updateListener);
@@ -35,10 +35,10 @@ public class ModelController extends DataRecordController
     @Override
     public void openDeleteWindow()
     {
-        ModelRecord modelRecord = (ModelRecord) getSelectedItem(ModelPool.get());
+        ModelRecordModel modelRecord = (ModelRecordModel) getSelectedItem(ModelList.get());
         if (modelRecord == null) { return; }
 
-        int modelIndex = ModelPool.get().getIndexForComponent(modelRecord);
+        int modelIndex = ModelList.get().getIndexForComponent(modelRecord);
         int childrenCount = modelRecord.countChildren();
 
         String deleteMsg = String.format(
@@ -59,7 +59,7 @@ public class ModelController extends DataRecordController
 
         if (choice == JOptionPane.YES_OPTION)
         {
-            ModelPool.get().unregisterComponent(modelRecord);
+            ModelList.get().unregisterComponent(modelRecord);
             updateListener.onDataModelsChanged();
         }
     }
@@ -79,9 +79,9 @@ public class ModelController extends DataRecordController
                 };
 
         var tableDataMatrix = new ArrayList<ArrayList<Object>>();
-        for (var obj : ModelPool.get())
+        for (var obj : ModelList.get())
         {
-            ModelRecord modelRecord = (ModelRecord) obj;
+            ModelRecordModel modelRecord = (ModelRecordModel) obj;
             ArrayList<Object> innerData = new ArrayList<>();
             innerData.add(modelRecord.getModelName());
             innerData.add(modelRecord.getModelYear());

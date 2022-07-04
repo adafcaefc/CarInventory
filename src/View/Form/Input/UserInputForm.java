@@ -1,9 +1,9 @@
 package View.Form.Input;
 
-import Model.Record.DataRecord;
-import Model.Record.UserRecord;
-import Model.Record.UserLevel;
-import Model.Pool.UserPool;
+import Model.RecordModel.DataRecordModel;
+import Model.RecordModel.UserRecordModel;
+import Model.RecordModel.UserLevel;
+import Model.RecordList.UserList;
 import View.Utility.SpringUtilities;
 
 import javax.swing.*;
@@ -19,10 +19,10 @@ public class UserInputForm extends BaseInputForm
     public UserInputForm(
             JFrame parentFrame,
             boolean updateRecord,
-            UserRecord originalRecord)
+            UserRecordModel originalRecord)
     throws HeadlessException
     {
-        super(updateRecord, originalRecord, UserPool.get());
+        super(updateRecord, originalRecord, UserList.get());
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setContentPane(mainBody);
         bindButtons(okButton, cancelButton);
@@ -65,9 +65,9 @@ public class UserInputForm extends BaseInputForm
 
         if (!isUpdateRecord())
         {
-            for (var obj : UserPool.get())
+            for (var obj : UserList.get())
             {
-                UserRecord userRecord = (UserRecord) obj;
+                UserRecordModel userRecord = (UserRecordModel) obj;
                 if (userRecord.getUserName().equals(userNameTextField.getText()))
                 {
                     userNameTextField.setBackground(getErrorBackgroundColor());
@@ -98,9 +98,9 @@ public class UserInputForm extends BaseInputForm
     }
 
     @Override
-    public DataRecord getFinishedRecord() throws Exception
+    public DataRecordModel getFinishedRecord() throws Exception
     {
-        UserRecord userRecord = new UserRecord();
+        UserRecordModel userRecord = new UserRecordModel();
         userRecord.setUserName(userNameTextField.getText());
         userRecord.setPasswordRaw(new String(passwordTextField.getPassword()));
         userRecord.setUserLevel(UserLevel.valueOf(userLevelDropdownBox.getSelectedIndex()));
@@ -115,7 +115,7 @@ public class UserInputForm extends BaseInputForm
         }
     }
 
-    public void loadUserData(UserRecord userRecord)
+    public void loadUserData(UserRecordModel userRecord)
     {
         if (userRecord == null) { return; }
         userNameTextField.setText(userRecord.getUserName());

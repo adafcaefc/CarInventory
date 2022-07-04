@@ -1,7 +1,7 @@
 package Controller.CRUD;
 
-import Model.Record.DataRecord;
-import Model.Pool.DataRecordPool;
+import Model.RecordModel.DataRecordModel;
+import Model.RecordList.DataRecordList;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -18,7 +18,7 @@ public abstract class DataRecordController
         this.updateListener = updateListener;
     }
 
-    public final DataRecord getSelectedItem(DataRecordPool pool)
+    public final DataRecordModel getSelectedItem(DataRecordList pool)
     {
         int row = table.getSelectedRow();
         if (row == -1 || row >= pool.countRegisteredComponents()) { return null; }

@@ -1,8 +1,8 @@
 package View.Form.Input;
 
 import Controller.CRUD.UpdateListener;
-import Model.Record.DataRecord;
-import Model.Pool.DataRecordPool;
+import Model.RecordModel.DataRecordModel;
+import Model.RecordList.DataRecordList;
 import View.Form.BaseForm;
 
 import javax.swing.*;
@@ -11,14 +11,14 @@ import java.awt.*;
 public abstract class BaseInputForm extends BaseForm
 {
     private final boolean updateRecord;
-    private final DataRecord originalRecord;
-    private final DataRecordPool componentPool;
+    private final DataRecordModel originalRecord;
+    private final DataRecordList componentPool;
     private UpdateListener updateListener;
 
     public BaseInputForm(
             boolean updateRecord,
-            DataRecord originalRecord,
-            DataRecordPool componentPool) throws HeadlessException
+            DataRecordModel originalRecord,
+            DataRecordList componentPool) throws HeadlessException
     {
         super();
         setModal(true);
@@ -27,12 +27,12 @@ public abstract class BaseInputForm extends BaseForm
         this.componentPool = componentPool;
     }
 
-    protected DataRecord getOriginalRecord()
+    protected DataRecordModel getOriginalRecord()
     {
         return originalRecord;
     }
 
-    public abstract DataRecord getFinishedRecord() throws Exception;
+    public abstract DataRecordModel getFinishedRecord() throws Exception;
 
     public abstract boolean validateInputs();
 
@@ -69,7 +69,7 @@ public abstract class BaseInputForm extends BaseForm
         cancelButton.addActionListener(e -> dispose());
     }
 
-    public final void commitRecord(DataRecord newRecord)
+    public final void commitRecord(DataRecordModel newRecord)
     {
         if (componentPool == null || newRecord == null) { return; }
         if (updateRecord) { componentPool.updateComponent(originalRecord, newRecord); }

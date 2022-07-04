@@ -4,11 +4,11 @@ import Controller.CRUD.*;
 import Controller.Database.DatabaseManager;
 import Controller.Session.SessionManager;
 import Controller.Utility.ValidationUtilities;
-import Model.Record.SoldVehicleRecord;
-import Model.Record.UserLevel;
-import Model.Record.VehicleRecord;
-import Model.Pool.SoldVehiclePool;
-import Model.Pool.VehiclePool;
+import Model.RecordModel.SoldVehicleRecordModel;
+import Model.RecordModel.UserLevel;
+import Model.RecordModel.VehicleRecordModel;
+import Model.RecordList.SoldVehicleList;
+import Model.RecordList.VehicleList;
 import View.Button.JoeButton;
 import View.Form.Login.LoginForm;
 import View.Utility.FormUtilities;
@@ -331,16 +331,16 @@ public class MainWindow extends JFrame implements UpdateListener
         sellButton.addActionListener(e ->
         {
             int row = displayTable.getSelectedRow();
-            if (row == -1 || row >= VehiclePool.get().countRegisteredComponents()) { return; }
+            if (row == -1 || row >= VehicleList.get().countRegisteredComponents()) { return; }
             String amount = JOptionPane.showInputDialog("Enter the amount for which the vehicle will be sold");
             if (amount != null && ValidationUtilities.isNumeric(amount))
             {
-                var vehicle = (VehicleRecord) VehiclePool.get().getComponentAt(row);
-                var soldVehicle = new SoldVehicleRecord(vehicle);
+                var vehicle = (VehicleRecordModel) VehicleList.get().getComponentAt(row);
+                var soldVehicle = new SoldVehicleRecordModel(vehicle);
                 soldVehicle.setPaidAmount(Double.parseDouble(amount));
                 soldVehicle.setDateOfSale(new GregorianCalendar());
-                SoldVehiclePool.get().registerComponent(soldVehicle);
-                VehiclePool.get().unregisterComponent(vehicle);
+                SoldVehicleList.get().registerComponent(soldVehicle);
+                VehicleList.get().unregisterComponent(vehicle);
                 onDataModelsChanged();
             }
             else

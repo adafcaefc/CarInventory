@@ -1,12 +1,12 @@
 package Controller.Database.Deserializer;
 
-import Model.Exception.DataNotBoundToPool;
-import Model.Record.DataRecord;
+import Model.Exception.DataNotBoundToList;
+import Model.RecordModel.DataRecordModel;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public interface DataRecordDeserializer
 {
-    DataRecord deserialize(ResultSet rs) throws SQLException, DataNotBoundToPool;
+    DataRecordModel deserialize(ResultSet rs) throws SQLException, DataNotBoundToList;
 }

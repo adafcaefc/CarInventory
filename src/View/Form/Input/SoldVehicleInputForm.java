@@ -1,9 +1,9 @@
 package View.Form.Input;
 
 import Controller.Utility.ValidationUtilities;
-import Model.Record.DataRecord;
-import Model.Record.SoldVehicleRecord;
-import Model.Pool.SoldVehiclePool;
+import Model.RecordModel.DataRecordModel;
+import Model.RecordModel.SoldVehicleRecordModel;
+import Model.RecordList.SoldVehicleList;
 import View.Utility.SpringUtilities;
 
 import javax.swing.*;
@@ -21,9 +21,9 @@ public class SoldVehicleInputForm extends BaseInputForm
     public SoldVehicleInputForm(
             JFrame parentFrame,
             boolean updateRecord,
-            SoldVehicleRecord originalRecord) throws HeadlessException
+            SoldVehicleRecordModel originalRecord) throws HeadlessException
     {
-        super(updateRecord, originalRecord, SoldVehiclePool.get());
+        super(updateRecord, originalRecord, SoldVehicleList.get());
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setContentPane(mainBody);
         bindButtons(okButton, cancelButton);
@@ -66,15 +66,15 @@ public class SoldVehicleInputForm extends BaseInputForm
     }
 
     @Override
-    public DataRecord getFinishedRecord() throws Exception
+    public DataRecordModel getFinishedRecord() throws Exception
     {
         var date = new GregorianCalendar(
                 (int) yearSpinner.getValue(),
                 monthComboBox.getSelectedIndex(),
                 dayComboBox.getSelectedIndex() + 1);
 
-        SoldVehicleRecord originalSoldVehicleRecord = (SoldVehicleRecord) getOriginalRecord();
-        SoldVehicleRecord modifiedSoldVehicleRecord = (SoldVehicleRecord) originalSoldVehicleRecord.clone();
+        SoldVehicleRecordModel originalSoldVehicleRecord = (SoldVehicleRecordModel) getOriginalRecord();
+        SoldVehicleRecordModel modifiedSoldVehicleRecord = (SoldVehicleRecordModel) originalSoldVehicleRecord.clone();
         modifiedSoldVehicleRecord.setPaidAmount(Double.parseDouble(paidAmountTextField.getText()));
         modifiedSoldVehicleRecord.setDateOfSale(date);
 
@@ -124,7 +124,7 @@ public class SoldVehicleInputForm extends BaseInputForm
         yearSpinner.addChangeListener(e -> populateDateCheckbox());
     }
 
-    public void loadSoldVehicleData(SoldVehicleRecord soldVehicleRecord)
+    public void loadSoldVehicleData(SoldVehicleRecordModel soldVehicleRecord)
     {
         if (soldVehicleRecord == null) { return; }
         var date = soldVehicleRecord.getDateOfSale();

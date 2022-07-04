@@ -1,7 +1,7 @@
 package Controller.CRUD;
 
-import Model.Record.BrandRecord;
-import Model.Pool.BrandPool;
+import Model.RecordModel.BrandRecordModel;
+import Model.RecordList.BrandList;
 import View.Form.Input.BrandInputForm;
 
 import javax.swing.*;
@@ -25,7 +25,7 @@ public class BrandController extends DataRecordController
     @Override
     public void openModifyWindow(JFrame parent)
     {
-        BrandRecord brandRecord = (BrandRecord) getSelectedItem(BrandPool.get());
+        BrandRecordModel brandRecord = (BrandRecordModel) getSelectedItem(BrandList.get());
         if (brandRecord == null) { return; }
         BrandInputForm form = new BrandInputForm(parent, true, brandRecord);
         form.bindUpdateListener(updateListener);
@@ -35,9 +35,9 @@ public class BrandController extends DataRecordController
     @Override
     public void openDeleteWindow()
     {
-        BrandRecord brandRecord = (BrandRecord) getSelectedItem(BrandPool.get());
+        BrandRecordModel brandRecord = (BrandRecordModel) getSelectedItem(BrandList.get());
         if (brandRecord == null) { return; }
-        int brandIndex = BrandPool.get().getIndexForComponent(brandRecord);
+        int brandIndex = BrandList.get().getIndexForComponent(brandRecord);
         int childrenCount = brandRecord.countChildren();
         String deleteMsg = String.format("Are you sure you want to delete model no.%d (%s)?", brandIndex + 1, brandRecord.getBrandName());
         if (childrenCount > 0)
@@ -47,7 +47,7 @@ public class BrandController extends DataRecordController
         int choice = JOptionPane.showConfirmDialog(null, deleteMsg, "Delete Brands", JOptionPane.YES_NO_OPTION);
         if (choice == JOptionPane.YES_OPTION)
         {
-            BrandPool.get().unregisterComponent(brandRecord);
+            BrandList.get().unregisterComponent(brandRecord);
             updateListener.onDataModelsChanged();
         }
     }
@@ -58,9 +58,9 @@ public class BrandController extends DataRecordController
         String[] header = new String[]{ "Brand Name" };
 
         var tableDataMatrix = new ArrayList<ArrayList<Object>>();
-        for (var obj : BrandPool.get())
+        for (var obj : BrandList.get())
         {
-            BrandRecord brandRecord = (BrandRecord) obj;
+            BrandRecordModel brandRecord = (BrandRecordModel) obj;
             ArrayList<Object> innerData = new ArrayList<>();
             innerData.add(brandRecord.getBrandName());
             tableDataMatrix.add(innerData);

@@ -1,8 +1,8 @@
 package Controller.Session;
 
 import Controller.Utility.PasswordUtilities;
-import Model.Record.UserRecord;
-import Model.Pool.UserPool;
+import Model.RecordModel.UserRecordModel;
+import Model.RecordList.UserList;
 
 import javax.swing.*;
 import java.io.*;
@@ -10,13 +10,13 @@ import java.security.NoSuchAlgorithmException;
 
 public class SessionManager
 {
-    UserRecord currentUserRecord = null;
+    UserRecordModel currentUserRecord = null;
     String fileName = "JoeCarSession.dat";
     private SessionManager() { }
     private static final SessionManager instance = new SessionManager();
     public static SessionManager get() { return instance; }
 
-    public UserRecord getCurrentUser()
+    public UserRecordModel getCurrentUser()
     {
         return currentUserRecord;
     }
@@ -75,11 +75,11 @@ public class SessionManager
         }
     }
 
-    public UserRecord logIn(String userName, String password) throws NoSuchAlgorithmException
+    public UserRecordModel logIn(String userName, String password) throws NoSuchAlgorithmException
     {
-        for (var obj : UserPool.get())
+        for (var obj : UserList.get())
         {
-            UserRecord userRecord = (UserRecord) obj;
+            UserRecordModel userRecord = (UserRecordModel) obj;
             if (userRecord.getUserName().equals(userName) && userRecord.getPassword().equals(PasswordUtilities.sha256Salted(password, userRecord.getSalt())))
             {
                 currentUserRecord = userRecord;

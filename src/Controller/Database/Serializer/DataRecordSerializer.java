@@ -1,10 +1,10 @@
 package Controller.Database.Serializer;
 
-import Model.Record.DataRecord;
+import Model.RecordModel.DataRecordModel;
 
 import java.util.HashMap;
 
 public interface DataRecordSerializer
 {
-    HashMap<String, String> serialize(DataRecord model);
+    HashMap<String, String> serialize(DataRecordModel model);
 }

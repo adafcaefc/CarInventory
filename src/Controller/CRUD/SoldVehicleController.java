@@ -1,7 +1,7 @@
 package Controller.CRUD;
 
-import Model.Record.SoldVehicleRecord;
-import Model.Pool.SoldVehiclePool;
+import Model.RecordModel.SoldVehicleRecordModel;
+import Model.RecordList.SoldVehicleList;
 import View.Form.Input.SoldVehicleInputForm;
 import View.Form.Information.ShowSoldVehicleForm;
 
@@ -29,7 +29,7 @@ public class SoldVehicleController extends DataRecordController
     @Override
     public void openModifyWindow(JFrame parent)
     {
-        SoldVehicleRecord soldVehicleRecord = (SoldVehicleRecord) getSelectedItem(SoldVehiclePool.get());
+        SoldVehicleRecordModel soldVehicleRecord = (SoldVehicleRecordModel) getSelectedItem(SoldVehicleList.get());
         if (soldVehicleRecord == null) { return; }
         SoldVehicleInputForm form = new SoldVehicleInputForm(parent, true, soldVehicleRecord);
         form.bindUpdateListener(updateListener);
@@ -38,7 +38,7 @@ public class SoldVehicleController extends DataRecordController
 
     public void openShowWindow(JFrame parent)
     {
-        SoldVehicleRecord soldVehicleRecord = (SoldVehicleRecord) getSelectedItem(SoldVehiclePool.get());
+        SoldVehicleRecordModel soldVehicleRecord = (SoldVehicleRecordModel) getSelectedItem(SoldVehicleList.get());
         if (soldVehicleRecord == null) { return; }
         ShowSoldVehicleForm form = new ShowSoldVehicleForm(soldVehicleRecord);
         form.setVisible(true);
@@ -47,14 +47,14 @@ public class SoldVehicleController extends DataRecordController
     @Override
     public void openDeleteWindow()
     {
-        SoldVehicleRecord soldVehicleRecord = (SoldVehicleRecord) getSelectedItem(SoldVehiclePool.get());
+        SoldVehicleRecordModel soldVehicleRecord = (SoldVehicleRecordModel) getSelectedItem(SoldVehicleList.get());
         if (soldVehicleRecord == null) { return; }
-        int vehicleIndex = SoldVehiclePool.get().getIndexForComponent(soldVehicleRecord);
+        int vehicleIndex = SoldVehicleList.get().getIndexForComponent(soldVehicleRecord);
         String deleteMsg = String.format("Are you sure you want to delete sales no.%d from the Sales Log?", vehicleIndex + 1);
         int choice = JOptionPane.showConfirmDialog(null, deleteMsg, "Delete Sales Log", JOptionPane.YES_NO_OPTION);
         if (choice == JOptionPane.YES_OPTION)
         {
-            SoldVehiclePool.get().unregisterComponent(soldVehicleRecord);
+            SoldVehicleList.get().unregisterComponent(soldVehicleRecord);
             updateListener.onDataModelsChanged();
         }
     }
@@ -71,9 +71,9 @@ public class SoldVehicleController extends DataRecordController
                 };
 
         var tableDataMatrix = new ArrayList<ArrayList<Object>>();
-        for (var obj : SoldVehiclePool.get())
+        for (var obj : SoldVehicleList.get())
         {
-            SoldVehicleRecord vehicleObject = (SoldVehicleRecord) obj;
+            SoldVehicleRecordModel vehicleObject = (SoldVehicleRecordModel) obj;
             ArrayList<Object> innerData = new ArrayList<>();
             innerData.add(vehicleObject.getVIN());
             innerData.add(vehicleObject.getLicensePlate());

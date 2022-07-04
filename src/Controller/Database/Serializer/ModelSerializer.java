@@ -1,22 +1,22 @@
 package Controller.Database.Serializer;
 
-import Model.Record.DataRecord;
-import Model.Record.ModelRecord;
-import Model.Pool.BrandPool;
-import Model.Pool.ModelPool;
+import Model.RecordModel.DataRecordModel;
+import Model.RecordModel.ModelRecordModel;
+import Model.RecordList.BrandList;
+import Model.RecordList.ModelList;
 
 import java.util.HashMap;
 
 public class ModelSerializer implements DataRecordSerializer
 {
     @Override
-    public HashMap<String, String> serialize(DataRecord component)
+    public HashMap<String, String> serialize(DataRecordModel component)
     {
-        var model = (ModelRecord) component;
+        var model = (ModelRecordModel) component;
         HashMap<String, String> map = new HashMap<>();
 
-        int objIndex = ModelPool.get().getIndexForComponent(model);
-        int parentObjIndex = BrandPool.get().getIndexForComponent(model.getBrand());
+        int objIndex = ModelList.get().getIndexForComponent(model);
+        int parentObjIndex = BrandList.get().getIndexForComponent(model.getBrand());
 
         map.put("modelId", String.valueOf(objIndex));
         map.put("parentBrandId", String.valueOf(parentObjIndex));
