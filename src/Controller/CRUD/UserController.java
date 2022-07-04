@@ -1,13 +1,13 @@
 package Controller.CRUD;
 
-import Model.RecordModel.UserRecordModel;
+import Model.RecordModel.UserModel;
 import Model.RecordList.UserList;
 import View.Form.Input.UserInputForm;
 
 import javax.swing.*;
 import java.util.ArrayList;
 
-public class UserController extends DataRecordController
+public class UserController extends IDataRecordController
 {
     public UserController(JTable table, UpdateListener updateListener)
     {
@@ -25,7 +25,7 @@ public class UserController extends DataRecordController
     @Override
     public void openModifyWindow(JFrame parent)
     {
-        UserRecordModel userRecord = (UserRecordModel) getSelectedItem(UserList.get());
+        UserModel userRecord = (UserModel) getSelectedItem(UserList.get());
         if (userRecord == null) { return; }
         UserInputForm form = new UserInputForm(parent, true, userRecord);
         form.bindUpdateListener(updateListener);
@@ -35,7 +35,7 @@ public class UserController extends DataRecordController
     @Override
     public void openDeleteWindow()
     {
-        UserRecordModel userRecord = (UserRecordModel) getSelectedItem(UserList.get());
+        UserModel userRecord = (UserModel) getSelectedItem(UserList.get());
         if (userRecord == null) { return; }
         int userIndex = UserList.get().getIndexForComponent(userRecord);
         String deleteMsg = String.format(
@@ -66,7 +66,7 @@ public class UserController extends DataRecordController
         var tableDataMatrix = new ArrayList<ArrayList<Object>>();
         for (var obj : UserList.get())
         {
-            UserRecordModel userRecord = (UserRecordModel) obj;
+            UserModel userRecord = (UserModel) obj;
             ArrayList<Object> innerData = new ArrayList<>();
             innerData.add(userRecord.getUserName());
             innerData.add(userRecord.getUserLevel().name());

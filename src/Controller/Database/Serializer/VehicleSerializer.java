@@ -1,7 +1,7 @@
 package Controller.Database.Serializer;
 
-import Model.RecordModel.DataRecordModel;
-import Model.RecordModel.VehicleRecordModel;
+import Model.RecordModel.IDataRecordModel;
+import Model.RecordModel.VehicleModel;
 import Model.RecordList.ModelList;
 import Model.RecordList.VehicleList;
 
@@ -10,9 +10,9 @@ import java.util.HashMap;
 public class VehicleSerializer implements DataRecordSerializer
 {
     @Override
-    public HashMap<String, String> serialize(DataRecordModel component)
+    public HashMap<String, String> serialize(IDataRecordModel component)
     {
-        var vehicle = (VehicleRecordModel) component;
+        var vehicle = (VehicleModel) component;
         HashMap<String, String> map = new HashMap<>();
         int objIndex = VehicleList.get().getIndexForComponent(vehicle);
         int parentObjIndex = ModelList.get().getIndexForComponent(vehicle.getModel());

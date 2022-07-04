@@ -1,16 +1,16 @@
 package View.Form.Input;
 
 import Controller.Utility.ValidationUtilities;
-import Model.RecordModel.DataRecordModel;
-import Model.RecordModel.ModelRecordModel;
-import Model.RecordModel.VehicleRecordModel;
+import Model.RecordModel.IDataRecordModel;
+import Model.RecordModel.ModelModel;
+import Model.RecordModel.VehicleModel;
 import Model.RecordList.ModelList;
 import Model.RecordList.VehicleList;
 import View.Utility.SpringUtilities;
 
 import javax.swing.*;
 
-public class VehicleInputForm extends BaseInputForm
+public class VehicleInputForm extends IBaseInputForm
 {
     private final JTextField vinTextField = new JTextField();
     private final JTextField licensePlateTextField = new JTextField();
@@ -21,7 +21,7 @@ public class VehicleInputForm extends BaseInputForm
     public VehicleInputForm(
             JFrame parentFrame,
             boolean updateRecord,
-            VehicleRecordModel originalRecord)
+            VehicleModel originalRecord)
     {
         super(updateRecord, originalRecord, VehicleList.get());
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -56,7 +56,7 @@ public class VehicleInputForm extends BaseInputForm
     {
         for (var obj : ModelList.get())
         {
-            ModelRecordModel modelRecord = (ModelRecordModel) obj;
+            ModelModel modelRecord = (ModelModel) obj;
             modelDropdownBox.addItem(modelRecord.getModelName());
         }
         modelDropdownBox.setSelectedItem(null);
@@ -75,10 +75,10 @@ public class VehicleInputForm extends BaseInputForm
     }
 
     @Override
-    public DataRecordModel getFinishedRecord() throws Exception
+    public IDataRecordModel getFinishedRecord() throws Exception
     {
-        DataRecordModel parentModel = ModelList.get().getComponentAt(modelDropdownBox.getSelectedIndex());
-        VehicleRecordModel vehicleRecord = new VehicleRecordModel((ModelRecordModel) parentModel);
+        IDataRecordModel parentModel = ModelList.get().getComponentAt(modelDropdownBox.getSelectedIndex());
+        VehicleModel vehicleRecord = new VehicleModel((ModelModel) parentModel);
         vehicleRecord.setVIN(vinTextField.getText());
         vehicleRecord.setLicensePlate(licensePlateTextField.getText());
         vehicleRecord.setColor(colorTextField.getText());
@@ -86,7 +86,7 @@ public class VehicleInputForm extends BaseInputForm
         return vehicleRecord;
     }
 
-    public void loadVehicleData(VehicleRecordModel vehicleRecord)
+    public void loadVehicleData(VehicleModel vehicleRecord)
     {
         if (vehicleRecord == null) { return; }
         vinTextField.setText(vehicleRecord.getVIN());

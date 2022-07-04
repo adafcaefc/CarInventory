@@ -33,7 +33,7 @@ public class DatabaseManager
 
     private void saveStatement(
             String tableName,
-            DataRecordList pool,
+            IDataRecordList pool,
             DataRecordSerializer serializer)
     throws SQLException
     {
@@ -80,7 +80,7 @@ public class DatabaseManager
 
     private void loadStatement(
             String query,
-            DataRecordList pool,
+            IDataRecordList pool,
             DataRecordDeserializer deserializer)
     throws SQLException,
             IndexOutOfBoundsException,
@@ -97,7 +97,7 @@ public class DatabaseManager
     private void loadStatement(
             String tableName,
             String primaryKeyName,
-            DataRecordList pool,
+            IDataRecordList pool,
             DataRecordDeserializer deserializer)
     throws  SQLException,
             IndexOutOfBoundsException,

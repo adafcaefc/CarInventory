@@ -1,23 +1,23 @@
 package Model.RecordList;
 
-import Model.RecordModel.DataRecordModel;
+import Model.RecordModel.IDataRecordModel;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public abstract class DataRecordList implements Iterable<DataRecordModel>
+public abstract class IDataRecordList implements Iterable<IDataRecordModel>
 {
     @Override
-    public Iterator<DataRecordModel> iterator() { return componentObjects.iterator(); }
-    private final ArrayList<DataRecordModel> componentObjects = new ArrayList<>();
-    private final DataRecordList nextPool;
+    public Iterator<IDataRecordModel> iterator() { return componentObjects.iterator(); }
+    private final ArrayList<IDataRecordModel> componentObjects = new ArrayList<>();
+    private final IDataRecordList nextPool;
 
-    public DataRecordList(DataRecordList nextPool)
+    public IDataRecordList(IDataRecordList nextPool)
     {
         this.nextPool = nextPool;
     }
 
-    public void registerComponent(DataRecordModel object)
+    public void registerComponent(IDataRecordModel object)
     {
         if (!componentObjects.contains(object))
         {
@@ -30,7 +30,7 @@ public abstract class DataRecordList implements Iterable<DataRecordModel>
         if (nextPool == null) { return; }
         for (int i = 0; i < nextPool.countRegisteredComponents(); )
         {
-            DataRecordModel childComponent = nextPool.getComponentAt(i);
+            IDataRecordModel childComponent = nextPool.getComponentAt(i);
             if (!componentIsRegisteredAtPool(childComponent.getParent()))
             {
                 nextPool.unregisterComponent(childComponent);
@@ -43,7 +43,7 @@ public abstract class DataRecordList implements Iterable<DataRecordModel>
         nextPool.cleanupOrphanedChildren();
     }
 
-    public void unregisterComponent(DataRecordModel object)
+    public void unregisterComponent(IDataRecordModel object)
     {
         if (componentObjects.contains(object))
         {
@@ -54,13 +54,13 @@ public abstract class DataRecordList implements Iterable<DataRecordModel>
         cleanupOrphanedChildren();
     }
 
-    public void updateComponent(DataRecordModel oldObject, DataRecordModel newObject)
+    public void updateComponent(IDataRecordModel oldObject, IDataRecordModel newObject)
     {
         final int oldObjectIndex = componentObjects.indexOf(oldObject);
         if (oldObjectIndex == -1) { return; }
         for (int i = 0; i < oldObject.countChildren(); i++)
         {
-            DataRecordModel child = oldObject.getChildAt(i);
+            IDataRecordModel child = oldObject.getChildAt(i);
             newObject.addChild(child);
         }
         var parent = oldObject.getParent();
@@ -70,12 +70,12 @@ public abstract class DataRecordList implements Iterable<DataRecordModel>
         oldObject.removeFromParent();
     }
 
-    public DataRecordModel getComponentAt(int index)
+    public IDataRecordModel getComponentAt(int index)
     {
         return componentObjects.get(index);
     }
 
-    public int getIndexForComponent(DataRecordModel component)
+    public int getIndexForComponent(IDataRecordModel component)
     {
         return componentObjects.indexOf(component);
     }
@@ -85,5 +85,5 @@ public abstract class DataRecordList implements Iterable<DataRecordModel>
         return componentObjects.size();
     }
 
-    public boolean componentIsRegisteredAtPool(DataRecordModel object) { return componentObjects.contains(object); }
+    public boolean componentIsRegisteredAtPool(IDataRecordModel object) { return componentObjects.contains(object); }
 }

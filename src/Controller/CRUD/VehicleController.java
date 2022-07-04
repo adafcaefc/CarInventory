@@ -1,13 +1,13 @@
 package Controller.CRUD;
 
-import Model.RecordModel.VehicleRecordModel;
+import Model.RecordModel.VehicleModel;
 import Model.RecordList.VehicleList;
 import View.Form.Input.VehicleInputForm;
 
 import javax.swing.*;
 import java.util.ArrayList;
 
-public class VehicleController extends DataRecordController
+public class VehicleController extends IDataRecordController
 {
     public VehicleController(JTable table, UpdateListener updateListener)
     {
@@ -25,7 +25,7 @@ public class VehicleController extends DataRecordController
     @Override
     public void openModifyWindow(JFrame parent)
     {
-        VehicleRecordModel vehicleRecord = (VehicleRecordModel) getSelectedItem(VehicleList.get());
+        VehicleModel vehicleRecord = (VehicleModel) getSelectedItem(VehicleList.get());
         if (vehicleRecord == null) { return; }
         VehicleInputForm form = new VehicleInputForm(parent, true, vehicleRecord);
         form.bindUpdateListener(updateListener);
@@ -35,7 +35,7 @@ public class VehicleController extends DataRecordController
     @Override
     public void openDeleteWindow()
     {
-        VehicleRecordModel vehicleRecord = (VehicleRecordModel) getSelectedItem(VehicleList.get());
+        VehicleModel vehicleRecord = (VehicleModel) getSelectedItem(VehicleList.get());
         if (vehicleRecord == null) { return; }
         int vehicleIndex = VehicleList.get().getIndexForComponent(vehicleRecord);
         String deleteMsg = String.format(
@@ -65,7 +65,7 @@ public class VehicleController extends DataRecordController
         var tableDataMatrix = new ArrayList<ArrayList<Object>>();
         for (var obj : VehicleList.get())
         {
-            VehicleRecordModel vehicleRecord = (VehicleRecordModel) obj;
+            VehicleModel vehicleRecord = (VehicleModel) obj;
             ArrayList<Object> innerData = new ArrayList<>();
             innerData.add(vehicleRecord.getVIN());
             innerData.add(vehicleRecord.getLicensePlate());

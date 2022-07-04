@@ -1,6 +1,6 @@
 package Controller.CRUD;
 
-import Model.RecordModel.SoldVehicleRecordModel;
+import Model.RecordModel.SoldVehicleModel;
 import Model.RecordList.SoldVehicleList;
 import View.Form.Input.SoldVehicleInputForm;
 import View.Form.Information.ShowSoldVehicleForm;
@@ -9,7 +9,7 @@ import javax.swing.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-public class SoldVehicleController extends DataRecordController
+public class SoldVehicleController extends IDataRecordController
 {
     public SoldVehicleController(JTable table, UpdateListener updateListener)
     {
@@ -29,7 +29,7 @@ public class SoldVehicleController extends DataRecordController
     @Override
     public void openModifyWindow(JFrame parent)
     {
-        SoldVehicleRecordModel soldVehicleRecord = (SoldVehicleRecordModel) getSelectedItem(SoldVehicleList.get());
+        SoldVehicleModel soldVehicleRecord = (SoldVehicleModel) getSelectedItem(SoldVehicleList.get());
         if (soldVehicleRecord == null) { return; }
         SoldVehicleInputForm form = new SoldVehicleInputForm(parent, true, soldVehicleRecord);
         form.bindUpdateListener(updateListener);
@@ -38,7 +38,7 @@ public class SoldVehicleController extends DataRecordController
 
     public void openShowWindow(JFrame parent)
     {
-        SoldVehicleRecordModel soldVehicleRecord = (SoldVehicleRecordModel) getSelectedItem(SoldVehicleList.get());
+        SoldVehicleModel soldVehicleRecord = (SoldVehicleModel) getSelectedItem(SoldVehicleList.get());
         if (soldVehicleRecord == null) { return; }
         ShowSoldVehicleForm form = new ShowSoldVehicleForm(soldVehicleRecord);
         form.setVisible(true);
@@ -47,7 +47,7 @@ public class SoldVehicleController extends DataRecordController
     @Override
     public void openDeleteWindow()
     {
-        SoldVehicleRecordModel soldVehicleRecord = (SoldVehicleRecordModel) getSelectedItem(SoldVehicleList.get());
+        SoldVehicleModel soldVehicleRecord = (SoldVehicleModel) getSelectedItem(SoldVehicleList.get());
         if (soldVehicleRecord == null) { return; }
         int vehicleIndex = SoldVehicleList.get().getIndexForComponent(soldVehicleRecord);
         String deleteMsg = String.format("Are you sure you want to delete sales no.%d from the Sales Log?", vehicleIndex + 1);
@@ -73,7 +73,7 @@ public class SoldVehicleController extends DataRecordController
         var tableDataMatrix = new ArrayList<ArrayList<Object>>();
         for (var obj : SoldVehicleList.get())
         {
-            SoldVehicleRecordModel vehicleObject = (SoldVehicleRecordModel) obj;
+            SoldVehicleModel vehicleObject = (SoldVehicleModel) obj;
             ArrayList<Object> innerData = new ArrayList<>();
             innerData.add(vehicleObject.getVIN());
             innerData.add(vehicleObject.getLicensePlate());

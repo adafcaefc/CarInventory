@@ -1,9 +1,9 @@
 package View.Form.Input;
 
 import Controller.Utility.ValidationUtilities;
-import Model.RecordModel.BrandRecordModel;
-import Model.RecordModel.DataRecordModel;
-import Model.RecordModel.ModelRecordModel;
+import Model.RecordModel.BrandModel;
+import Model.RecordModel.IDataRecordModel;
+import Model.RecordModel.ModelModel;
 import Model.RecordList.BrandList;
 import Model.RecordList.ModelList;
 import View.Utility.SpringUtilities;
@@ -11,7 +11,7 @@ import View.Utility.SpringUtilities;
 import javax.swing.*;
 import java.awt.*;
 
-public class ModelInputForm extends BaseInputForm
+public class ModelInputForm extends IBaseInputForm
 {
     private final JTextField nameTextField = new JTextField();
     private final JTextField yearTextField = new JTextField();
@@ -24,7 +24,7 @@ public class ModelInputForm extends BaseInputForm
     public ModelInputForm(
             JFrame parentFrame,
             boolean updateRecord,
-            ModelRecordModel originalRecord)
+            ModelModel originalRecord)
     throws HeadlessException
     {
         super(updateRecord, originalRecord, ModelList.get());
@@ -98,10 +98,10 @@ public class ModelInputForm extends BaseInputForm
     }
 
     @Override
-    public DataRecordModel getFinishedRecord() throws Exception
+    public IDataRecordModel getFinishedRecord() throws Exception
     {
-        DataRecordModel parentBrand = BrandList.get().getComponentAt(brandDropdownBox.getSelectedIndex());
-        ModelRecordModel modelRecord = new ModelRecordModel((BrandRecordModel) parentBrand);
+        IDataRecordModel parentBrand = BrandList.get().getComponentAt(brandDropdownBox.getSelectedIndex());
+        ModelModel modelRecord = new ModelModel((BrandModel) parentBrand);
         modelRecord.setModelName(nameTextField.getText());
         modelRecord.setModelYear(Integer.parseInt(yearTextField.getText()));
         modelRecord.setHasSunroof(hasSunroofCheckbox.isSelected());
@@ -115,13 +115,13 @@ public class ModelInputForm extends BaseInputForm
     {
         for (var obj : BrandList.get())
         {
-            BrandRecordModel brandRecord = (BrandRecordModel) obj;
+            BrandModel brandRecord = (BrandModel) obj;
             brandDropdownBox.addItem(brandRecord.getBrandName());
         }
         brandDropdownBox.setSelectedItem(null);
     }
 
-    public void loadModelData(ModelRecordModel modelRecord)
+    public void loadModelData(ModelModel modelRecord)
     {
         if (modelRecord == null) { return; }
         nameTextField.setText(modelRecord.getModelName());

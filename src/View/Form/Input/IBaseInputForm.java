@@ -1,24 +1,24 @@
 package View.Form.Input;
 
 import Controller.CRUD.UpdateListener;
-import Model.RecordModel.DataRecordModel;
-import Model.RecordList.DataRecordList;
-import View.Form.BaseForm;
+import Model.RecordModel.IDataRecordModel;
+import Model.RecordList.IDataRecordList;
+import View.Form.IBaseForm;
 
 import javax.swing.*;
 import java.awt.*;
 
-public abstract class BaseInputForm extends BaseForm
+public abstract class IBaseInputForm extends IBaseForm
 {
     private final boolean updateRecord;
-    private final DataRecordModel originalRecord;
-    private final DataRecordList componentPool;
+    private final IDataRecordModel originalRecord;
+    private final IDataRecordList componentPool;
     private UpdateListener updateListener;
 
-    public BaseInputForm(
+    public IBaseInputForm(
             boolean updateRecord,
-            DataRecordModel originalRecord,
-            DataRecordList componentPool) throws HeadlessException
+            IDataRecordModel originalRecord,
+            IDataRecordList componentPool) throws HeadlessException
     {
         super();
         setModal(true);
@@ -27,12 +27,12 @@ public abstract class BaseInputForm extends BaseForm
         this.componentPool = componentPool;
     }
 
-    protected DataRecordModel getOriginalRecord()
+    protected IDataRecordModel getOriginalRecord()
     {
         return originalRecord;
     }
 
-    public abstract DataRecordModel getFinishedRecord() throws Exception;
+    public abstract IDataRecordModel getFinishedRecord() throws Exception;
 
     public abstract boolean validateInputs();
 
@@ -69,7 +69,7 @@ public abstract class BaseInputForm extends BaseForm
         cancelButton.addActionListener(e -> dispose());
     }
 
-    public final void commitRecord(DataRecordModel newRecord)
+    public final void commitRecord(IDataRecordModel newRecord)
     {
         if (componentPool == null || newRecord == null) { return; }
         if (updateRecord) { componentPool.updateComponent(originalRecord, newRecord); }

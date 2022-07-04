@@ -4,9 +4,9 @@ import Controller.CRUD.*;
 import Controller.Database.DatabaseManager;
 import Controller.Session.SessionManager;
 import Controller.Utility.ValidationUtilities;
-import Model.RecordModel.SoldVehicleRecordModel;
+import Model.RecordModel.SoldVehicleModel;
 import Model.RecordModel.UserLevel;
-import Model.RecordModel.VehicleRecordModel;
+import Model.RecordModel.VehicleModel;
 import Model.RecordList.SoldVehicleList;
 import Model.RecordList.VehicleList;
 import View.Button.JoeButton;
@@ -53,9 +53,9 @@ public class MainWindow extends JFrame implements UpdateListener
     private final JoeButton receiptButton = new JoeButton("SHOW");
 
     private final DatabaseManager databaseManager;
-    private DataRecordController crudController;
+    private IDataRecordController crudController;
     private HashMap<String, JoeButton> idToButtonMap;
-    private HashMap<String, DataRecordController> idToCRUDControllerMap;
+    private HashMap<String, IDataRecordController> idToCRUDControllerMap;
 
     public MainWindow(DatabaseManager databaseManager)
     {
@@ -245,7 +245,7 @@ public class MainWindow extends JFrame implements UpdateListener
     public void updateMenuState(String id)
     {
         JButton button = idToButtonMap.get(id);
-        DataRecordController controller = idToCRUDControllerMap.get(id);
+        IDataRecordController controller = idToCRUDControllerMap.get(id);
         if (button != null && controller != null)
         {
             highlightButton(button);
@@ -335,8 +335,8 @@ public class MainWindow extends JFrame implements UpdateListener
             String amount = JOptionPane.showInputDialog("Enter the amount for which the vehicle will be sold");
             if (amount != null && ValidationUtilities.isNumeric(amount))
             {
-                var vehicle = (VehicleRecordModel) VehicleList.get().getComponentAt(row);
-                var soldVehicle = new SoldVehicleRecordModel(vehicle);
+                var vehicle = (VehicleModel) VehicleList.get().getComponentAt(row);
+                var soldVehicle = new SoldVehicleModel(vehicle);
                 soldVehicle.setPaidAmount(Double.parseDouble(amount));
                 soldVehicle.setDateOfSale(new GregorianCalendar());
                 SoldVehicleList.get().registerComponent(soldVehicle);

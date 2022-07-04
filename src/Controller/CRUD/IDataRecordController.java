@@ -1,24 +1,24 @@
 package Controller.CRUD;
 
-import Model.RecordModel.DataRecordModel;
-import Model.RecordList.DataRecordList;
+import Model.RecordModel.IDataRecordModel;
+import Model.RecordList.IDataRecordList;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 
-public abstract class DataRecordController
+public abstract class IDataRecordController
 {
     protected JTable table;
     protected UpdateListener updateListener;
 
-    public DataRecordController(JTable table, UpdateListener updateListener)
+    public IDataRecordController(JTable table, UpdateListener updateListener)
     {
         this.table = table;
         this.updateListener = updateListener;
     }
 
-    public final DataRecordModel getSelectedItem(DataRecordList pool)
+    public final IDataRecordModel getSelectedItem(IDataRecordList pool)
     {
         int row = table.getSelectedRow();
         if (row == -1 || row >= pool.countRegisteredComponents()) { return null; }

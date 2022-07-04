@@ -1,6 +1,6 @@
 package Model.RecordModel;
 
-public class BrandRecordModel extends DataRecordModel
+public class BrandModel extends IDataRecordModel
 {
     private String brandName;
 

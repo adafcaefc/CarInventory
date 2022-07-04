@@ -1,6 +1,6 @@
 package Model.RecordList;
 
-public class UserList extends DataRecordList
+public class UserList extends IDataRecordList
 {
     private static final UserList instance = new UserList();
 
