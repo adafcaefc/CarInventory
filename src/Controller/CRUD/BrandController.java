@@ -1,7 +1,7 @@
 package Controller.CRUD;
 
-import Model.RecordModel.BrandModel;
-import Model.RecordList.BrandList;
+import Model.Data.BrandData;
+import Model.List.BrandList;
 import View.Form.Input.BrandInputForm;
 
 import javax.swing.*;
@@ -25,7 +25,7 @@ public class BrandController extends IDataRecordController
     @Override
     public void openModifyWindow(JFrame parent)
     {
-        BrandModel brandRecord = (BrandModel) getSelectedItem(BrandList.get());
+        BrandData brandRecord = (BrandData) getSelectedItem(BrandList.get());
         if (brandRecord == null) { return; }
         BrandInputForm form = new BrandInputForm(parent, true, brandRecord);
         form.bindUpdateListener(updateListener);
@@ -35,7 +35,7 @@ public class BrandController extends IDataRecordController
     @Override
     public void openDeleteWindow()
     {
-        BrandModel brandRecord = (BrandModel) getSelectedItem(BrandList.get());
+        BrandData brandRecord = (BrandData) getSelectedItem(BrandList.get());
         if (brandRecord == null) { return; }
         int brandIndex = BrandList.get().getIndexForComponent(brandRecord);
         int childrenCount = brandRecord.countChildren();
@@ -60,7 +60,7 @@ public class BrandController extends IDataRecordController
         var tableDataMatrix = new ArrayList<ArrayList<Object>>();
         for (var obj : BrandList.get())
         {
-            BrandModel brandRecord = (BrandModel) obj;
+            BrandData brandRecord = (BrandData) obj;
             ArrayList<Object> innerData = new ArrayList<>();
             innerData.add(brandRecord.getBrandName());
             tableDataMatrix.add(innerData);

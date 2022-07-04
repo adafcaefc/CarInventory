@@ -1,4 +1,4 @@
-package Model.RecordModel;
+package Model.Data;
 
 import java.util.HashMap;
 

@@ -1,6 +1,6 @@
-package Model.RecordList;
+package Model.List;
 
-public class BrandList extends IDataRecordList
+public class BrandList extends IRecordList
 {
     private static final BrandList instance = new BrandList();
 

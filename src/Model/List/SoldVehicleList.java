@@ -1,6 +1,6 @@
-package Model.RecordList;
+package Model.List;
 
-public class SoldVehicleList extends IDataRecordList
+public class SoldVehicleList extends IRecordList
 {
     private static final SoldVehicleList instance = new SoldVehicleList();
 

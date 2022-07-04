@@ -1,33 +1,33 @@
 package Controller.Session;
 
-import Model.RecordModel.UserModel;
-import Model.RecordList.UserList;
+import Model.Data.UserData;
+import Model.List.UserList;
 
-public class ActiveSession implements java.io.Serializable
+public class SessionData implements java.io.Serializable
 {
     private final String userName;
     private final String password;
     private final String salt;
 
-    public ActiveSession(UserModel userRecord)
+    public SessionData(UserData userRecord)
     {
         this.userName = userRecord.getUserName();
         this.password = userRecord.getPassword();
         this.salt = userRecord.getSalt();
     }
 
-    public boolean isTheSame(UserModel userRecord)
+    public boolean isTheSame(UserData userRecord)
     {
         return userRecord.getUserName().equals(userName)
                 && userRecord.getPassword().equals(password)
                 && userRecord.getSalt().equals(salt);
     }
 
-    public UserModel getUser()
+    public UserData getUser()
     {
         for (var obj : UserList.get())
         {
-            UserModel userRecord = (UserModel) obj;
+            UserData userRecord = (UserData) obj;
             if (isTheSame(userRecord))
             {
                 return userRecord;

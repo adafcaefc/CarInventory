@@ -1,6 +1,6 @@
-package Model.RecordList;
+package Model.List;
 
-public class ModelList extends IDataRecordList
+public class ModelList extends IRecordList
 {
     private static final ModelList instance = new ModelList();
 

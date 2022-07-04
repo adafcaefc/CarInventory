@@ -3,7 +3,7 @@ package Controller.Database;
 import Controller.Database.Deserializer.*;
 import Controller.Database.Serializer.*;
 import Model.Exception.DataNotBoundToList;
-import Model.RecordList.*;
+import Model.List.*;
 
 import javax.swing.*;
 import java.sql.Connection;
@@ -33,7 +33,7 @@ public class DatabaseManager
 
     private void saveStatement(
             String tableName,
-            IDataRecordList pool,
+            IRecordList pool,
             DataRecordSerializer serializer)
     throws SQLException
     {
@@ -80,7 +80,7 @@ public class DatabaseManager
 
     private void loadStatement(
             String query,
-            IDataRecordList pool,
+            IRecordList pool,
             DataRecordDeserializer deserializer)
     throws SQLException,
             IndexOutOfBoundsException,
@@ -97,7 +97,7 @@ public class DatabaseManager
     private void loadStatement(
             String tableName,
             String primaryKeyName,
-            IDataRecordList pool,
+            IRecordList pool,
             DataRecordDeserializer deserializer)
     throws  SQLException,
             IndexOutOfBoundsException,

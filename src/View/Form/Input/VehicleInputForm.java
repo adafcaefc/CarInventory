@@ -1,11 +1,11 @@
 package View.Form.Input;
 
 import Controller.Utility.ValidationUtilities;
-import Model.RecordModel.IDataRecordModel;
-import Model.RecordModel.ModelModel;
-import Model.RecordModel.VehicleModel;
-import Model.RecordList.ModelList;
-import Model.RecordList.VehicleList;
+import Model.Data.IRecordData;
+import Model.Data.ModelData;
+import Model.Data.VehicleData;
+import Model.List.ModelList;
+import Model.List.VehicleList;
 import View.Utility.SpringUtilities;
 
 import javax.swing.*;
@@ -21,7 +21,7 @@ public class VehicleInputForm extends IBaseInputForm
     public VehicleInputForm(
             JFrame parentFrame,
             boolean updateRecord,
-            VehicleModel originalRecord)
+            VehicleData originalRecord)
     {
         super(updateRecord, originalRecord, VehicleList.get());
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -56,7 +56,7 @@ public class VehicleInputForm extends IBaseInputForm
     {
         for (var obj : ModelList.get())
         {
-            ModelModel modelRecord = (ModelModel) obj;
+            ModelData modelRecord = (ModelData) obj;
             modelDropdownBox.addItem(modelRecord.getModelName());
         }
         modelDropdownBox.setSelectedItem(null);
@@ -75,10 +75,10 @@ public class VehicleInputForm extends IBaseInputForm
     }
 
     @Override
-    public IDataRecordModel getFinishedRecord() throws Exception
+    public IRecordData getFinishedRecord() throws Exception
     {
-        IDataRecordModel parentModel = ModelList.get().getComponentAt(modelDropdownBox.getSelectedIndex());
-        VehicleModel vehicleRecord = new VehicleModel((ModelModel) parentModel);
+        IRecordData parentModel = ModelList.get().getComponentAt(modelDropdownBox.getSelectedIndex());
+        VehicleData vehicleRecord = new VehicleData((ModelData) parentModel);
         vehicleRecord.setVIN(vinTextField.getText());
         vehicleRecord.setLicensePlate(licensePlateTextField.getText());
         vehicleRecord.setColor(colorTextField.getText());
@@ -86,7 +86,7 @@ public class VehicleInputForm extends IBaseInputForm
         return vehicleRecord;
     }
 
-    public void loadVehicleData(VehicleModel vehicleRecord)
+    public void loadVehicleData(VehicleData vehicleRecord)
     {
         if (vehicleRecord == null) { return; }
         vinTextField.setText(vehicleRecord.getVIN());

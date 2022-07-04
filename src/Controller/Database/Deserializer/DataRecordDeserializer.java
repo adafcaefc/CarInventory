@@ -1,12 +1,12 @@
 package Controller.Database.Deserializer;
 
 import Model.Exception.DataNotBoundToList;
-import Model.RecordModel.IDataRecordModel;
+import Model.Data.IRecordData;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public interface DataRecordDeserializer
 {
-    IDataRecordModel deserialize(ResultSet rs) throws SQLException, DataNotBoundToList;
+    IRecordData deserialize(ResultSet rs) throws SQLException, DataNotBoundToList;
 }

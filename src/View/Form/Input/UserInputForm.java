@@ -1,9 +1,9 @@
 package View.Form.Input;
 
-import Model.RecordModel.IDataRecordModel;
-import Model.RecordModel.UserModel;
-import Model.RecordModel.UserLevel;
-import Model.RecordList.UserList;
+import Model.Data.IRecordData;
+import Model.Data.UserData;
+import Model.Data.UserLevel;
+import Model.List.UserList;
 import View.Utility.SpringUtilities;
 
 import javax.swing.*;
@@ -19,7 +19,7 @@ public class UserInputForm extends IBaseInputForm
     public UserInputForm(
             JFrame parentFrame,
             boolean updateRecord,
-            UserModel originalRecord)
+            UserData originalRecord)
     throws HeadlessException
     {
         super(updateRecord, originalRecord, UserList.get());
@@ -67,7 +67,7 @@ public class UserInputForm extends IBaseInputForm
         {
             for (var obj : UserList.get())
             {
-                UserModel userRecord = (UserModel) obj;
+                UserData userRecord = (UserData) obj;
                 if (userRecord.getUserName().equals(userNameTextField.getText()))
                 {
                     userNameTextField.setBackground(getErrorBackgroundColor());
@@ -98,9 +98,9 @@ public class UserInputForm extends IBaseInputForm
     }
 
     @Override
-    public IDataRecordModel getFinishedRecord() throws Exception
+    public IRecordData getFinishedRecord() throws Exception
     {
-        UserModel userRecord = new UserModel();
+        UserData userRecord = new UserData();
         userRecord.setUserName(userNameTextField.getText());
         userRecord.setPasswordRaw(new String(passwordTextField.getPassword()));
         userRecord.setUserLevel(UserLevel.valueOf(userLevelDropdownBox.getSelectedIndex()));
@@ -115,7 +115,7 @@ public class UserInputForm extends IBaseInputForm
         }
     }
 
-    public void loadUserData(UserModel userRecord)
+    public void loadUserData(UserData userRecord)
     {
         if (userRecord == null) { return; }
         userNameTextField.setText(userRecord.getUserName());

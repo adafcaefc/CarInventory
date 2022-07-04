@@ -1,7 +1,7 @@
 package Controller.CRUD;
 
-import Model.RecordModel.IDataRecordModel;
-import Model.RecordList.IDataRecordList;
+import Model.Data.IRecordData;
+import Model.List.IRecordList;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -18,7 +18,7 @@ public abstract class IDataRecordController
         this.updateListener = updateListener;
     }
 
-    public final IDataRecordModel getSelectedItem(IDataRecordList pool)
+    public final IRecordData getSelectedItem(IRecordList pool)
     {
         int row = table.getSelectedRow();
         if (row == -1 || row >= pool.countRegisteredComponents()) { return null; }

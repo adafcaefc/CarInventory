@@ -1,18 +1,18 @@
 package Controller.Database.Serializer;
 
-import Model.RecordModel.IDataRecordModel;
-import Model.RecordModel.VehicleModel;
-import Model.RecordList.ModelList;
-import Model.RecordList.VehicleList;
+import Model.Data.IRecordData;
+import Model.Data.VehicleData;
+import Model.List.ModelList;
+import Model.List.VehicleList;
 
 import java.util.HashMap;
 
 public class VehicleSerializer implements DataRecordSerializer
 {
     @Override
-    public HashMap<String, String> serialize(IDataRecordModel component)
+    public HashMap<String, String> serialize(IRecordData component)
     {
-        var vehicle = (VehicleModel) component;
+        var vehicle = (VehicleData) component;
         HashMap<String, String> map = new HashMap<>();
         int objIndex = VehicleList.get().getIndexForComponent(vehicle);
         int parentObjIndex = ModelList.get().getIndexForComponent(vehicle.getModel());

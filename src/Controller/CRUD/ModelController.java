@@ -1,7 +1,7 @@
 package Controller.CRUD;
 
-import Model.RecordModel.ModelModel;
-import Model.RecordList.ModelList;
+import Model.Data.ModelData;
+import Model.List.ModelList;
 import View.Form.Input.ModelInputForm;
 
 import javax.swing.*;
@@ -25,7 +25,7 @@ public class ModelController extends IDataRecordController
     @Override
     public void openModifyWindow(JFrame parent)
     {
-        ModelModel modelRecord = (ModelModel) getSelectedItem(ModelList.get());
+        ModelData modelRecord = (ModelData) getSelectedItem(ModelList.get());
         if (modelRecord == null) { return; }
         ModelInputForm form = new ModelInputForm(parent, true, modelRecord);
         form.bindUpdateListener(updateListener);
@@ -35,7 +35,7 @@ public class ModelController extends IDataRecordController
     @Override
     public void openDeleteWindow()
     {
-        ModelModel modelRecord = (ModelModel) getSelectedItem(ModelList.get());
+        ModelData modelRecord = (ModelData) getSelectedItem(ModelList.get());
         if (modelRecord == null) { return; }
 
         int modelIndex = ModelList.get().getIndexForComponent(modelRecord);
@@ -81,7 +81,7 @@ public class ModelController extends IDataRecordController
         var tableDataMatrix = new ArrayList<ArrayList<Object>>();
         for (var obj : ModelList.get())
         {
-            ModelModel modelRecord = (ModelModel) obj;
+            ModelData modelRecord = (ModelData) obj;
             ArrayList<Object> innerData = new ArrayList<>();
             innerData.add(modelRecord.getModelName());
             innerData.add(modelRecord.getModelYear());

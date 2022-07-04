@@ -1,9 +1,9 @@
-package Model.RecordModel;
+package Model.Data;
 
 import Model.Exception.DataNotBoundToList;
-import Model.RecordList.BrandList;
+import Model.List.BrandList;
 
-public class ModelModel extends IDataRecordModel
+public class ModelData extends IRecordData
 {
     private String modelName;
     private Integer modelYear = 0;
@@ -12,7 +12,7 @@ public class ModelModel extends IDataRecordModel
     private Integer seatCount = 0;
     private Double fuelCapacity = 0.0;
 
-    public ModelModel(BrandModel brandRecord) throws DataNotBoundToList
+    public ModelData(BrandData brandRecord) throws DataNotBoundToList
     {
         if (brandRecord == null) { return; }
         if (!BrandList.get().componentIsRegisteredAtPool(brandRecord))
@@ -22,9 +22,9 @@ public class ModelModel extends IDataRecordModel
         brandRecord.addChild(this);
     }
 
-    public BrandModel getBrand()
+    public BrandData getBrand()
     {
-        return (BrandModel) getParent();
+        return (BrandData) getParent();
     }
 
     public String getModelName()

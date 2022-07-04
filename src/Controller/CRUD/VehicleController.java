@@ -1,7 +1,7 @@
 package Controller.CRUD;
 
-import Model.RecordModel.VehicleModel;
-import Model.RecordList.VehicleList;
+import Model.Data.VehicleData;
+import Model.List.VehicleList;
 import View.Form.Input.VehicleInputForm;
 
 import javax.swing.*;
@@ -25,7 +25,7 @@ public class VehicleController extends IDataRecordController
     @Override
     public void openModifyWindow(JFrame parent)
     {
-        VehicleModel vehicleRecord = (VehicleModel) getSelectedItem(VehicleList.get());
+        VehicleData vehicleRecord = (VehicleData) getSelectedItem(VehicleList.get());
         if (vehicleRecord == null) { return; }
         VehicleInputForm form = new VehicleInputForm(parent, true, vehicleRecord);
         form.bindUpdateListener(updateListener);
@@ -35,7 +35,7 @@ public class VehicleController extends IDataRecordController
     @Override
     public void openDeleteWindow()
     {
-        VehicleModel vehicleRecord = (VehicleModel) getSelectedItem(VehicleList.get());
+        VehicleData vehicleRecord = (VehicleData) getSelectedItem(VehicleList.get());
         if (vehicleRecord == null) { return; }
         int vehicleIndex = VehicleList.get().getIndexForComponent(vehicleRecord);
         String deleteMsg = String.format(
@@ -65,7 +65,7 @@ public class VehicleController extends IDataRecordController
         var tableDataMatrix = new ArrayList<ArrayList<Object>>();
         for (var obj : VehicleList.get())
         {
-            VehicleModel vehicleRecord = (VehicleModel) obj;
+            VehicleData vehicleRecord = (VehicleData) obj;
             ArrayList<Object> innerData = new ArrayList<>();
             innerData.add(vehicleRecord.getVIN());
             innerData.add(vehicleRecord.getLicensePlate());
