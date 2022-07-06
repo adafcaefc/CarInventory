@@ -6,7 +6,7 @@ import Model.Data.IRecordData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public interface DataRecordDeserializer
+public interface IDataRecordDeserializer
 {
     IRecordData deserialize(ResultSet rs) throws SQLException, DataNotBoundToList;
 }

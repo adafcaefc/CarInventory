@@ -1,6 +1,6 @@
 package View.Form.Input;
 
-import Controller.CRUD.UpdateListener;
+import Controller.Model.Listener.UpdateListener;
 import Model.Data.IRecordData;
 import Model.List.IRecordList;
 import View.Form.IBaseForm;
@@ -74,7 +74,7 @@ public abstract class IBaseInputForm extends IBaseForm
         if (componentPool == null || newRecord == null) { return; }
         if (updateRecord) { componentPool.updateComponent(originalRecord, newRecord); }
         else { componentPool.registerComponent(newRecord); }
-        if (updateListener != null) { updateListener.onDataModelsChanged(); }
+        if (updateListener != null) { updateListener.onUpdateRecord(); }
         dispose();
     }
 

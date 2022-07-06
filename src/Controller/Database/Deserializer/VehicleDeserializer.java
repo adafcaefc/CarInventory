@@ -9,7 +9,7 @@ import Model.List.ModelList;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class VehicleDeserializer implements DataRecordDeserializer
+public class VehicleDeserializer implements IDataRecordDeserializer
 {
     public IRecordData deserialize(ResultSet rs) throws SQLException, DataNotBoundToList
     {

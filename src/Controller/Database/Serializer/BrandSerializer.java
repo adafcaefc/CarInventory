@@ -6,7 +6,7 @@ import Model.List.BrandList;
 
 import java.util.HashMap;
 
-public class BrandSerializer implements DataRecordSerializer
+public class BrandSerializer implements IDataRecordSerializer
 {
     @Override
     public HashMap<String, String> serialize(IRecordData component)

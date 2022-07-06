@@ -9,7 +9,7 @@ import Model.List.BrandList;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ModelDeserializer implements DataRecordDeserializer
+public class ModelDeserializer implements IDataRecordDeserializer
 {
     public IRecordData deserialize(ResultSet rs) throws SQLException, DataNotBoundToList
     {

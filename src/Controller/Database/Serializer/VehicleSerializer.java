@@ -7,7 +7,7 @@ import Model.List.VehicleList;
 
 import java.util.HashMap;
 
-public class VehicleSerializer implements DataRecordSerializer
+public class VehicleSerializer implements IDataRecordSerializer
 {
     @Override
     public HashMap<String, String> serialize(IRecordData component)

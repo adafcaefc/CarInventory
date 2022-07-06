@@ -1,5 +1,6 @@
-package Controller.CRUD;
+package Controller.Model;
 
+import Controller.Model.Listener.UpdateListener;
 import Model.Data.SoldVehicleData;
 import Model.List.SoldVehicleList;
 import View.Form.Input.SoldVehicleInputForm;
@@ -55,7 +56,7 @@ public class SoldVehicleController extends IDataRecordController
         if (choice == JOptionPane.YES_OPTION)
         {
             SoldVehicleList.get().unregisterComponent(soldVehicleRecord);
-            updateListener.onDataModelsChanged();
+            updateListener.onUpdateRecord();
         }
     }
 

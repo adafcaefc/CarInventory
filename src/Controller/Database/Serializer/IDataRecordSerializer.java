@@ -4,7 +4,7 @@ import Model.Data.IRecordData;
 
 import java.util.HashMap;
 
-public interface DataRecordSerializer
+public interface IDataRecordSerializer
 {
     HashMap<String, String> serialize(IRecordData model);
 }

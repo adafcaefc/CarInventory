@@ -6,7 +6,7 @@ import Model.List.UserList;
 
 import java.util.HashMap;
 
-public class UserSerializer implements DataRecordSerializer
+public class UserSerializer implements IDataRecordSerializer
 {
     @Override
     public HashMap<String, String> serialize(IRecordData component)

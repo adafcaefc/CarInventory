@@ -1,5 +1,6 @@
-package Controller.CRUD;
+package Controller.Model;
 
+import Controller.Model.Listener.UpdateListener;
 import Model.Data.IRecordData;
 import Model.List.IRecordList;
 

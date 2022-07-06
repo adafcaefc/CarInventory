@@ -6,7 +6,7 @@ import Model.Data.IRecordData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class BrandDeserializer implements DataRecordDeserializer
+public class BrandDeserializer implements IDataRecordDeserializer
 {
     @Override
     public IRecordData deserialize(ResultSet rs) throws SQLException

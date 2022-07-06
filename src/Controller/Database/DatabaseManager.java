@@ -34,7 +34,7 @@ public class DatabaseManager
     private void saveStatement(
             String tableName,
             IRecordList pool,
-            DataRecordSerializer serializer)
+            IDataRecordSerializer serializer)
     throws SQLException
     {
         conn.createStatement().executeUpdate(String.format("TRUNCATE TABLE `%s`;", tableName));
@@ -81,7 +81,7 @@ public class DatabaseManager
     private void loadStatement(
             String query,
             IRecordList pool,
-            DataRecordDeserializer deserializer)
+            IDataRecordDeserializer deserializer)
     throws SQLException,
             IndexOutOfBoundsException,
             DataNotBoundToList
@@ -98,7 +98,7 @@ public class DatabaseManager
             String tableName,
             String primaryKeyName,
             IRecordList pool,
-            DataRecordDeserializer deserializer)
+            IDataRecordDeserializer deserializer)
     throws  SQLException,
             IndexOutOfBoundsException,
             DataNotBoundToList

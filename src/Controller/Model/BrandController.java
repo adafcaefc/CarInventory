@@ -1,5 +1,6 @@
-package Controller.CRUD;
+package Controller.Model;
 
+import Controller.Model.Listener.UpdateListener;
 import Model.Data.BrandData;
 import Model.List.BrandList;
 import View.Form.Input.BrandInputForm;
@@ -48,7 +49,7 @@ public class BrandController extends IDataRecordController
         if (choice == JOptionPane.YES_OPTION)
         {
             BrandList.get().unregisterComponent(brandRecord);
-            updateListener.onDataModelsChanged();
+            updateListener.onUpdateRecord();
         }
     }
 

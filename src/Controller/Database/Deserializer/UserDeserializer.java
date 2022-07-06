@@ -7,7 +7,7 @@ import Model.Data.UserLevel;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserDeserializer implements DataRecordDeserializer
+public class UserDeserializer implements IDataRecordDeserializer
 {
     @Override
     public IRecordData deserialize(ResultSet rs) throws SQLException

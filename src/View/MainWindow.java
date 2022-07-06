@@ -1,6 +1,7 @@
 package View;
 
-import Controller.CRUD.*;
+import Controller.Model.*;
+import Controller.Model.Listener.UpdateListener;
 import Controller.Database.DatabaseManager;
 import Controller.Session.SessionManager;
 import Controller.Utility.ValidationUtilities;
@@ -341,7 +342,7 @@ public class MainWindow extends JFrame implements UpdateListener
                 soldVehicle.setDateOfSale(new GregorianCalendar());
                 SoldVehicleList.get().registerComponent(soldVehicle);
                 VehicleList.get().unregisterComponent(vehicle);
-                onDataModelsChanged();
+                onUpdateRecord();
             }
             else
             {
@@ -386,7 +387,7 @@ public class MainWindow extends JFrame implements UpdateListener
     }
 
     @Override
-    public void onDataModelsChanged()
+    public void onUpdateRecord()
     {
         crudController.loadViewTable();
         databaseManager.saveData();

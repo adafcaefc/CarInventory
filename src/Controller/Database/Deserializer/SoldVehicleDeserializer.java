@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.GregorianCalendar;
 
-public class SoldVehicleDeserializer implements DataRecordDeserializer
+public class SoldVehicleDeserializer implements IDataRecordDeserializer
 {
     public IRecordData deserialize(ResultSet rs) throws SQLException
     {

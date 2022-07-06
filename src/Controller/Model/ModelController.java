@@ -1,5 +1,6 @@
-package Controller.CRUD;
+package Controller.Model;
 
+import Controller.Model.Listener.UpdateListener;
 import Model.Data.ModelData;
 import Model.List.ModelList;
 import View.Form.Input.ModelInputForm;
@@ -60,7 +61,7 @@ public class ModelController extends IDataRecordController
         if (choice == JOptionPane.YES_OPTION)
         {
             ModelList.get().unregisterComponent(modelRecord);
-            updateListener.onDataModelsChanged();
+            updateListener.onUpdateRecord();
         }
     }
 

@@ -7,7 +7,7 @@ import Model.List.SoldVehicleList;
 import java.util.Calendar;
 import java.util.HashMap;
 
-public class SoldVehicleSerializer implements DataRecordSerializer
+public class SoldVehicleSerializer implements IDataRecordSerializer
 {
     @Override
     public HashMap<String, String> serialize(IRecordData component)

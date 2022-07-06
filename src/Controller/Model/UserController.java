@@ -1,5 +1,6 @@
-package Controller.CRUD;
+package Controller.Model;
 
+import Controller.Model.Listener.UpdateListener;
 import Model.Data.UserData;
 import Model.List.UserList;
 import View.Form.Input.UserInputForm;
@@ -50,7 +51,7 @@ public class UserController extends IDataRecordController
         if (choice == JOptionPane.YES_OPTION)
         {
             UserList.get().unregisterComponent(userRecord);
-            updateListener.onDataModelsChanged();
+            updateListener.onUpdateRecord();
         }
     }
 
