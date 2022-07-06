@@ -1,7 +1,7 @@
 package Controller.Database.Deserializer;
 
-import Model.Data.IRecordData;
-import Model.Data.SoldVehicleData;
+import Model.Data.IRecordDataModel;
+import Model.Data.SoldVehicleDataModel;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,9 +9,9 @@ import java.util.GregorianCalendar;
 
 public class SoldVehicleDeserializer implements IDataRecordDeserializer
 {
-    public IRecordData deserialize(ResultSet rs) throws SQLException
+    public IRecordDataModel deserialize(ResultSet rs) throws SQLException
     {
-        var soldVehicle = new SoldVehicleData();
+        var soldVehicle = new SoldVehicleDataModel();
 
         soldVehicle.setBrandName(rs.getString("brandName"));
 

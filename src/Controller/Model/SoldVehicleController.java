@@ -1,7 +1,7 @@
 package Controller.Model;
 
 import Controller.Model.Listener.UpdateListener;
-import Model.Data.SoldVehicleData;
+import Model.Data.SoldVehicleDataModel;
 import Model.List.SoldVehicleList;
 import View.Form.Input.SoldVehicleInputForm;
 import View.Form.Information.ShowSoldVehicleForm;
@@ -30,7 +30,7 @@ public class SoldVehicleController extends IDataRecordController
     @Override
     public void openModifyWindow(JFrame parent)
     {
-        SoldVehicleData soldVehicleRecord = (SoldVehicleData) getSelectedItem(SoldVehicleList.get());
+        SoldVehicleDataModel soldVehicleRecord = (SoldVehicleDataModel) getSelectedItem(SoldVehicleList.get());
         if (soldVehicleRecord == null) { return; }
         SoldVehicleInputForm form = new SoldVehicleInputForm(parent, true, soldVehicleRecord);
         form.bindUpdateListener(updateListener);
@@ -39,7 +39,7 @@ public class SoldVehicleController extends IDataRecordController
 
     public void openShowWindow(JFrame parent)
     {
-        SoldVehicleData soldVehicleRecord = (SoldVehicleData) getSelectedItem(SoldVehicleList.get());
+        SoldVehicleDataModel soldVehicleRecord = (SoldVehicleDataModel) getSelectedItem(SoldVehicleList.get());
         if (soldVehicleRecord == null) { return; }
         ShowSoldVehicleForm form = new ShowSoldVehicleForm(soldVehicleRecord);
         form.setVisible(true);
@@ -48,7 +48,7 @@ public class SoldVehicleController extends IDataRecordController
     @Override
     public void openDeleteWindow()
     {
-        SoldVehicleData soldVehicleRecord = (SoldVehicleData) getSelectedItem(SoldVehicleList.get());
+        SoldVehicleDataModel soldVehicleRecord = (SoldVehicleDataModel) getSelectedItem(SoldVehicleList.get());
         if (soldVehicleRecord == null) { return; }
         int vehicleIndex = SoldVehicleList.get().getIndexForComponent(soldVehicleRecord);
         String deleteMsg = String.format("Are you sure you want to delete sales no.%d from the Sales Log?", vehicleIndex + 1);
@@ -74,7 +74,7 @@ public class SoldVehicleController extends IDataRecordController
         var tableDataMatrix = new ArrayList<ArrayList<Object>>();
         for (var obj : SoldVehicleList.get())
         {
-            SoldVehicleData vehicleObject = (SoldVehicleData) obj;
+            SoldVehicleDataModel vehicleObject = (SoldVehicleDataModel) obj;
             ArrayList<Object> innerData = new ArrayList<>();
             innerData.add(vehicleObject.getVIN());
             innerData.add(vehicleObject.getLicensePlate());

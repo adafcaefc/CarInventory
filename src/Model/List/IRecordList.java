@@ -1,15 +1,15 @@
 package Model.List;
 
-import Model.Data.IRecordData;
+import Model.Data.IRecordDataModel;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public abstract class IRecordList implements Iterable<IRecordData>
+public abstract class IRecordList implements Iterable<IRecordDataModel>
 {
     @Override
-    public Iterator<IRecordData> iterator() { return componentObjects.iterator(); }
-    private final ArrayList<IRecordData> componentObjects = new ArrayList<>();
+    public Iterator<IRecordDataModel> iterator() { return componentObjects.iterator(); }
+    private final ArrayList<IRecordDataModel> componentObjects = new ArrayList<>();
     private final IRecordList nextPool;
 
     public IRecordList(IRecordList nextPool)
@@ -17,7 +17,7 @@ public abstract class IRecordList implements Iterable<IRecordData>
         this.nextPool = nextPool;
     }
 
-    public void registerComponent(IRecordData object)
+    public void registerComponent(IRecordDataModel object)
     {
         if (!componentObjects.contains(object))
         {
@@ -30,7 +30,7 @@ public abstract class IRecordList implements Iterable<IRecordData>
         if (nextPool == null) { return; }
         for (int i = 0; i < nextPool.countRegisteredComponents(); )
         {
-            IRecordData childComponent = nextPool.getComponentAt(i);
+            IRecordDataModel childComponent = nextPool.getComponentAt(i);
             if (!componentIsRegisteredAtPool(childComponent.getParent()))
             {
                 nextPool.unregisterComponent(childComponent);
@@ -43,7 +43,7 @@ public abstract class IRecordList implements Iterable<IRecordData>
         nextPool.cleanupOrphanedChildren();
     }
 
-    public void unregisterComponent(IRecordData object)
+    public void unregisterComponent(IRecordDataModel object)
     {
         if (componentObjects.contains(object))
         {
@@ -54,13 +54,13 @@ public abstract class IRecordList implements Iterable<IRecordData>
         cleanupOrphanedChildren();
     }
 
-    public void updateComponent(IRecordData oldObject, IRecordData newObject)
+    public void updateComponent(IRecordDataModel oldObject, IRecordDataModel newObject)
     {
         final int oldObjectIndex = componentObjects.indexOf(oldObject);
         if (oldObjectIndex == -1) { return; }
         for (int i = 0; i < oldObject.countChildren(); i++)
         {
-            IRecordData child = oldObject.getChildAt(i);
+            IRecordDataModel child = oldObject.getChildAt(i);
             newObject.addChild(child);
         }
         var parent = oldObject.getParent();
@@ -70,12 +70,12 @@ public abstract class IRecordList implements Iterable<IRecordData>
         oldObject.removeFromParent();
     }
 
-    public IRecordData getComponentAt(int index)
+    public IRecordDataModel getComponentAt(int index)
     {
         return componentObjects.get(index);
     }
 
-    public int getIndexForComponent(IRecordData component)
+    public int getIndexForComponent(IRecordDataModel component)
     {
         return componentObjects.indexOf(component);
     }
@@ -85,5 +85,5 @@ public abstract class IRecordList implements Iterable<IRecordData>
         return componentObjects.size();
     }
 
-    public boolean componentIsRegisteredAtPool(IRecordData object) { return componentObjects.contains(object); }
+    public boolean componentIsRegisteredAtPool(IRecordDataModel object) { return componentObjects.contains(object); }
 }

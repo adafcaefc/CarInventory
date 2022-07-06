@@ -1,9 +1,9 @@
 package Controller.Database.Deserializer;
 
 import Model.Exception.DataNotBoundToList;
-import Model.Data.IRecordData;
-import Model.Data.ModelData;
-import Model.Data.VehicleData;
+import Model.Data.IRecordDataModel;
+import Model.Data.ModelDataModel;
+import Model.Data.VehicleDataModel;
 import Model.List.ModelList;
 
 import java.sql.ResultSet;
@@ -11,10 +11,10 @@ import java.sql.SQLException;
 
 public class VehicleDeserializer implements IDataRecordDeserializer
 {
-    public IRecordData deserialize(ResultSet rs) throws SQLException, DataNotBoundToList
+    public IRecordDataModel deserialize(ResultSet rs) throws SQLException, DataNotBoundToList
     {
-        ModelData parentObj = (ModelData) ModelList.get().getComponentAt(rs.getInt("parentModelId"));
-        var vehicle = new VehicleData(parentObj);
+        ModelDataModel parentObj = (ModelDataModel) ModelList.get().getComponentAt(rs.getInt("parentModelId"));
+        var vehicle = new VehicleDataModel(parentObj);
 
         vehicle.setVIN(rs.getString("VIN"));
         vehicle.setLicensePlate(rs.getString("licensePlate"));

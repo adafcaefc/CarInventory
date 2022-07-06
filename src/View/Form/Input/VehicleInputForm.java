@@ -1,9 +1,9 @@
 package View.Form.Input;
 
 import Controller.Utility.ValidationUtilities;
-import Model.Data.IRecordData;
-import Model.Data.ModelData;
-import Model.Data.VehicleData;
+import Model.Data.IRecordDataModel;
+import Model.Data.ModelDataModel;
+import Model.Data.VehicleDataModel;
 import Model.List.ModelList;
 import Model.List.VehicleList;
 import View.Utility.SpringUtilities;
@@ -21,7 +21,7 @@ public class VehicleInputForm extends IBaseInputForm
     public VehicleInputForm(
             JFrame parentFrame,
             boolean updateRecord,
-            VehicleData originalRecord)
+            VehicleDataModel originalRecord)
     {
         super(updateRecord, originalRecord, VehicleList.get());
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -56,7 +56,7 @@ public class VehicleInputForm extends IBaseInputForm
     {
         for (var obj : ModelList.get())
         {
-            ModelData modelRecord = (ModelData) obj;
+            ModelDataModel modelRecord = (ModelDataModel) obj;
             modelDropdownBox.addItem(modelRecord.getModelName());
         }
         modelDropdownBox.setSelectedItem(null);
@@ -75,10 +75,10 @@ public class VehicleInputForm extends IBaseInputForm
     }
 
     @Override
-    public IRecordData getFinishedRecord() throws Exception
+    public IRecordDataModel getFinishedRecord() throws Exception
     {
-        IRecordData parentModel = ModelList.get().getComponentAt(modelDropdownBox.getSelectedIndex());
-        VehicleData vehicleRecord = new VehicleData((ModelData) parentModel);
+        IRecordDataModel parentModel = ModelList.get().getComponentAt(modelDropdownBox.getSelectedIndex());
+        VehicleDataModel vehicleRecord = new VehicleDataModel((ModelDataModel) parentModel);
         vehicleRecord.setVIN(vinTextField.getText());
         vehicleRecord.setLicensePlate(licensePlateTextField.getText());
         vehicleRecord.setColor(colorTextField.getText());
@@ -86,7 +86,7 @@ public class VehicleInputForm extends IBaseInputForm
         return vehicleRecord;
     }
 
-    public void loadVehicleData(VehicleData vehicleRecord)
+    public void loadVehicleData(VehicleDataModel vehicleRecord)
     {
         if (vehicleRecord == null) { return; }
         vinTextField.setText(vehicleRecord.getVIN());

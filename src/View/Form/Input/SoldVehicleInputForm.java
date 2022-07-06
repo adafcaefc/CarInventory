@@ -1,8 +1,8 @@
 package View.Form.Input;
 
 import Controller.Utility.ValidationUtilities;
-import Model.Data.IRecordData;
-import Model.Data.SoldVehicleData;
+import Model.Data.IRecordDataModel;
+import Model.Data.SoldVehicleDataModel;
 import Model.List.SoldVehicleList;
 import View.Utility.SpringUtilities;
 
@@ -21,7 +21,7 @@ public class SoldVehicleInputForm extends IBaseInputForm
     public SoldVehicleInputForm(
             JFrame parentFrame,
             boolean updateRecord,
-            SoldVehicleData originalRecord) throws HeadlessException
+            SoldVehicleDataModel originalRecord) throws HeadlessException
     {
         super(updateRecord, originalRecord, SoldVehicleList.get());
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -66,15 +66,15 @@ public class SoldVehicleInputForm extends IBaseInputForm
     }
 
     @Override
-    public IRecordData getFinishedRecord() throws Exception
+    public IRecordDataModel getFinishedRecord() throws Exception
     {
         var date = new GregorianCalendar(
                 (int) yearSpinner.getValue(),
                 monthComboBox.getSelectedIndex(),
                 dayComboBox.getSelectedIndex() + 1);
 
-        SoldVehicleData originalSoldVehicleRecord = (SoldVehicleData) getOriginalRecord();
-        SoldVehicleData modifiedSoldVehicleRecord = (SoldVehicleData) originalSoldVehicleRecord.clone();
+        SoldVehicleDataModel originalSoldVehicleRecord = (SoldVehicleDataModel) getOriginalRecord();
+        SoldVehicleDataModel modifiedSoldVehicleRecord = (SoldVehicleDataModel) originalSoldVehicleRecord.clone();
         modifiedSoldVehicleRecord.setPaidAmount(Double.parseDouble(paidAmountTextField.getText()));
         modifiedSoldVehicleRecord.setDateOfSale(date);
 
@@ -124,7 +124,7 @@ public class SoldVehicleInputForm extends IBaseInputForm
         yearSpinner.addChangeListener(e -> populateDateCheckbox());
     }
 
-    public void loadSoldVehicleData(SoldVehicleData soldVehicleRecord)
+    public void loadSoldVehicleData(SoldVehicleDataModel soldVehicleRecord)
     {
         if (soldVehicleRecord == null) { return; }
         var date = soldVehicleRecord.getDateOfSale();

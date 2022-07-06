@@ -5,9 +5,9 @@ import Controller.Model.Listener.UpdateListener;
 import Controller.Database.DatabaseManager;
 import Controller.Session.SessionManager;
 import Controller.Utility.ValidationUtilities;
-import Model.Data.SoldVehicleData;
+import Model.Data.SoldVehicleDataModel;
 import Model.Data.UserLevel;
-import Model.Data.VehicleData;
+import Model.Data.VehicleDataModel;
 import Model.List.SoldVehicleList;
 import Model.List.VehicleList;
 import View.Button.JoeButton;
@@ -336,8 +336,8 @@ public class MainWindow extends JFrame implements UpdateListener
             String amount = JOptionPane.showInputDialog("Enter the amount for which the vehicle will be sold");
             if (amount != null && ValidationUtilities.isNumeric(amount))
             {
-                var vehicle = (VehicleData) VehicleList.get().getComponentAt(row);
-                var soldVehicle = new SoldVehicleData(vehicle);
+                var vehicle = (VehicleDataModel) VehicleList.get().getComponentAt(row);
+                var soldVehicle = new SoldVehicleDataModel(vehicle);
                 soldVehicle.setPaidAmount(Double.parseDouble(amount));
                 soldVehicle.setDateOfSale(new GregorianCalendar());
                 SoldVehicleList.get().registerComponent(soldVehicle);

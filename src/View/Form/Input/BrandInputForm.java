@@ -1,7 +1,7 @@
 package View.Form.Input;
 
-import Model.Data.BrandData;
-import Model.Data.IRecordData;
+import Model.Data.BrandDataModel;
+import Model.Data.IRecordDataModel;
 import Model.List.BrandList;
 import View.Utility.SpringUtilities;
 
@@ -11,7 +11,7 @@ public class BrandInputForm extends IBaseInputForm
 {
     private final JTextField nameTextField = new JTextField();
 
-    public BrandInputForm(JFrame parentFrame, boolean updateRecord, BrandData originalBrandRecord)
+    public BrandInputForm(JFrame parentFrame, boolean updateRecord, BrandDataModel originalBrandRecord)
     {
         super(updateRecord, originalBrandRecord, BrandList.get());
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -36,9 +36,9 @@ public class BrandInputForm extends IBaseInputForm
     }
 
     @Override
-    public IRecordData getFinishedRecord()
+    public IRecordDataModel getFinishedRecord()
     {
-        BrandData brandRecord = new BrandData();
+        BrandDataModel brandRecord = new BrandDataModel();
         brandRecord.setBrandName(nameTextField.getText());
         return brandRecord;
     }
@@ -49,7 +49,7 @@ public class BrandInputForm extends IBaseInputForm
         return true;
     }
 
-    public void loadBrandData(BrandData brandRecord)
+    public void loadBrandData(BrandDataModel brandRecord)
     {
         if (brandRecord == null) { return; }
         nameTextField.setText(brandRecord.getBrandName());
