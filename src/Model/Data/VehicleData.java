@@ -3,14 +3,14 @@ package Model.Data;
 import Model.Exception.DataNotBoundToList;
 import Model.List.ModelList;
 
-public class VehicleDataModel extends IRecordDataModel
+public class VehicleData extends IRecordData
 {
     private String VIN;
     private String licensePlate;
     private String color;
     private Double mileage = 0.0;
 
-    public VehicleDataModel(ModelDataModel modelRecord) throws DataNotBoundToList
+    public VehicleData(ModelData modelRecord) throws DataNotBoundToList
     {
         if (modelRecord == null) { return; }
         if (!ModelList.get().componentIsRegisteredAtPool(modelRecord))
@@ -20,9 +20,9 @@ public class VehicleDataModel extends IRecordDataModel
         modelRecord.addChild(this);
     }
 
-    public ModelDataModel getModel()
+    public ModelData getModel()
     {
-        return (ModelDataModel) getParent();
+        return (ModelData) getParent();
     }
 
     public String getVIN()

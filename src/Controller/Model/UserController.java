@@ -1,7 +1,7 @@
 package Controller.Model;
 
 import Controller.Model.Listener.UpdateListener;
-import Model.Data.UserDataModel;
+import Model.Data.UserData;
 import Model.List.UserList;
 import View.Form.Input.UserInputForm;
 
@@ -26,7 +26,7 @@ public class UserController extends IDataRecordController
     @Override
     public void openModifyWindow(JFrame parent)
     {
-        UserDataModel userRecord = (UserDataModel) getSelectedItem(UserList.get());
+        UserData userRecord = (UserData) getSelectedItem(UserList.get());
         if (userRecord == null) { return; }
         UserInputForm form = new UserInputForm(parent, true, userRecord);
         form.bindUpdateListener(updateListener);
@@ -36,7 +36,7 @@ public class UserController extends IDataRecordController
     @Override
     public void openDeleteWindow()
     {
-        UserDataModel userRecord = (UserDataModel) getSelectedItem(UserList.get());
+        UserData userRecord = (UserData) getSelectedItem(UserList.get());
         if (userRecord == null) { return; }
         int userIndex = UserList.get().getIndexForComponent(userRecord);
         String deleteMsg = String.format(
@@ -67,7 +67,7 @@ public class UserController extends IDataRecordController
         var tableDataMatrix = new ArrayList<ArrayList<Object>>();
         for (var obj : UserList.get())
         {
-            UserDataModel userRecord = (UserDataModel) obj;
+            UserData userRecord = (UserData) obj;
             ArrayList<Object> innerData = new ArrayList<>();
             innerData.add(userRecord.getUserName());
             innerData.add(userRecord.getUserLevel().name());

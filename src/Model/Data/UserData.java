@@ -4,7 +4,7 @@ import Controller.Utility.PasswordUtilities;
 
 import java.security.NoSuchAlgorithmException;
 
-public class UserDataModel extends IRecordDataModel
+public class UserData extends IRecordData
 {
     private String userName;
     private String password;

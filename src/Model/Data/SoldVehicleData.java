@@ -2,7 +2,7 @@ package Model.Data;
 
 import java.util.GregorianCalendar;
 
-public class SoldVehicleDataModel extends IRecordDataModel implements Cloneable
+public class SoldVehicleData extends IRecordData implements Cloneable
 {
     private String brandName;
     private String modelName;
@@ -18,16 +18,16 @@ public class SoldVehicleDataModel extends IRecordDataModel implements Cloneable
     private GregorianCalendar dateOfSale;
     private Double paidAmount;
 
-    public SoldVehicleDataModel() { }
+    public SoldVehicleData() { }
 
-    public SoldVehicleDataModel(VehicleDataModel sourceVehicleRecord)
+    public SoldVehicleData(VehicleData sourceVehicleRecord)
     {
         VIN = sourceVehicleRecord.getVIN();
         licensePlate = sourceVehicleRecord.getLicensePlate();
         color = sourceVehicleRecord.getColor();
         mileage = sourceVehicleRecord.getMileage();
 
-        ModelDataModel sourceModelRecord = sourceVehicleRecord.getModel();
+        ModelData sourceModelRecord = sourceVehicleRecord.getModel();
         modelName = sourceModelRecord.getModelName();
         modelYear = sourceModelRecord.getModelYear();
         hasSunroof = sourceModelRecord.getHasSunroof();
@@ -135,7 +135,7 @@ public class SoldVehicleDataModel extends IRecordDataModel implements Cloneable
     @Override
     public Object clone() throws CloneNotSupportedException
     {
-        SoldVehicleDataModel newObj = new SoldVehicleDataModel();
+        SoldVehicleData newObj = new SoldVehicleData();
         newObj.brandName = brandName;
         newObj.modelName = modelName;
         newObj.modelYear = modelYear;

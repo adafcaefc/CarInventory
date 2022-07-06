@@ -1,6 +1,6 @@
 package View.Form.Information;
 
-import Model.Data.SoldVehicleDataModel;
+import Model.Data.SoldVehicleData;
 import View.Form.IBaseForm;
 import View.Utility.SpringUtilities;
 
@@ -8,7 +8,7 @@ import javax.swing.*;
 
 public class ShowSoldVehicleForm extends IBaseForm
 {
-    private final SoldVehicleDataModel soldVehicleRecord;
+    private final SoldVehicleData soldVehicleRecord;
 
     @Override
     public void bindButtons(JButton okButton, JButton cancelButton)
@@ -17,7 +17,7 @@ public class ShowSoldVehicleForm extends IBaseForm
         cancelButton.addActionListener(e -> dispose());
     }
 
-    public ShowSoldVehicleForm(SoldVehicleDataModel soldVehicleRecord)
+    public ShowSoldVehicleForm(SoldVehicleData soldVehicleRecord)
     {
         super();
 

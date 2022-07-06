@@ -1,9 +1,9 @@
 package View.Form.Input;
 
 import Controller.Utility.ValidationUtilities;
-import Model.Data.BrandDataModel;
-import Model.Data.IRecordDataModel;
-import Model.Data.ModelDataModel;
+import Model.Data.BrandData;
+import Model.Data.IRecordData;
+import Model.Data.ModelData;
 import Model.List.BrandList;
 import Model.List.ModelList;
 import View.Utility.SpringUtilities;
@@ -24,7 +24,7 @@ public class ModelInputForm extends IBaseInputForm
     public ModelInputForm(
             JFrame parentFrame,
             boolean updateRecord,
-            ModelDataModel originalRecord)
+            ModelData originalRecord)
     throws HeadlessException
     {
         super(updateRecord, originalRecord, ModelList.get());
@@ -98,10 +98,10 @@ public class ModelInputForm extends IBaseInputForm
     }
 
     @Override
-    public IRecordDataModel getFinishedRecord() throws Exception
+    public IRecordData getFinishedRecord() throws Exception
     {
-        IRecordDataModel parentBrand = BrandList.get().getComponentAt(brandDropdownBox.getSelectedIndex());
-        ModelDataModel modelRecord = new ModelDataModel((BrandDataModel) parentBrand);
+        IRecordData parentBrand = BrandList.get().getComponentAt(brandDropdownBox.getSelectedIndex());
+        ModelData modelRecord = new ModelData((BrandData) parentBrand);
         modelRecord.setModelName(nameTextField.getText());
         modelRecord.setModelYear(Integer.parseInt(yearTextField.getText()));
         modelRecord.setHasSunroof(hasSunroofCheckbox.isSelected());
@@ -115,13 +115,13 @@ public class ModelInputForm extends IBaseInputForm
     {
         for (var obj : BrandList.get())
         {
-            BrandDataModel brandRecord = (BrandDataModel) obj;
+            BrandData brandRecord = (BrandData) obj;
             brandDropdownBox.addItem(brandRecord.getBrandName());
         }
         brandDropdownBox.setSelectedItem(null);
     }
 
-    public void loadModelData(ModelDataModel modelRecord)
+    public void loadModelData(ModelData modelRecord)
     {
         if (modelRecord == null) { return; }
         nameTextField.setText(modelRecord.getModelName());
