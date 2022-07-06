@@ -1,20 +1,20 @@
 package Controller.Database.Deserializer;
 
-import Model.Exception.DataNotBoundToPool;
-import Model.Record.BrandRecord;
-import Model.Record.DataRecord;
-import Model.Record.ModelRecord;
-import Model.Pool.BrandPool;
+import Model.Exception.DataNotBoundToList;
+import Model.Data.BrandData;
+import Model.Data.IRecordData;
+import Model.Data.ModelData;
+import Model.List.BrandList;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ModelDeserializer implements DataRecordDeserializer
+public class ModelDeserializer implements IDataRecordDeserializer
 {
-    public DataRecord deserialize(ResultSet rs) throws SQLException, DataNotBoundToPool
+    public IRecordData deserialize(ResultSet rs) throws SQLException, DataNotBoundToList
     {
-        BrandRecord parentObj = (BrandRecord) BrandPool.get().getComponentAt(rs.getInt("parentBrandId"));
-        var model = new ModelRecord(parentObj);
+        BrandData parentObj = (BrandData) BrandList.get().getComponentAt(rs.getInt("parentBrandId"));
+        var model = new ModelData(parentObj);
 
         model.setModelName(rs.getString("modelName"));
         model.setModelYear(rs.getInt("modelYear"));

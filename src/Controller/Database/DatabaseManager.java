@@ -2,8 +2,8 @@ package Controller.Database;
 
 import Controller.Database.Deserializer.*;
 import Controller.Database.Serializer.*;
-import Model.Exception.DataNotBoundToPool;
-import Model.Pool.*;
+import Model.Exception.DataNotBoundToList;
+import Model.List.*;
 
 import javax.swing.*;
 import java.sql.Connection;
@@ -33,8 +33,8 @@ public class DatabaseManager
 
     private void saveStatement(
             String tableName,
-            DataRecordPool pool,
-            DataRecordSerializer serializer)
+            IRecordList pool,
+            IDataRecordSerializer serializer)
     throws SQLException
     {
         conn.createStatement().executeUpdate(String.format("TRUNCATE TABLE `%s`;", tableName));
@@ -61,11 +61,11 @@ public class DatabaseManager
     {
         try
         {
-            saveStatement("brands", BrandPool.get(), new BrandSerializer());
-            saveStatement("models", ModelPool.get(), new ModelSerializer());
-            saveStatement("vehicles", VehiclePool.get(), new VehicleSerializer());
-            saveStatement("soldvehicles", SoldVehiclePool.get(), new SoldVehicleSerializer());
-            saveStatement("users", UserPool.get(), new UserSerializer());
+            saveStatement("brands", BrandList.get(), new BrandSerializer());
+            saveStatement("models", ModelList.get(), new ModelSerializer());
+            saveStatement("vehicles", VehicleList.get(), new VehicleSerializer());
+            saveStatement("soldvehicles", SoldVehicleList.get(), new SoldVehicleSerializer());
+            saveStatement("users", UserList.get(), new UserSerializer());
         }
         catch (SQLException ex)
         {
@@ -80,11 +80,11 @@ public class DatabaseManager
 
     private void loadStatement(
             String query,
-            DataRecordPool pool,
-            DataRecordDeserializer deserializer)
+            IRecordList pool,
+            IDataRecordDeserializer deserializer)
     throws SQLException,
             IndexOutOfBoundsException,
-            DataNotBoundToPool
+            DataNotBoundToList
     {
 
         ResultSet rs = conn.createStatement().executeQuery(query);
@@ -97,11 +97,11 @@ public class DatabaseManager
     private void loadStatement(
             String tableName,
             String primaryKeyName,
-            DataRecordPool pool,
-            DataRecordDeserializer deserializer)
+            IRecordList pool,
+            IDataRecordDeserializer deserializer)
     throws  SQLException,
             IndexOutOfBoundsException,
-            DataNotBoundToPool
+            DataNotBoundToList
     {
         loadStatement(String.format("SELECT * FROM `%s` ORDER BY `%s`;", tableName, primaryKeyName), pool, deserializer);
     }
@@ -110,13 +110,13 @@ public class DatabaseManager
     {
         try
         {
-            loadStatement("brands", "brandId", BrandPool.get(), new BrandDeserializer());
-            loadStatement("models", "modelId", ModelPool.get(), new ModelDeserializer());
-            loadStatement("vehicles", "vehicleId", VehiclePool.get(), new VehicleDeserializer());
-            loadStatement("soldVehicles", "soldVehicleId", SoldVehiclePool.get(), new SoldVehicleDeserializer());
-            loadStatement("users", "userId", UserPool.get(), new UserDeserializer());
+            loadStatement("brands", "brandId", BrandList.get(), new BrandDeserializer());
+            loadStatement("models", "modelId", ModelList.get(), new ModelDeserializer());
+            loadStatement("vehicles", "vehicleId", VehicleList.get(), new VehicleDeserializer());
+            loadStatement("soldVehicles", "soldVehicleId", SoldVehicleList.get(), new SoldVehicleDeserializer());
+            loadStatement("users", "userId", UserList.get(), new UserDeserializer());
         }
-        catch (DataNotBoundToPool | SQLException | IndexOutOfBoundsException ex)
+        catch (DataNotBoundToList | SQLException | IndexOutOfBoundsException ex)
         {
             JOptionPane.showMessageDialog(
                     null,

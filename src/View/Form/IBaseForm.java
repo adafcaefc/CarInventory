@@ -3,13 +3,13 @@ package View.Form;
 import javax.swing.*;
 import java.awt.*;
 
-public abstract class BaseForm extends JDialog
+public abstract class IBaseForm extends JDialog
 {
     protected JPanel mainBody = new JPanel();
     protected JButton okButton = new JButton("Ok");
     protected JButton cancelButton = new JButton("Cancel");
 
-    public BaseForm() { super(); }
+    public IBaseForm() { super(); }
 
     public void bindButtons(JButton okButton, JButton cancelButton)
     {

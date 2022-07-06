@@ -1,14 +1,15 @@
 package View;
 
-import Controller.CRUD.*;
+import Controller.Model.*;
+import Controller.Model.Listener.UpdateListener;
 import Controller.Database.DatabaseManager;
 import Controller.Session.SessionManager;
 import Controller.Utility.ValidationUtilities;
-import Model.Record.SoldVehicleRecord;
-import Model.Record.UserLevel;
-import Model.Record.VehicleRecord;
-import Model.Pool.SoldVehiclePool;
-import Model.Pool.VehiclePool;
+import Model.Data.SoldVehicleData;
+import Model.Data.UserLevel;
+import Model.Data.VehicleData;
+import Model.List.SoldVehicleList;
+import Model.List.VehicleList;
 import View.Button.JoeButton;
 import View.Form.Login.LoginForm;
 import View.Utility.FormUtilities;
@@ -53,9 +54,9 @@ public class MainWindow extends JFrame implements UpdateListener
     private final JoeButton receiptButton = new JoeButton("SHOW");
 
     private final DatabaseManager databaseManager;
-    private DataRecordController crudController;
+    private IDataRecordController crudController;
     private HashMap<String, JoeButton> idToButtonMap;
-    private HashMap<String, DataRecordController> idToCRUDControllerMap;
+    private HashMap<String, IDataRecordController> idToCRUDControllerMap;
 
     public MainWindow(DatabaseManager databaseManager)
     {
@@ -245,7 +246,7 @@ public class MainWindow extends JFrame implements UpdateListener
     public void updateMenuState(String id)
     {
         JButton button = idToButtonMap.get(id);
-        DataRecordController controller = idToCRUDControllerMap.get(id);
+        IDataRecordController controller = idToCRUDControllerMap.get(id);
         if (button != null && controller != null)
         {
             highlightButton(button);
@@ -331,17 +332,17 @@ public class MainWindow extends JFrame implements UpdateListener
         sellButton.addActionListener(e ->
         {
             int row = displayTable.getSelectedRow();
-            if (row == -1 || row >= VehiclePool.get().countRegisteredComponents()) { return; }
+            if (row == -1 || row >= VehicleList.get().countRegisteredComponents()) { return; }
             String amount = JOptionPane.showInputDialog("Enter the amount for which the vehicle will be sold");
             if (amount != null && ValidationUtilities.isNumeric(amount))
             {
-                var vehicle = (VehicleRecord) VehiclePool.get().getComponentAt(row);
-                var soldVehicle = new SoldVehicleRecord(vehicle);
+                var vehicle = (VehicleData) VehicleList.get().getComponentAt(row);
+                var soldVehicle = new SoldVehicleData(vehicle);
                 soldVehicle.setPaidAmount(Double.parseDouble(amount));
                 soldVehicle.setDateOfSale(new GregorianCalendar());
-                SoldVehiclePool.get().registerComponent(soldVehicle);
-                VehiclePool.get().unregisterComponent(vehicle);
-                onDataModelsChanged();
+                SoldVehicleList.get().registerComponent(soldVehicle);
+                VehicleList.get().unregisterComponent(vehicle);
+                onUpdateRecord();
             }
             else
             {
@@ -386,7 +387,7 @@ public class MainWindow extends JFrame implements UpdateListener
     }
 
     @Override
-    public void onDataModelsChanged()
+    public void onUpdateRecord()
     {
         crudController.loadViewTable();
         databaseManager.saveData();

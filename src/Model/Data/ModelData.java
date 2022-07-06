@@ -1,9 +1,9 @@
-package Model.Record;
+package Model.Data;
 
-import Model.Exception.DataNotBoundToPool;
-import Model.Pool.BrandPool;
+import Model.Exception.DataNotBoundToList;
+import Model.List.BrandList;
 
-public class ModelRecord extends DataRecord
+public class ModelData extends IRecordData
 {
     private String modelName;
     private Integer modelYear = 0;
@@ -12,19 +12,19 @@ public class ModelRecord extends DataRecord
     private Integer seatCount = 0;
     private Double fuelCapacity = 0.0;
 
-    public ModelRecord(BrandRecord brandRecord) throws DataNotBoundToPool
+    public ModelData(BrandData brandRecord) throws DataNotBoundToList
     {
         if (brandRecord == null) { return; }
-        if (!BrandPool.get().componentIsRegisteredAtPool(brandRecord))
+        if (!BrandList.get().componentIsRegisteredAtPool(brandRecord))
         {
-            throw new DataNotBoundToPool("The 'brand' object passed to bindToBrand does not exist inside BrandPool");
+            throw new DataNotBoundToList("The 'brand' object passed to bindToBrand does not exist inside BrandPool");
         }
         brandRecord.addChild(this);
     }
 
-    public BrandRecord getBrand()
+    public BrandData getBrand()
     {
-        return (BrandRecord) getParent();
+        return (BrandData) getParent();
     }
 
     public String getModelName()

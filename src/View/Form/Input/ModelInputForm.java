@@ -1,17 +1,17 @@
 package View.Form.Input;
 
 import Controller.Utility.ValidationUtilities;
-import Model.Record.BrandRecord;
-import Model.Record.DataRecord;
-import Model.Record.ModelRecord;
-import Model.Pool.BrandPool;
-import Model.Pool.ModelPool;
+import Model.Data.BrandData;
+import Model.Data.IRecordData;
+import Model.Data.ModelData;
+import Model.List.BrandList;
+import Model.List.ModelList;
 import View.Utility.SpringUtilities;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class ModelInputForm extends BaseInputForm
+public class ModelInputForm extends IBaseInputForm
 {
     private final JTextField nameTextField = new JTextField();
     private final JTextField yearTextField = new JTextField();
@@ -24,10 +24,10 @@ public class ModelInputForm extends BaseInputForm
     public ModelInputForm(
             JFrame parentFrame,
             boolean updateRecord,
-            ModelRecord originalRecord)
+            ModelData originalRecord)
     throws HeadlessException
     {
-        super(updateRecord, originalRecord, ModelPool.get());
+        super(updateRecord, originalRecord, ModelList.get());
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setContentPane(mainBody);
         bindButtons(okButton, cancelButton);
@@ -98,10 +98,10 @@ public class ModelInputForm extends BaseInputForm
     }
 
     @Override
-    public DataRecord getFinishedRecord() throws Exception
+    public IRecordData getFinishedRecord() throws Exception
     {
-        DataRecord parentBrand = BrandPool.get().getComponentAt(brandDropdownBox.getSelectedIndex());
-        ModelRecord modelRecord = new ModelRecord((BrandRecord) parentBrand);
+        IRecordData parentBrand = BrandList.get().getComponentAt(brandDropdownBox.getSelectedIndex());
+        ModelData modelRecord = new ModelData((BrandData) parentBrand);
         modelRecord.setModelName(nameTextField.getText());
         modelRecord.setModelYear(Integer.parseInt(yearTextField.getText()));
         modelRecord.setHasSunroof(hasSunroofCheckbox.isSelected());
@@ -113,15 +113,15 @@ public class ModelInputForm extends BaseInputForm
 
     public void populateBrandCombobox()
     {
-        for (var obj : BrandPool.get())
+        for (var obj : BrandList.get())
         {
-            BrandRecord brandRecord = (BrandRecord) obj;
+            BrandData brandRecord = (BrandData) obj;
             brandDropdownBox.addItem(brandRecord.getBrandName());
         }
         brandDropdownBox.setSelectedItem(null);
     }
 
-    public void loadModelData(ModelRecord modelRecord)
+    public void loadModelData(ModelData modelRecord)
     {
         if (modelRecord == null) { return; }
         nameTextField.setText(modelRecord.getModelName());
@@ -130,7 +130,7 @@ public class ModelInputForm extends BaseInputForm
         doorCountSpinner.setValue(modelRecord.getDoorCount());
         seatCountSpinner.setValue(modelRecord.getSeatCount());
         capacityTextField.setText(modelRecord.getFuelCapacity().toString());
-        int brandIndex = BrandPool.get().getIndexForComponent(modelRecord.getBrand());
+        int brandIndex = BrandList.get().getIndexForComponent(modelRecord.getBrand());
         brandDropdownBox.setSelectedIndex(brandIndex);
     }
 }

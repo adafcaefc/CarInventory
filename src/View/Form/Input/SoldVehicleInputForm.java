@@ -1,9 +1,9 @@
 package View.Form.Input;
 
 import Controller.Utility.ValidationUtilities;
-import Model.Record.DataRecord;
-import Model.Record.SoldVehicleRecord;
-import Model.Pool.SoldVehiclePool;
+import Model.Data.IRecordData;
+import Model.Data.SoldVehicleData;
+import Model.List.SoldVehicleList;
 import View.Utility.SpringUtilities;
 
 import javax.swing.*;
@@ -11,7 +11,7 @@ import java.awt.*;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class SoldVehicleInputForm extends BaseInputForm
+public class SoldVehicleInputForm extends IBaseInputForm
 {
     private final JTextField paidAmountTextField = new JTextField();
     private final JComboBox<Integer> dayComboBox = new JComboBox<>();
@@ -21,9 +21,9 @@ public class SoldVehicleInputForm extends BaseInputForm
     public SoldVehicleInputForm(
             JFrame parentFrame,
             boolean updateRecord,
-            SoldVehicleRecord originalRecord) throws HeadlessException
+            SoldVehicleData originalRecord) throws HeadlessException
     {
-        super(updateRecord, originalRecord, SoldVehiclePool.get());
+        super(updateRecord, originalRecord, SoldVehicleList.get());
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setContentPane(mainBody);
         bindButtons(okButton, cancelButton);
@@ -66,15 +66,15 @@ public class SoldVehicleInputForm extends BaseInputForm
     }
 
     @Override
-    public DataRecord getFinishedRecord() throws Exception
+    public IRecordData getFinishedRecord() throws Exception
     {
         var date = new GregorianCalendar(
                 (int) yearSpinner.getValue(),
                 monthComboBox.getSelectedIndex(),
                 dayComboBox.getSelectedIndex() + 1);
 
-        SoldVehicleRecord originalSoldVehicleRecord = (SoldVehicleRecord) getOriginalRecord();
-        SoldVehicleRecord modifiedSoldVehicleRecord = (SoldVehicleRecord) originalSoldVehicleRecord.clone();
+        SoldVehicleData originalSoldVehicleRecord = (SoldVehicleData) getOriginalRecord();
+        SoldVehicleData modifiedSoldVehicleRecord = (SoldVehicleData) originalSoldVehicleRecord.clone();
         modifiedSoldVehicleRecord.setPaidAmount(Double.parseDouble(paidAmountTextField.getText()));
         modifiedSoldVehicleRecord.setDateOfSale(date);
 
@@ -124,7 +124,7 @@ public class SoldVehicleInputForm extends BaseInputForm
         yearSpinner.addChangeListener(e -> populateDateCheckbox());
     }
 
-    public void loadSoldVehicleData(SoldVehicleRecord soldVehicleRecord)
+    public void loadSoldVehicleData(SoldVehicleData soldVehicleRecord)
     {
         if (soldVehicleRecord == null) { return; }
         var date = soldVehicleRecord.getDateOfSale();

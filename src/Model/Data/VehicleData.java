@@ -1,28 +1,28 @@
-package Model.Record;
+package Model.Data;
 
-import Model.Exception.DataNotBoundToPool;
-import Model.Pool.ModelPool;
+import Model.Exception.DataNotBoundToList;
+import Model.List.ModelList;
 
-public class VehicleRecord extends DataRecord
+public class VehicleData extends IRecordData
 {
     private String VIN;
     private String licensePlate;
     private String color;
     private Double mileage = 0.0;
 
-    public VehicleRecord(ModelRecord modelRecord) throws DataNotBoundToPool
+    public VehicleData(ModelData modelRecord) throws DataNotBoundToList
     {
         if (modelRecord == null) { return; }
-        if (!ModelPool.get().componentIsRegisteredAtPool(modelRecord))
+        if (!ModelList.get().componentIsRegisteredAtPool(modelRecord))
         {
-            throw new DataNotBoundToPool("The 'model' object passed to bindToModel does not exist inside ModelPool");
+            throw new DataNotBoundToList("The 'model' object passed to bindToModel does not exist inside ModelPool");
         }
         modelRecord.addChild(this);
     }
 
-    public ModelRecord getModel()
+    public ModelData getModel()
     {
-        return (ModelRecord) getParent();
+        return (ModelData) getParent();
     }
 
     public String getVIN()

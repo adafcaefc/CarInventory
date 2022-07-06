@@ -1,20 +1,20 @@
 package Controller.Database.Serializer;
 
-import Model.Record.DataRecord;
-import Model.Record.SoldVehicleRecord;
-import Model.Pool.SoldVehiclePool;
+import Model.Data.IRecordData;
+import Model.Data.SoldVehicleData;
+import Model.List.SoldVehicleList;
 
 import java.util.Calendar;
 import java.util.HashMap;
 
-public class SoldVehicleSerializer implements DataRecordSerializer
+public class SoldVehicleSerializer implements IDataRecordSerializer
 {
     @Override
-    public HashMap<String, String> serialize(DataRecord component)
+    public HashMap<String, String> serialize(IRecordData component)
     {
-        var soldVehicle = (SoldVehicleRecord) component;
+        var soldVehicle = (SoldVehicleData) component;
         HashMap<String, String> map = new HashMap<>();
-        int objIndex = SoldVehiclePool.get().getIndexForComponent(soldVehicle);
+        int objIndex = SoldVehicleList.get().getIndexForComponent(soldVehicle);
 
         map.put("soldVehicleId", String.valueOf(objIndex));
 

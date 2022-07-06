@@ -1,21 +1,21 @@
 package View.Form.Login;
 
 import Controller.Session.SessionManager;
-import Model.Record.UserRecord;
-import View.Form.BaseForm;
+import Model.Data.UserData;
+import View.Form.IBaseForm;
 import View.MainWindow;
 import View.Utility.SpringUtilities;
 
 import javax.swing.*;
 import java.security.NoSuchAlgorithmException;
 
-public class LoginForm extends BaseForm
+public class LoginForm extends IBaseForm
 {
     private final JTextField userNameTextField = new JTextField();
     private final JPasswordField passwordTextField = new JPasswordField();
     private final MainWindow mainWindow;
 
-    private UserRecord logIn() throws NoSuchAlgorithmException
+    private UserData logIn() throws NoSuchAlgorithmException
     {
         String userName = userNameTextField.getText();
         String password = String.valueOf(passwordTextField.getPassword());
@@ -29,7 +29,7 @@ public class LoginForm extends BaseForm
         {
             try
             {
-                UserRecord userRecord = logIn();
+                UserData userRecord = logIn();
                 if (userRecord != null)
                 {
                     JOptionPane.showMessageDialog(

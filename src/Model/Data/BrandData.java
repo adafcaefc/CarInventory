@@ -1,6 +1,6 @@
-package Model.Record;
+package Model.Data;
 
-public class BrandRecord extends DataRecord
+public class BrandData extends IRecordData
 {
     private String brandName;
 

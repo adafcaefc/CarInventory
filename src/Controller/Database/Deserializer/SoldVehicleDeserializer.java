@@ -1,17 +1,17 @@
 package Controller.Database.Deserializer;
 
-import Model.Record.DataRecord;
-import Model.Record.SoldVehicleRecord;
+import Model.Data.IRecordData;
+import Model.Data.SoldVehicleData;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.GregorianCalendar;
 
-public class SoldVehicleDeserializer implements DataRecordDeserializer
+public class SoldVehicleDeserializer implements IDataRecordDeserializer
 {
-    public DataRecord deserialize(ResultSet rs) throws SQLException
+    public IRecordData deserialize(ResultSet rs) throws SQLException
     {
-        var soldVehicle = new SoldVehicleRecord();
+        var soldVehicle = new SoldVehicleData();
 
         soldVehicle.setBrandName(rs.getString("brandName"));
 

@@ -1,16 +1,16 @@
 package View.Form.Input;
 
 import Controller.Utility.ValidationUtilities;
-import Model.Record.DataRecord;
-import Model.Record.ModelRecord;
-import Model.Record.VehicleRecord;
-import Model.Pool.ModelPool;
-import Model.Pool.VehiclePool;
+import Model.Data.IRecordData;
+import Model.Data.ModelData;
+import Model.Data.VehicleData;
+import Model.List.ModelList;
+import Model.List.VehicleList;
 import View.Utility.SpringUtilities;
 
 import javax.swing.*;
 
-public class VehicleInputForm extends BaseInputForm
+public class VehicleInputForm extends IBaseInputForm
 {
     private final JTextField vinTextField = new JTextField();
     private final JTextField licensePlateTextField = new JTextField();
@@ -21,9 +21,9 @@ public class VehicleInputForm extends BaseInputForm
     public VehicleInputForm(
             JFrame parentFrame,
             boolean updateRecord,
-            VehicleRecord originalRecord)
+            VehicleData originalRecord)
     {
-        super(updateRecord, originalRecord, VehiclePool.get());
+        super(updateRecord, originalRecord, VehicleList.get());
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setContentPane(mainBody);
         bindButtons(okButton, cancelButton);
@@ -54,9 +54,9 @@ public class VehicleInputForm extends BaseInputForm
 
     private void populateModelCombobox()
     {
-        for (var obj : ModelPool.get())
+        for (var obj : ModelList.get())
         {
-            ModelRecord modelRecord = (ModelRecord) obj;
+            ModelData modelRecord = (ModelData) obj;
             modelDropdownBox.addItem(modelRecord.getModelName());
         }
         modelDropdownBox.setSelectedItem(null);
@@ -75,10 +75,10 @@ public class VehicleInputForm extends BaseInputForm
     }
 
     @Override
-    public DataRecord getFinishedRecord() throws Exception
+    public IRecordData getFinishedRecord() throws Exception
     {
-        DataRecord parentModel = ModelPool.get().getComponentAt(modelDropdownBox.getSelectedIndex());
-        VehicleRecord vehicleRecord = new VehicleRecord((ModelRecord) parentModel);
+        IRecordData parentModel = ModelList.get().getComponentAt(modelDropdownBox.getSelectedIndex());
+        VehicleData vehicleRecord = new VehicleData((ModelData) parentModel);
         vehicleRecord.setVIN(vinTextField.getText());
         vehicleRecord.setLicensePlate(licensePlateTextField.getText());
         vehicleRecord.setColor(colorTextField.getText());
@@ -86,14 +86,14 @@ public class VehicleInputForm extends BaseInputForm
         return vehicleRecord;
     }
 
-    public void loadVehicleData(VehicleRecord vehicleRecord)
+    public void loadVehicleData(VehicleData vehicleRecord)
     {
         if (vehicleRecord == null) { return; }
         vinTextField.setText(vehicleRecord.getVIN());
         licensePlateTextField.setText(vehicleRecord.getLicensePlate());
         colorTextField.setText(vehicleRecord.getColor());
         mileageTextField.setText(vehicleRecord.getMileage().toString());
-        int modelIndex = ModelPool.get().getIndexForComponent(vehicleRecord.getModel());
+        int modelIndex = ModelList.get().getIndexForComponent(vehicleRecord.getModel());
         modelDropdownBox.setSelectedIndex(modelIndex);
     }
 }

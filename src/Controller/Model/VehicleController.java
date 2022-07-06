@@ -1,13 +1,14 @@
-package Controller.CRUD;
+package Controller.Model;
 
-import Model.Record.VehicleRecord;
-import Model.Pool.VehiclePool;
+import Controller.Model.Listener.UpdateListener;
+import Model.Data.VehicleData;
+import Model.List.VehicleList;
 import View.Form.Input.VehicleInputForm;
 
 import javax.swing.*;
 import java.util.ArrayList;
 
-public class VehicleController extends DataRecordController
+public class VehicleController extends IDataRecordController
 {
     public VehicleController(JTable table, UpdateListener updateListener)
     {
@@ -25,7 +26,7 @@ public class VehicleController extends DataRecordController
     @Override
     public void openModifyWindow(JFrame parent)
     {
-        VehicleRecord vehicleRecord = (VehicleRecord) getSelectedItem(VehiclePool.get());
+        VehicleData vehicleRecord = (VehicleData) getSelectedItem(VehicleList.get());
         if (vehicleRecord == null) { return; }
         VehicleInputForm form = new VehicleInputForm(parent, true, vehicleRecord);
         form.bindUpdateListener(updateListener);
@@ -35,9 +36,9 @@ public class VehicleController extends DataRecordController
     @Override
     public void openDeleteWindow()
     {
-        VehicleRecord vehicleRecord = (VehicleRecord) getSelectedItem(VehiclePool.get());
+        VehicleData vehicleRecord = (VehicleData) getSelectedItem(VehicleList.get());
         if (vehicleRecord == null) { return; }
-        int vehicleIndex = VehiclePool.get().getIndexForComponent(vehicleRecord);
+        int vehicleIndex = VehicleList.get().getIndexForComponent(vehicleRecord);
         String deleteMsg = String.format(
                 "Are you sure you want to delete vehicleRecord no.%d with VehicleRecord Identification Number %s?",
                 vehicleIndex + 1,
@@ -45,8 +46,8 @@ public class VehicleController extends DataRecordController
         int choice = JOptionPane.showConfirmDialog(null, deleteMsg, "Delete VehicleRecord", JOptionPane.YES_NO_OPTION);
         if (choice == JOptionPane.YES_OPTION)
         {
-            VehiclePool.get().unregisterComponent(vehicleRecord);
-            updateListener.onDataModelsChanged();
+            VehicleList.get().unregisterComponent(vehicleRecord);
+            updateListener.onUpdateRecord();
         }
     }
 
@@ -63,9 +64,9 @@ public class VehicleController extends DataRecordController
                 };
 
         var tableDataMatrix = new ArrayList<ArrayList<Object>>();
-        for (var obj : VehiclePool.get())
+        for (var obj : VehicleList.get())
         {
-            VehicleRecord vehicleRecord = (VehicleRecord) obj;
+            VehicleData vehicleRecord = (VehicleData) obj;
             ArrayList<Object> innerData = new ArrayList<>();
             innerData.add(vehicleRecord.getVIN());
             innerData.add(vehicleRecord.getLicensePlate());

@@ -1,13 +1,14 @@
-package Controller.CRUD;
+package Controller.Model;
 
-import Model.Record.UserRecord;
-import Model.Pool.UserPool;
+import Controller.Model.Listener.UpdateListener;
+import Model.Data.UserData;
+import Model.List.UserList;
 import View.Form.Input.UserInputForm;
 
 import javax.swing.*;
 import java.util.ArrayList;
 
-public class UserController extends DataRecordController
+public class UserController extends IDataRecordController
 {
     public UserController(JTable table, UpdateListener updateListener)
     {
@@ -25,7 +26,7 @@ public class UserController extends DataRecordController
     @Override
     public void openModifyWindow(JFrame parent)
     {
-        UserRecord userRecord = (UserRecord) getSelectedItem(UserPool.get());
+        UserData userRecord = (UserData) getSelectedItem(UserList.get());
         if (userRecord == null) { return; }
         UserInputForm form = new UserInputForm(parent, true, userRecord);
         form.bindUpdateListener(updateListener);
@@ -35,9 +36,9 @@ public class UserController extends DataRecordController
     @Override
     public void openDeleteWindow()
     {
-        UserRecord userRecord = (UserRecord) getSelectedItem(UserPool.get());
+        UserData userRecord = (UserData) getSelectedItem(UserList.get());
         if (userRecord == null) { return; }
-        int userIndex = UserPool.get().getIndexForComponent(userRecord);
+        int userIndex = UserList.get().getIndexForComponent(userRecord);
         String deleteMsg = String.format(
                 "Are you sure you want to delete userRecord no.%d (%s)?",
                 userIndex + 1,
@@ -49,8 +50,8 @@ public class UserController extends DataRecordController
                 JOptionPane.YES_NO_OPTION);
         if (choice == JOptionPane.YES_OPTION)
         {
-            UserPool.get().unregisterComponent(userRecord);
-            updateListener.onDataModelsChanged();
+            UserList.get().unregisterComponent(userRecord);
+            updateListener.onUpdateRecord();
         }
     }
 
@@ -64,9 +65,9 @@ public class UserController extends DataRecordController
                 };
 
         var tableDataMatrix = new ArrayList<ArrayList<Object>>();
-        for (var obj : UserPool.get())
+        for (var obj : UserList.get())
         {
-            UserRecord userRecord = (UserRecord) obj;
+            UserData userRecord = (UserData) obj;
             ArrayList<Object> innerData = new ArrayList<>();
             innerData.add(userRecord.getUserName());
             innerData.add(userRecord.getUserLevel().name());
