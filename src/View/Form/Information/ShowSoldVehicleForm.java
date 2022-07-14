@@ -23,11 +23,9 @@ public class ShowSoldVehicleForm extends IBaseForm
 
         this.soldVehicleRecord = soldVehicleRecord;
 
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setContentPane(mainBody);
-        bindButtons(okButton, cancelButton);
+        setTitle("VehicleRecord Sold");
 
-        mainBody.setLayout(new SpringLayout());
+        bindButtons(okButton, cancelButton);
 
         addComponentPair("VehicleRecord ID", new JLabel(soldVehicleRecord.getVIN()));
         addComponentPair("Plate Number", new JLabel(soldVehicleRecord.getLicensePlate()));
@@ -41,16 +39,9 @@ public class ShowSoldVehicleForm extends IBaseForm
         addComponentPair("Fuel Capacity", new JLabel(String.valueOf(soldVehicleRecord.getFuelCapacity())));
         addComponentPair("Brand", new JLabel(soldVehicleRecord.getBrandName()));
 
-        mainBody.add(cancelButton);
-        mainBody.add(okButton);
-
-        setTitle("VehicleRecord Sold");
-
         cancelButton.setVisible(false);
         okButton.setText("Close");
 
-        SpringUtilities.makeCompactGrid(mainBody, 12, 2, 6, 6, 6, 6);
-
-        pack();
+        buildForm();
     }
 }
