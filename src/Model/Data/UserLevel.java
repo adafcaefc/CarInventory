@@ -6,7 +6,9 @@ public enum UserLevel
 {
     ADMIN(0),
     SALES_MANAGER(1),
-    PRODUCT_MANAGER(2);
+    PRODUCT_MANAGER(2),
+    REGULAR_USER(3),
+    VIP_USER(4);
 
     private final int value;
     public static final HashMap<Integer, UserLevel> map = new HashMap<>();
