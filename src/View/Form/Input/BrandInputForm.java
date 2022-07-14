@@ -20,7 +20,7 @@ public class BrandInputForm extends IBaseInputForm
 
         mainBody.setLayout(new SpringLayout());
 
-        addLabeledComponent("Name", nameTextField);
+        addComponentPair("Name", nameTextField);
 
         mainBody.add(okButton);
         mainBody.add(cancelButton);

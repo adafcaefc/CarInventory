@@ -6,7 +6,7 @@ public class Main
 {
     public static void main(String[] args)
     {
-        var databaseManager = new DatabaseManager("jdbc:mysql://localhost:3306/joecar", "root", "");
+        var databaseManager = new DatabaseManager("jdbc:mysql://localhost:3307/joecar", "root", "");
         databaseManager.loadData();
         SessionManager.get().loadSession();
         new Thread(() -> new MainWindow(databaseManager).setVisible(true)).start();

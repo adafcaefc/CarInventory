@@ -34,15 +34,15 @@ public class ModelInputForm extends IBaseInputForm
 
         mainBody.setLayout(new SpringLayout());
 
-        addLabeledComponent("Name", nameTextField);
-        addLabeledComponent("Year", yearTextField);
-        addLabeledComponent("Door Count", doorCountSpinner);
-        addLabeledComponent("Seat Count", seatCountSpinner);
-        addLabeledComponent("Fuel Capacity", capacityTextField);
-        addLabeledComponent("Sunroof", hasSunroofCheckbox);
+        addComponentPair("Name", nameTextField);
+        addComponentPair("Year", yearTextField);
+        addComponentPair("Door Count", doorCountSpinner);
+        addComponentPair("Seat Count", seatCountSpinner);
+        addComponentPair("Fuel Capacity", capacityTextField);
+        addComponentPair("Sunroof", hasSunroofCheckbox);
 
-        if (!updateRecord) { addLabeledComponent("Brand", brandDropdownBox); }
-        else { addLabeledComponent("Brand", new JLabel(originalRecord.getBrand().getBrandName())); }
+        if (!updateRecord) { addComponentPair("Brand", brandDropdownBox); }
+        else { addComponentPair("Brand", new JLabel(originalRecord.getBrand().getBrandName())); }
 
         mainBody.add(okButton);
         mainBody.add(cancelButton);

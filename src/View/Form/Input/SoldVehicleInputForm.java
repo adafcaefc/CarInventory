@@ -30,10 +30,10 @@ public class SoldVehicleInputForm extends IBaseInputForm
 
         mainBody.setLayout(new SpringLayout());
 
-        addLabeledComponent("Paid Amount", paidAmountTextField);
-        addLabeledComponent("Buy Date Day", dayComboBox);
-        addLabeledComponent("Buy Date Month", monthComboBox);
-        addLabeledComponent("Buy Date Year", yearSpinner);
+        addComponentPair("Paid Amount", paidAmountTextField);
+        addComponentPair("Buy Date Day", dayComboBox);
+        addComponentPair("Buy Date Month", monthComboBox);
+        addComponentPair("Buy Date Year", yearSpinner);
 
         monthComboBox.addItem("January");
         monthComboBox.addItem("February");

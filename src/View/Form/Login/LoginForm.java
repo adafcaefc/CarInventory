@@ -69,8 +69,8 @@ public class LoginForm extends IBaseForm
 
         mainBody.setLayout(new SpringLayout());
 
-        addLabeledComponent("UserRecord Name", userNameTextField);
-        addLabeledComponent("Password", passwordTextField);
+        addComponentPair("User Name", userNameTextField);
+        addComponentPair("Password", passwordTextField);
 
         mainBody.add(okButton);
         mainBody.add(cancelButton);

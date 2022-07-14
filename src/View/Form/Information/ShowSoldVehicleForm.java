@@ -29,17 +29,17 @@ public class ShowSoldVehicleForm extends IBaseForm
 
         mainBody.setLayout(new SpringLayout());
 
-        addLabeledComponent("VehicleRecord ID", new JLabel(soldVehicleRecord.getVIN()));
-        addLabeledComponent("Plate Number", new JLabel(soldVehicleRecord.getLicensePlate()));
-        addLabeledComponent("Colour", new JLabel(soldVehicleRecord.getColor()));
-        addLabeledComponent("Mileage", new JLabel(String.valueOf(soldVehicleRecord.getMileage())));
-        addLabeledComponent("Model", new JLabel(soldVehicleRecord.getModelName()));
-        addLabeledComponent("Model Year", new JLabel(String.valueOf(soldVehicleRecord.getModelYear())));
-        addLabeledComponent("Sunroof", new JLabel(soldVehicleRecord.getHasSunroof() ? "Yes" : "No"));
-        addLabeledComponent("Number of Doors", new JLabel(String.valueOf(soldVehicleRecord.getDoorCount())));
-        addLabeledComponent("Number of Seats", new JLabel(String.valueOf(soldVehicleRecord.getSeatCount())));
-        addLabeledComponent("Fuel Capacity", new JLabel(String.valueOf(soldVehicleRecord.getFuelCapacity())));
-        addLabeledComponent("Brand", new JLabel(soldVehicleRecord.getBrandName()));
+        addComponentPair("VehicleRecord ID", new JLabel(soldVehicleRecord.getVIN()));
+        addComponentPair("Plate Number", new JLabel(soldVehicleRecord.getLicensePlate()));
+        addComponentPair("Colour", new JLabel(soldVehicleRecord.getColor()));
+        addComponentPair("Mileage", new JLabel(String.valueOf(soldVehicleRecord.getMileage())));
+        addComponentPair("Model", new JLabel(soldVehicleRecord.getModelName()));
+        addComponentPair("Model Year", new JLabel(String.valueOf(soldVehicleRecord.getModelYear())));
+        addComponentPair("Sunroof", new JLabel(soldVehicleRecord.getHasSunroof() ? "Yes" : "No"));
+        addComponentPair("Number of Doors", new JLabel(String.valueOf(soldVehicleRecord.getDoorCount())));
+        addComponentPair("Number of Seats", new JLabel(String.valueOf(soldVehicleRecord.getSeatCount())));
+        addComponentPair("Fuel Capacity", new JLabel(String.valueOf(soldVehicleRecord.getFuelCapacity())));
+        addComponentPair("Brand", new JLabel(soldVehicleRecord.getBrandName()));
 
         mainBody.add(cancelButton);
         mainBody.add(okButton);

@@ -20,7 +20,7 @@ public abstract class IBaseForm extends JDialog
         return new Color(0xf99597);
     }
 
-    protected void addLabeledComponent(String text, java.awt.Component c)
+    protected void addComponentPair(String text, java.awt.Component c)
     {
         var label = new JLabel(text, JLabel.TRAILING);
         label.setLabelFor(c);

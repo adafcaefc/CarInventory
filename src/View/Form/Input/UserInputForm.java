@@ -29,10 +29,10 @@ public class UserInputForm extends IBaseInputForm
 
         mainBody.setLayout(new SpringLayout());
 
-        addLabeledComponent("UserRecord Name", userNameTextField);
-        addLabeledComponent("Password", passwordTextField);
-        addLabeledComponent("Retype", passwordConfirmationTextField);
-        addLabeledComponent("UserRecord Level", userLevelDropdownBox);
+        addComponentPair("UserRecord Name", userNameTextField);
+        addComponentPair("Password", passwordTextField);
+        addComponentPair("Retype", passwordConfirmationTextField);
+        addComponentPair("UserRecord Level", userLevelDropdownBox);
 
         mainBody.add(okButton);
         mainBody.add(cancelButton);

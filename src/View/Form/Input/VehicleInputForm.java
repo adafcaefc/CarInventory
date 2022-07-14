@@ -30,13 +30,13 @@ public class VehicleInputForm extends IBaseInputForm
 
         mainBody.setLayout(new SpringLayout());
 
-        addLabeledComponent("VehicleRecord ID", vinTextField);
-        addLabeledComponent("License Plate", licensePlateTextField);
-        addLabeledComponent("Colour", colorTextField);
-        addLabeledComponent("Mileage", mileageTextField);
+        addComponentPair("VehicleRecord ID", vinTextField);
+        addComponentPair("License Plate", licensePlateTextField);
+        addComponentPair("Colour", colorTextField);
+        addComponentPair("Mileage", mileageTextField);
 
-        if (!updateRecord) { addLabeledComponent("Model", modelDropdownBox); }
-        else { addLabeledComponent("Model", new JLabel(originalRecord.getModel().getModelName())); }
+        if (!updateRecord) { addComponentPair("Model", modelDropdownBox); }
+        else { addComponentPair("Model", new JLabel(originalRecord.getModel().getModelName())); }
 
         mainBody.add(okButton);
         mainBody.add(cancelButton);
