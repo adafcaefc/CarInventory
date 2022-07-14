@@ -28,11 +28,9 @@ public class ModelInputForm extends IBaseInputForm
     throws HeadlessException
     {
         super(updateRecord, originalRecord, ModelList.get());
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setContentPane(mainBody);
-        bindButtons(okButton, cancelButton);
+        setTitle("Model Form");
 
-        mainBody.setLayout(new SpringLayout());
+        bindButtons(okButton, cancelButton);
 
         addComponentPair("Name", nameTextField);
         addComponentPair("Year", yearTextField);
@@ -44,15 +42,7 @@ public class ModelInputForm extends IBaseInputForm
         if (!updateRecord) { addComponentPair("Brand", brandDropdownBox); }
         else { addComponentPair("Brand", new JLabel(originalRecord.getBrand().getBrandName())); }
 
-        mainBody.add(okButton);
-        mainBody.add(cancelButton);
-
-        setTitle("Model Form");
-
-        SpringUtilities.makeCompactGrid(mainBody, 8, 2, 6, 6, 6, 6);
-
-        pack();
-        setLocationRelativeTo(parentFrame);
+        buildForm(parentFrame);
 
         populateBrandCombobox();
         loadModelData(originalRecord);

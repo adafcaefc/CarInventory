@@ -24,8 +24,9 @@ public class SoldVehicleInputForm extends IBaseInputForm
             SoldVehicleData originalRecord) throws HeadlessException
     {
         super(updateRecord, originalRecord, SoldVehicleList.get());
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setContentPane(mainBody);
+
+        setTitle("Sold VehicleRecord Form");
+
         bindButtons(okButton, cancelButton);
 
         mainBody.setLayout(new SpringLayout());
@@ -35,28 +36,7 @@ public class SoldVehicleInputForm extends IBaseInputForm
         addComponentPair("Buy Date Month", monthComboBox);
         addComponentPair("Buy Date Year", yearSpinner);
 
-        monthComboBox.addItem("January");
-        monthComboBox.addItem("February");
-        monthComboBox.addItem("March");
-        monthComboBox.addItem("April");
-        monthComboBox.addItem("May");
-        monthComboBox.addItem("June");
-        monthComboBox.addItem("July");
-        monthComboBox.addItem("August");
-        monthComboBox.addItem("September");
-        monthComboBox.addItem("October");
-        monthComboBox.addItem("November");
-        monthComboBox.addItem("December");
-
-        mainBody.add(okButton);
-        mainBody.add(cancelButton);
-
-        setTitle("Sold VehicleRecord Form");
-
-        SpringUtilities.makeCompactGrid(mainBody, 5, 2, 6, 6, 6, 6);
-
-        pack();
-        setLocationRelativeTo(parentFrame);
+        buildForm(parentFrame);
 
         setupYearComboBox();
         setupMonthComboBox();
@@ -136,6 +116,18 @@ public class SoldVehicleInputForm extends IBaseInputForm
 
     public void setupMonthComboBox()
     {
+        monthComboBox.addItem("January");
+        monthComboBox.addItem("February");
+        monthComboBox.addItem("March");
+        monthComboBox.addItem("April");
+        monthComboBox.addItem("May");
+        monthComboBox.addItem("June");
+        monthComboBox.addItem("July");
+        monthComboBox.addItem("August");
+        monthComboBox.addItem("September");
+        monthComboBox.addItem("October");
+        monthComboBox.addItem("November");
+        monthComboBox.addItem("December");
         monthComboBox.addActionListener(e -> populateDateCheckbox());
     }
 }

@@ -23,26 +23,17 @@ public class UserInputForm extends IBaseInputForm
     throws HeadlessException
     {
         super(updateRecord, originalRecord, UserList.get());
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setContentPane(mainBody);
-        bindButtons(okButton, cancelButton);
 
-        mainBody.setLayout(new SpringLayout());
+        setTitle("UserRecord Form");
+
+        bindButtons(okButton, cancelButton);
 
         addComponentPair("UserRecord Name", userNameTextField);
         addComponentPair("Password", passwordTextField);
         addComponentPair("Retype", passwordConfirmationTextField);
         addComponentPair("UserRecord Level", userLevelDropdownBox);
 
-        mainBody.add(okButton);
-        mainBody.add(cancelButton);
-
-        setTitle("UserRecord Form");
-
-        SpringUtilities.makeCompactGrid(mainBody, 5, 2, 6, 6, 6, 6);
-
-        pack();
-        setLocationRelativeTo(parentFrame);
+        buildForm(parentFrame);
 
         populateUserLevelCombobox();
         loadUserData(originalRecord);

@@ -24,11 +24,10 @@ public class VehicleInputForm extends IBaseInputForm
             VehicleData originalRecord)
     {
         super(updateRecord, originalRecord, VehicleList.get());
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setContentPane(mainBody);
-        bindButtons(okButton, cancelButton);
 
-        mainBody.setLayout(new SpringLayout());
+        setTitle("VehicleRecord Form");
+
+        bindButtons(okButton, cancelButton);
 
         addComponentPair("VehicleRecord ID", vinTextField);
         addComponentPair("License Plate", licensePlateTextField);
@@ -38,17 +37,10 @@ public class VehicleInputForm extends IBaseInputForm
         if (!updateRecord) { addComponentPair("Model", modelDropdownBox); }
         else { addComponentPair("Model", new JLabel(originalRecord.getModel().getModelName())); }
 
-        mainBody.add(okButton);
-        mainBody.add(cancelButton);
-
-        setTitle("VehicleRecord Form");
-
-        SpringUtilities.makeCompactGrid(mainBody, 6, 2, 6, 6, 6, 6);
-
-        pack();
-        setLocationRelativeTo(parentFrame);
+        buildForm(parentFrame);
 
         populateModelCombobox();
+
         loadVehicleData(originalRecord);
     }
 
