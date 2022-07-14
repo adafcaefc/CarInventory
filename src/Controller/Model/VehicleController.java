@@ -1,6 +1,7 @@
 package Controller.Model;
 
 import Controller.Model.Listener.UpdateListener;
+import Model.Data.UserData;
 import Model.Data.VehicleData;
 import Model.List.VehicleList;
 import View.Form.Input.VehicleInputForm;
@@ -56,23 +57,29 @@ public class VehicleController extends IDataRecordController
     {
         String[] header = new String[]
                 {
-                        "VehicleRecord ID",
-                        "Plate Number",
+                        "Vehicle ID",
+                        "Plate",
                         "Colour",
                         "Mileage",
-                        "Model"
+                        "Model",
+                        "Seller",
+                        "Buyer"
                 };
 
         var tableDataMatrix = new ArrayList<ArrayList<Object>>();
         for (var obj : VehicleList.get())
         {
             VehicleData vehicleRecord = (VehicleData) obj;
+            UserData seller = vehicleRecord.getSeller();
+            UserData buyer = vehicleRecord.getBuyer();
             ArrayList<Object> innerData = new ArrayList<>();
             innerData.add(vehicleRecord.getVIN());
             innerData.add(vehicleRecord.getLicensePlate());
             innerData.add(vehicleRecord.getColor());
             innerData.add(vehicleRecord.getMileage());
             innerData.add(vehicleRecord.getModel().getModelName());
+            innerData.add(seller == null ? "-" : seller.getUserName());
+            innerData.add(buyer == null ? "-" : buyer.getUserName());
             tableDataMatrix.add(innerData);
         }
 

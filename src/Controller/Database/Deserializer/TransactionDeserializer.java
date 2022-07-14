@@ -1,7 +1,8 @@
 package Controller.Database.Deserializer;
 
-import Model.Data.IRecordData;
-import Model.Data.TransactionData;
+import Model.Data.*;
+import Model.Exception.DataNotBoundToList;
+import Model.List.VehicleList;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,31 +10,18 @@ import java.util.GregorianCalendar;
 
 public class TransactionDeserializer implements IDataRecordDeserializer
 {
-    public IRecordData deserialize(ResultSet rs) throws SQLException
+    public IRecordData deserialize(ResultSet rs) throws SQLException, DataNotBoundToList
     {
-        var soldVehicle = new TransactionData();
+        VehicleData parentObj = (VehicleData) VehicleList.get().getComponentAt(rs.getInt("parentVehicleId"));
+        var transactionData = new TransactionData(parentObj);
 
-        soldVehicle.setBrandName(rs.getString("brandName"));
+        transactionData.setPaidAmount(rs.getInt("paidAmount"));
 
-        soldVehicle.setVIN(rs.getString("VIN"));
-        soldVehicle.setLicensePlate(rs.getString("licensePlate"));
-        soldVehicle.setColor(rs.getString("color"));
-        soldVehicle.setMileage(rs.getDouble("mileage"));
+        transactionData.setDateOfTransaction(new GregorianCalendar(
+                rs.getInt("dateOfTransactionYear"),
+                rs.getInt("dateOfTransactionMonth"),
+                rs.getInt("dateOfTransactionDate")));
 
-        soldVehicle.setModelName(rs.getString("modelName"));
-        soldVehicle.setModelYear(rs.getInt("modelYear"));
-        soldVehicle.setHasSunroof(rs.getInt("hasSunroof") == 1);
-        soldVehicle.setDoorCount(rs.getInt("doorCount"));
-        soldVehicle.setSeatCount(rs.getInt("seatCount"));
-        soldVehicle.setFuelCapacity(rs.getDouble("fuelCapacity"));
-
-        soldVehicle.setPaidAmount(rs.getDouble("paidAmount"));
-
-        soldVehicle.setDateOfSale(new GregorianCalendar(
-                rs.getInt("dateOfSaleYear"),
-                rs.getInt("dateOfSaleMonth"),
-                rs.getInt("dateOfSaleDate")));
-
-        return soldVehicle;
+        return transactionData;
     }
 }

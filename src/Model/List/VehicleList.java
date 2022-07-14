@@ -6,7 +6,7 @@ public class VehicleList extends IRecordList
 
     private VehicleList()
     {
-        super(null);
+        super(TransactionList.get());
     }
 
     public static VehicleList get()

@@ -2,7 +2,8 @@ package Controller.Database.Serializer;
 
 import Model.Data.IRecordData;
 import Model.Data.TransactionData;
-import Model.List.SoldVehicleList;
+import Model.List.TransactionList;
+import Model.List.VehicleList;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -12,31 +13,18 @@ public class TransactionSerializer implements IDataRecordSerializer
     @Override
     public HashMap<String, String> serialize(IRecordData component)
     {
-        var soldVehicle = (TransactionData) component;
+        var transactionData = (TransactionData) component;
         HashMap<String, String> map = new HashMap<>();
-        int objIndex = SoldVehicleList.get().getIndexForComponent(soldVehicle);
+        int objIndex = TransactionList.get().getIndexForComponent(transactionData);
+        int parentObjIndex = VehicleList.get().getIndexForComponent(transactionData.getParent());
 
-        map.put("soldVehicleId", String.valueOf(objIndex));
+        map.put("transactionId", String.valueOf(objIndex));
+        map.put("parentVehicleId", String.valueOf(parentObjIndex));
+        map.put("paidAmount", String.valueOf(transactionData.getPaidAmount()));
 
-        map.put("brandName", soldVehicle.getBrandName());
-
-        map.put("modelName", soldVehicle.getModelName());
-        map.put("modelYear", String.valueOf(soldVehicle.getModelYear()));
-        map.put("hasSunroof", String.valueOf(soldVehicle.getHasSunroof() ? 1 : 0));
-        map.put("doorCount", String.valueOf(soldVehicle.getDoorCount()));
-        map.put("seatCount", String.valueOf(soldVehicle.getSeatCount()));
-        map.put("fuelCapacity", String.valueOf(soldVehicle.getFuelCapacity()));
-
-        map.put("VIN", soldVehicle.getVIN());
-        map.put("licensePlate", soldVehicle.getLicensePlate());
-        map.put("color", soldVehicle.getColor());
-        map.put("mileage", String.valueOf(soldVehicle.getMileage()));
-
-        map.put("paidAmount", String.valueOf(soldVehicle.getPaidAmount()));
-
-        map.put("dateOfSaleDate", String.valueOf(soldVehicle.getDateOfSale().get(Calendar.DAY_OF_MONTH)));
-        map.put("dateOfSaleMonth", String.valueOf(soldVehicle.getDateOfSale().get(Calendar.MONTH)));
-        map.put("dateOfSaleYear", String.valueOf(soldVehicle.getDateOfSale().get(Calendar.YEAR)));
+        map.put("dateOfTransactionDate", String.valueOf(transactionData.getDateOfTransaction().get(Calendar.DAY_OF_MONTH)));
+        map.put("dateOfTransactionMonth", String.valueOf(transactionData.getDateOfTransaction().get(Calendar.MONTH)));
+        map.put("dateOfTransactionYear", String.valueOf(transactionData.getDateOfTransaction().get(Calendar.YEAR)));
 
         return map;
     }

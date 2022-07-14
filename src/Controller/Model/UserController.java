@@ -60,8 +60,8 @@ public class UserController extends IDataRecordController
     {
         String[] header = new String[]
                 {
-                        "UserRecord Name",
-                        "UserRecord Type",
+                        "User Name",
+                        "User Type",
                 };
 
         var tableDataMatrix = new ArrayList<ArrayList<Object>>();

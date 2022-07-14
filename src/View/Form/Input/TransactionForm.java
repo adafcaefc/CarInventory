@@ -1,9 +1,10 @@
 package View.Form.Input;
 
 import Controller.Utility.ValidationUtilities;
-import Model.Data.IRecordData;
-import Model.Data.TransactionData;
-import Model.List.SoldVehicleList;
+import Model.Data.*;
+import Model.List.ModelList;
+import Model.List.TransactionList;
+import Model.List.VehicleList;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,9 +13,10 @@ import java.util.GregorianCalendar;
 
 public class TransactionForm extends IBaseInputForm
 {
-    private final JTextField paidAmountTextField = new JTextField();
+    private final JSpinner paidAmountSpinner = new JSpinner();
     private final JComboBox<Integer> dayComboBox = new JComboBox<>();
     private final JComboBox<String> monthComboBox = new JComboBox<>();
+    private final JComboBox<String> vehicleComboBox = new JComboBox<>();
     private final JSpinner yearSpinner = new JSpinner();
 
     public TransactionForm(
@@ -22,54 +24,62 @@ public class TransactionForm extends IBaseInputForm
             boolean updateRecord,
             TransactionData originalRecord) throws HeadlessException
     {
-        super(updateRecord, originalRecord, SoldVehicleList.get());
+        super(updateRecord, originalRecord, TransactionList.get());
 
-        setTitle("Sold VehicleRecord Form");
+        setTitle("Transaction Form");
 
         bindButtons(okButton, cancelButton);
 
         mainBody.setLayout(new SpringLayout());
 
-        addComponentPair("Paid Amount", paidAmountTextField);
-        addComponentPair("Buy Date Day", dayComboBox);
-        addComponentPair("Buy Date Month", monthComboBox);
-        addComponentPair("Buy Date Year", yearSpinner);
+        addComponentPair("Amount", paidAmountSpinner);
+        addComponentPair("Day", dayComboBox);
+        addComponentPair("Month", monthComboBox);
+        addComponentPair("Year", yearSpinner);
+
+        if (!updateRecord) { addComponentPair("Vehicle", vehicleComboBox); }
+        else { addComponentPair("Vehicle", new JLabel(originalRecord.getVehicle().getVIN())); }
 
         buildForm(parentFrame);
 
         setupYearComboBox();
         setupMonthComboBox();
         populateDateCheckbox();
+        populateVehicleCombobox();
 
         loadSoldVehicleData(originalRecord);
+    }
+
+    public void populateVehicleCombobox()
+    {
+        for (var obj : VehicleList.get())
+        {
+            VehicleData vehicleData = (VehicleData) obj;
+            vehicleComboBox.addItem(vehicleData.getVIN() + " - " + vehicleData.getModel().getModelName());
+        }
+        vehicleComboBox.setSelectedItem(null);
     }
 
     @Override
     public IRecordData getFinishedRecord() throws Exception
     {
+        IRecordData parentVehicle = VehicleList.get().getComponentAt(vehicleComboBox.getSelectedIndex());
+        TransactionData modifiedRecord = new TransactionData((VehicleData) parentVehicle);
+
         var date = new GregorianCalendar(
                 (int) yearSpinner.getValue(),
                 monthComboBox.getSelectedIndex(),
                 dayComboBox.getSelectedIndex() + 1);
 
-        TransactionData originalSoldVehicleRecord = (TransactionData) getOriginalRecord();
-        TransactionData modifiedSoldVehicleRecord = (TransactionData) originalSoldVehicleRecord.clone();
-        modifiedSoldVehicleRecord.setPaidAmount(Double.parseDouble(paidAmountTextField.getText()));
-        modifiedSoldVehicleRecord.setDateOfSale(date);
+        modifiedRecord.setDateOfTransaction(date);
+        modifiedRecord.setPaidAmount((int) paidAmountSpinner.getValue());
 
-        return modifiedSoldVehicleRecord;
+        return modifiedRecord;
     }
 
     @Override
     public boolean validateInputs()
     {
-        paidAmountTextField.setBackground(Color.WHITE);
-        if (!ValidationUtilities.isNumeric(paidAmountTextField.getText()))
-        {
-            paidAmountTextField.setBackground(getErrorBackgroundColor());
-            paidAmountTextField.setText("");
-            return false;
-        }
         return true;
     }
 
@@ -105,12 +115,19 @@ public class TransactionForm extends IBaseInputForm
 
     public void loadSoldVehicleData(TransactionData soldVehicleRecord)
     {
+        var default_date = new GregorianCalendar();
+        yearSpinner.setValue(default_date.get(Calendar.YEAR));
+        monthComboBox.setSelectedIndex(default_date.get(Calendar.MONTH));
+        dayComboBox.setSelectedIndex(default_date.get(Calendar.DAY_OF_MONTH) - 1);
+
         if (soldVehicleRecord == null) { return; }
-        var date = soldVehicleRecord.getDateOfSale();
-        paidAmountTextField.setText(String.valueOf(soldVehicleRecord.getPaidAmount()));
-        dayComboBox.setSelectedIndex(date.get(Calendar.DAY_OF_MONTH));
-        monthComboBox.setSelectedIndex(date.get(Calendar.MONTH));
+        var date = soldVehicleRecord.getDateOfTransaction();
+        paidAmountSpinner.setValue(soldVehicleRecord.getPaidAmount());
         yearSpinner.setValue(date.get(Calendar.YEAR));
+        monthComboBox.setSelectedIndex(date.get(Calendar.MONTH));
+        dayComboBox.setSelectedIndex(date.get(Calendar.DAY_OF_MONTH) - 1);
+        int vehicleIndex = VehicleList.get().getIndexForComponent(soldVehicleRecord.getVehicle());
+        vehicleComboBox.setSelectedIndex(vehicleIndex);
     }
 
     public void setupMonthComboBox()

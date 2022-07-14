@@ -24,14 +24,14 @@ public class UserInputForm extends IBaseInputForm
     {
         super(updateRecord, originalRecord, UserList.get());
 
-        setTitle("UserRecord Form");
+        setTitle("User Form");
 
         bindButtons(okButton, cancelButton);
 
-        addComponentPair("UserRecord Name", userNameTextField);
+        addComponentPair("User Name", userNameTextField);
         addComponentPair("Password", passwordTextField);
         addComponentPair("Retype", passwordConfirmationTextField);
-        addComponentPair("UserRecord Level", userLevelDropdownBox);
+        addComponentPair("User Level", userLevelDropdownBox);
 
         buildForm(parentFrame);
 
