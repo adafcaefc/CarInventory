@@ -28,31 +28,21 @@ public class ModelInputForm extends IBaseInputForm
     throws HeadlessException
     {
         super(updateRecord, originalRecord, ModelList.get());
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setContentPane(mainBody);
-        bindButtons(okButton, cancelButton);
-
-        mainBody.setLayout(new SpringLayout());
-
-        addLabeledComponent("Name", nameTextField);
-        addLabeledComponent("Year", yearTextField);
-        addLabeledComponent("Door Count", doorCountSpinner);
-        addLabeledComponent("Seat Count", seatCountSpinner);
-        addLabeledComponent("Fuel Capacity", capacityTextField);
-        addLabeledComponent("Sunroof", hasSunroofCheckbox);
-
-        if (!updateRecord) { addLabeledComponent("Brand", brandDropdownBox); }
-        else { addLabeledComponent("Brand", new JLabel(originalRecord.getBrand().getBrandName())); }
-
-        mainBody.add(okButton);
-        mainBody.add(cancelButton);
-
         setTitle("Model Form");
 
-        SpringUtilities.makeCompactGrid(mainBody, 8, 2, 6, 6, 6, 6);
+        bindButtons(okButton, cancelButton);
 
-        pack();
-        setLocationRelativeTo(parentFrame);
+        addComponentPair("Name", nameTextField);
+        addComponentPair("Year", yearTextField);
+        addComponentPair("Door Count", doorCountSpinner);
+        addComponentPair("Seat Count", seatCountSpinner);
+        addComponentPair("Fuel Capacity", capacityTextField);
+        addComponentPair("Sunroof", hasSunroofCheckbox);
+
+        if (!updateRecord) { addComponentPair("Brand", brandDropdownBox); }
+        else { addComponentPair("Brand", new JLabel(originalRecord.getBrand().getBrandName())); }
+
+        buildForm(parentFrame);
 
         populateBrandCombobox();
         loadModelData(originalRecord);

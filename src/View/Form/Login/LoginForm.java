@@ -63,24 +63,14 @@ public class LoginForm extends IBaseForm
     {
         super();
 
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setContentPane(mainBody);
         bindButtons(okButton, cancelButton);
-
-        mainBody.setLayout(new SpringLayout());
-
-        addLabeledComponent("UserRecord Name", userNameTextField);
-        addLabeledComponent("Password", passwordTextField);
-
-        mainBody.add(okButton);
-        mainBody.add(cancelButton);
 
         setTitle("Login Form");
 
-        SpringUtilities.makeCompactGrid(mainBody, 3, 2, 6, 6, 6, 6);
+        addComponentPair("User Name", userNameTextField);
+        addComponentPair("Password", passwordTextField);
 
-        pack();
-        setLocationRelativeTo(mainWindow);
+        buildForm(mainWindow);
 
         this.mainWindow = mainWindow;
     }

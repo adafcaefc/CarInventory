@@ -9,6 +9,50 @@ public class VehicleData extends IRecordData
     private String licensePlate;
     private String color;
     private Double mileage = 0.0;
+    private Double discount = 0.2;
+    private int price = 0;
+    private UserData seller = null;
+    private UserData buyer = null;
+
+    public Double getDiscount()
+    {
+        return discount;
+    }
+
+    public void setDiscount(Double discount)
+    {
+        this.discount = discount;
+    }
+
+    public int getPrice()
+    {
+        return price;
+    }
+
+    public void setPrice(int price)
+    {
+        this.price = price;
+    }
+
+    public UserData getSeller()
+    {
+        return seller;
+    }
+
+    public void setSeller(UserData seller)
+    {
+        this.seller = seller;
+    }
+
+    public UserData getBuyer()
+    {
+        return buyer;
+    }
+
+    public void setBuyer(UserData buyer)
+    {
+        this.buyer = buyer;
+    }
 
     public VehicleData(ModelData modelRecord) throws DataNotBoundToList
     {

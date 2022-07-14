@@ -1,5 +1,7 @@
 package View.Form;
 
+import View.Utility.SpringUtilities;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -9,7 +11,13 @@ public abstract class IBaseForm extends JDialog
     protected JButton okButton = new JButton("Ok");
     protected JButton cancelButton = new JButton("Cancel");
 
-    public IBaseForm() { super(); }
+    public IBaseForm()
+    {
+        super();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setContentPane(mainBody);
+        mainBody.setLayout(new SpringLayout());
+    }
 
     public void bindButtons(JButton okButton, JButton cancelButton)
     {
@@ -20,11 +28,36 @@ public abstract class IBaseForm extends JDialog
         return new Color(0xf99597);
     }
 
-    protected void addLabeledComponent(String text, java.awt.Component c)
+    public int componentPairCount = 0;
+    protected void addComponentPair(Component a, Component b)
+    {
+        mainBody.add(a);
+        mainBody.add(b);
+        componentPairCount++;
+    }
+
+    protected void addComponentPair(String text, Component c)
     {
         var label = new JLabel(text, JLabel.TRAILING);
         label.setLabelFor(c);
-        mainBody.add(label);
-        mainBody.add(c);
+        addComponentPair(label, c);
+    }
+
+    protected void addComponentPair(Component c)
+    {
+        addComponentPair("", c);
+    }
+
+    protected void buildForm()
+    {
+        addComponentPair(okButton, cancelButton);
+        SpringUtilities.makeCompactGrid(mainBody, componentPairCount, 2, 6, 6, 6, 6);
+        pack();
+    }
+
+    protected void buildForm(Component relativeComponent)
+    {
+        buildForm();
+        setLocationRelativeTo(relativeComponent);
     }
 }

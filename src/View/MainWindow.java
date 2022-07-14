@@ -4,12 +4,7 @@ import Controller.Model.*;
 import Controller.Model.Listener.UpdateListener;
 import Controller.Database.DatabaseManager;
 import Controller.Session.SessionManager;
-import Controller.Utility.ValidationUtilities;
-import Model.Data.SoldVehicleData;
 import Model.Data.UserLevel;
-import Model.Data.VehicleData;
-import Model.List.SoldVehicleList;
-import Model.List.VehicleList;
 import View.Button.JoeButton;
 import View.Form.Login.LoginForm;
 import View.Utility.FormUtilities;
@@ -20,7 +15,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 
 public class MainWindow extends JFrame implements UpdateListener
@@ -36,7 +30,7 @@ public class MainWindow extends JFrame implements UpdateListener
     private final JoeButton vehiclesButton = new JoeButton("VEHICLES");
     private final JoeButton modelsButton = new JoeButton("MODELS");
     private final JoeButton brandsButton = new JoeButton("BRANDS");
-    private final JoeButton salesButton = new JoeButton("SALES");
+    private final JoeButton transactionsButton = new JoeButton("SALES");
     private final JoeButton userButton = new JoeButton("USERS");
 
     private final JTable displayTable = new JTable();
@@ -50,8 +44,6 @@ public class MainWindow extends JFrame implements UpdateListener
     private final JoeButton deleteButton = new JoeButton("DELETE");
     private final JoeButton logInButton = new JoeButton("LOG IN");
     private final JoeButton logOutButton = new JoeButton("LOG OUT");
-    private final JoeButton sellButton = new JoeButton("SELL");
-    private final JoeButton receiptButton = new JoeButton("SHOW");
 
     private final DatabaseManager databaseManager;
     private IDataRecordController crudController;
@@ -76,7 +68,7 @@ public class MainWindow extends JFrame implements UpdateListener
         cLeftPanel.add(brandsButton);
         cLeftPanel.add(modelsButton);
         cLeftPanel.add(vehiclesButton);
-        cLeftPanel.add(salesButton);
+        cLeftPanel.add(transactionsButton);
         cLeftPanel.add(userButton);
         SpringUtilities.makeCompactGrid(cLeftPanel, 5, 1, 6, 6, 6, 6);
 
@@ -87,9 +79,7 @@ public class MainWindow extends JFrame implements UpdateListener
         cRightPanel.add(deleteButton);
         cRightPanel.add(logInButton);
         cRightPanel.add(logOutButton);
-        cRightPanel.add(sellButton);
-        cRightPanel.add(receiptButton);
-        SpringUtilities.makeCompactGrid(cRightPanel, 7, 1, 6, 6, 6, 6);
+        SpringUtilities.makeCompactGrid(cRightPanel, 5, 1, 6, 6, 6, 6);
 
         var cellRenderer = new DefaultTableCellRenderer()
         {
@@ -271,19 +261,14 @@ public class MainWindow extends JFrame implements UpdateListener
             vehiclesButton.setJoeEnabled(false);
             modelsButton.setJoeEnabled(false);
             brandsButton.setJoeEnabled(false);
-            salesButton.setJoeEnabled(false);
+            transactionsButton.setJoeEnabled(false);
             userButton.setJoeEnabled(false);
 
             insertButton.setJoeEnabled(false);
             modifyButton.setJoeEnabled(false);
             deleteButton.setJoeEnabled(false);
-            sellButton.setJoeEnabled(false);
-            receiptButton.setJoeEnabled(false);
 
             cCenterPanel.setVisible(false);
-
-            sellButton.setVisible(false);
-            receiptButton.setVisible(false);
         }
         else
         {
@@ -297,21 +282,16 @@ public class MainWindow extends JFrame implements UpdateListener
             boolean managerAccess =  user.getUserLevel() == UserLevel.ADMIN ||user.getUserLevel() == UserLevel.PRODUCT_MANAGER;
 
             vehiclesButton.setJoeEnabled(true);
-            salesButton.setJoeEnabled(salesAccess);
+            transactionsButton.setJoeEnabled(salesAccess);
             brandsButton.setJoeEnabled(managerAccess);
             modelsButton.setJoeEnabled(managerAccess);
             userButton.setJoeEnabled(adminAccess);
 
-            sellButton.setJoeEnabled(id.equals(VEHICLE_ID));
-            receiptButton.setJoeEnabled(id.equals(SALES_ID));
-            insertButton.setJoeEnabled(!id.equals(SALES_ID));
+            insertButton.setJoeEnabled(true);
             modifyButton.setJoeEnabled(true);
             deleteButton.setJoeEnabled(true);
 
             cCenterPanel.setVisible(true);
-
-            sellButton.setVisible(id.equals(VEHICLE_ID));
-            receiptButton.setVisible(id.equals(SALES_ID));
         }
     }
 
@@ -320,7 +300,7 @@ public class MainWindow extends JFrame implements UpdateListener
         vehiclesButton.addActionListener(e -> updateMenuState(VEHICLE_ID));
         modelsButton.addActionListener(e -> updateMenuState(MODEL_ID));
         brandsButton.addActionListener(e -> updateMenuState(BRAND_ID));
-        salesButton.addActionListener(e -> updateMenuState(SALES_ID));
+        transactionsButton.addActionListener(e -> updateMenuState(SALES_ID));
         userButton.addActionListener(e -> updateMenuState(USER_ID));
     }
 
@@ -329,26 +309,6 @@ public class MainWindow extends JFrame implements UpdateListener
         insertButton.addActionListener(e -> crudController.openCreateWindow(MainWindow.this));
         modifyButton.addActionListener(e -> crudController.openModifyWindow(MainWindow.this));
         deleteButton.addActionListener(e -> crudController.openDeleteWindow());
-        sellButton.addActionListener(e ->
-        {
-            int row = displayTable.getSelectedRow();
-            if (row == -1 || row >= VehicleList.get().countRegisteredComponents()) { return; }
-            String amount = JOptionPane.showInputDialog("Enter the amount for which the vehicle will be sold");
-            if (amount != null && ValidationUtilities.isNumeric(amount))
-            {
-                var vehicle = (VehicleData) VehicleList.get().getComponentAt(row);
-                var soldVehicle = new SoldVehicleData(vehicle);
-                soldVehicle.setPaidAmount(Double.parseDouble(amount));
-                soldVehicle.setDateOfSale(new GregorianCalendar());
-                SoldVehicleList.get().registerComponent(soldVehicle);
-                VehicleList.get().unregisterComponent(vehicle);
-                onUpdateRecord();
-            }
-            else
-            {
-                JOptionPane.showMessageDialog(null, "Invalid Data", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        });
 
         logInButton.addActionListener(e ->
         {
@@ -361,12 +321,6 @@ public class MainWindow extends JFrame implements UpdateListener
             SessionManager.get().logOut();
             updateMenuState(VEHICLE_ID);
         });
-
-        receiptButton.addActionListener(e ->
-        {
-            var controller = (SoldVehicleController) crudController;
-            controller.openShowWindow(this);
-        });
     }
 
     private void initializeIdToObjectMappings()
@@ -375,14 +329,14 @@ public class MainWindow extends JFrame implements UpdateListener
         idToButtonMap.put(VEHICLE_ID, vehiclesButton);
         idToButtonMap.put(MODEL_ID, modelsButton);
         idToButtonMap.put(BRAND_ID, brandsButton);
-        idToButtonMap.put(SALES_ID, salesButton);
+        idToButtonMap.put(SALES_ID, transactionsButton);
         idToButtonMap.put(USER_ID, userButton);
 
         idToCRUDControllerMap = new HashMap<>();
         idToCRUDControllerMap.put(VEHICLE_ID, new VehicleController(displayTable, this));
         idToCRUDControllerMap.put(MODEL_ID, new ModelController(displayTable, this));
         idToCRUDControllerMap.put(BRAND_ID, new BrandController(displayTable, this));
-        idToCRUDControllerMap.put(SALES_ID, new SoldVehicleController(displayTable, this));
+        idToCRUDControllerMap.put(SALES_ID, new TransactionController(displayTable, this));
         idToCRUDControllerMap.put(USER_ID, new UserController(displayTable, this));
     }
 

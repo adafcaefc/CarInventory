@@ -14,23 +14,14 @@ public class BrandInputForm extends IBaseInputForm
     public BrandInputForm(JFrame parentFrame, boolean updateRecord, BrandData originalBrandRecord)
     {
         super(updateRecord, originalBrandRecord, BrandList.get());
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setContentPane(mainBody);
-        bindButtons(okButton, cancelButton);
-
-        mainBody.setLayout(new SpringLayout());
-
-        addLabeledComponent("Name", nameTextField);
-
-        mainBody.add(okButton);
-        mainBody.add(cancelButton);
 
         setTitle("Brand Form");
 
-        SpringUtilities.makeCompactGrid(mainBody, 2, 2, 6, 6, 6, 6);
+        bindButtons(okButton, cancelButton);
 
-        pack();
-        setLocationRelativeTo(parentFrame);
+        addComponentPair("Name", nameTextField);
+
+        buildForm(parentFrame);
 
         loadBrandData(originalBrandRecord);
     }
