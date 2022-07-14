@@ -2,26 +2,25 @@ package View.Form.Input;
 
 import Controller.Utility.ValidationUtilities;
 import Model.Data.IRecordData;
-import Model.Data.SoldVehicleData;
+import Model.Data.TransactionData;
 import Model.List.SoldVehicleList;
-import View.Utility.SpringUtilities;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class SoldVehicleInputForm extends IBaseInputForm
+public class TransactionForm extends IBaseInputForm
 {
     private final JTextField paidAmountTextField = new JTextField();
     private final JComboBox<Integer> dayComboBox = new JComboBox<>();
     private final JComboBox<String> monthComboBox = new JComboBox<>();
     private final JSpinner yearSpinner = new JSpinner();
 
-    public SoldVehicleInputForm(
+    public TransactionForm(
             JFrame parentFrame,
             boolean updateRecord,
-            SoldVehicleData originalRecord) throws HeadlessException
+            TransactionData originalRecord) throws HeadlessException
     {
         super(updateRecord, originalRecord, SoldVehicleList.get());
 
@@ -53,8 +52,8 @@ public class SoldVehicleInputForm extends IBaseInputForm
                 monthComboBox.getSelectedIndex(),
                 dayComboBox.getSelectedIndex() + 1);
 
-        SoldVehicleData originalSoldVehicleRecord = (SoldVehicleData) getOriginalRecord();
-        SoldVehicleData modifiedSoldVehicleRecord = (SoldVehicleData) originalSoldVehicleRecord.clone();
+        TransactionData originalSoldVehicleRecord = (TransactionData) getOriginalRecord();
+        TransactionData modifiedSoldVehicleRecord = (TransactionData) originalSoldVehicleRecord.clone();
         modifiedSoldVehicleRecord.setPaidAmount(Double.parseDouble(paidAmountTextField.getText()));
         modifiedSoldVehicleRecord.setDateOfSale(date);
 
@@ -104,7 +103,7 @@ public class SoldVehicleInputForm extends IBaseInputForm
         yearSpinner.addChangeListener(e -> populateDateCheckbox());
     }
 
-    public void loadSoldVehicleData(SoldVehicleData soldVehicleRecord)
+    public void loadSoldVehicleData(TransactionData soldVehicleRecord)
     {
         if (soldVehicleRecord == null) { return; }
         var date = soldVehicleRecord.getDateOfSale();

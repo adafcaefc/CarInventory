@@ -5,7 +5,7 @@ import Controller.Model.Listener.UpdateListener;
 import Controller.Database.DatabaseManager;
 import Controller.Session.SessionManager;
 import Controller.Utility.ValidationUtilities;
-import Model.Data.SoldVehicleData;
+import Model.Data.TransactionData;
 import Model.Data.UserLevel;
 import Model.Data.VehicleData;
 import Model.List.SoldVehicleList;
@@ -337,7 +337,7 @@ public class MainWindow extends JFrame implements UpdateListener
             if (amount != null && ValidationUtilities.isNumeric(amount))
             {
                 var vehicle = (VehicleData) VehicleList.get().getComponentAt(row);
-                var soldVehicle = new SoldVehicleData(vehicle);
+                var soldVehicle = new TransactionData(vehicle);
                 soldVehicle.setPaidAmount(Double.parseDouble(amount));
                 soldVehicle.setDateOfSale(new GregorianCalendar());
                 SoldVehicleList.get().registerComponent(soldVehicle);
@@ -364,7 +364,7 @@ public class MainWindow extends JFrame implements UpdateListener
 
         receiptButton.addActionListener(e ->
         {
-            var controller = (SoldVehicleController) crudController;
+            var controller = (TransactionController) crudController;
             controller.openShowWindow(this);
         });
     }
@@ -382,7 +382,7 @@ public class MainWindow extends JFrame implements UpdateListener
         idToCRUDControllerMap.put(VEHICLE_ID, new VehicleController(displayTable, this));
         idToCRUDControllerMap.put(MODEL_ID, new ModelController(displayTable, this));
         idToCRUDControllerMap.put(BRAND_ID, new BrandController(displayTable, this));
-        idToCRUDControllerMap.put(SALES_ID, new SoldVehicleController(displayTable, this));
+        idToCRUDControllerMap.put(SALES_ID, new TransactionController(displayTable, this));
         idToCRUDControllerMap.put(USER_ID, new UserController(displayTable, this));
     }
 

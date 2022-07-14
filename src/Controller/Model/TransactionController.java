@@ -1,18 +1,18 @@
 package Controller.Model;
 
 import Controller.Model.Listener.UpdateListener;
-import Model.Data.SoldVehicleData;
+import Model.Data.TransactionData;
 import Model.List.SoldVehicleList;
-import View.Form.Input.SoldVehicleInputForm;
-import View.Form.Information.ShowSoldVehicleForm;
+import View.Form.Input.TransactionForm;
+import View.Form.Information.TransactionInfoForm;
 
 import javax.swing.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-public class SoldVehicleController extends IDataRecordController
+public class TransactionController extends IDataRecordController
 {
-    public SoldVehicleController(JTable table, UpdateListener updateListener)
+    public TransactionController(JTable table, UpdateListener updateListener)
     {
         super(table, updateListener);
     }
@@ -30,25 +30,25 @@ public class SoldVehicleController extends IDataRecordController
     @Override
     public void openModifyWindow(JFrame parent)
     {
-        SoldVehicleData soldVehicleRecord = (SoldVehicleData) getSelectedItem(SoldVehicleList.get());
+        TransactionData soldVehicleRecord = (TransactionData) getSelectedItem(SoldVehicleList.get());
         if (soldVehicleRecord == null) { return; }
-        SoldVehicleInputForm form = new SoldVehicleInputForm(parent, true, soldVehicleRecord);
+        TransactionForm form = new TransactionForm(parent, true, soldVehicleRecord);
         form.bindUpdateListener(updateListener);
         form.setVisible(true);
     }
 
     public void openShowWindow(JFrame parent)
     {
-        SoldVehicleData soldVehicleRecord = (SoldVehicleData) getSelectedItem(SoldVehicleList.get());
+        TransactionData soldVehicleRecord = (TransactionData) getSelectedItem(SoldVehicleList.get());
         if (soldVehicleRecord == null) { return; }
-        ShowSoldVehicleForm form = new ShowSoldVehicleForm(soldVehicleRecord);
+        TransactionInfoForm form = new TransactionInfoForm(soldVehicleRecord);
         form.setVisible(true);
     }
 
     @Override
     public void openDeleteWindow()
     {
-        SoldVehicleData soldVehicleRecord = (SoldVehicleData) getSelectedItem(SoldVehicleList.get());
+        TransactionData soldVehicleRecord = (TransactionData) getSelectedItem(SoldVehicleList.get());
         if (soldVehicleRecord == null) { return; }
         int vehicleIndex = SoldVehicleList.get().getIndexForComponent(soldVehicleRecord);
         String deleteMsg = String.format("Are you sure you want to delete sales no.%d from the Sales Log?", vehicleIndex + 1);
@@ -74,7 +74,7 @@ public class SoldVehicleController extends IDataRecordController
         var tableDataMatrix = new ArrayList<ArrayList<Object>>();
         for (var obj : SoldVehicleList.get())
         {
-            SoldVehicleData vehicleObject = (SoldVehicleData) obj;
+            TransactionData vehicleObject = (TransactionData) obj;
             ArrayList<Object> innerData = new ArrayList<>();
             innerData.add(vehicleObject.getVIN());
             innerData.add(vehicleObject.getLicensePlate());

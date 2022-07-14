@@ -64,7 +64,7 @@ public class DatabaseManager
             saveStatement("brands", BrandList.get(), new BrandSerializer());
             saveStatement("models", ModelList.get(), new ModelSerializer());
             saveStatement("vehicles", VehicleList.get(), new VehicleSerializer());
-            saveStatement("soldvehicles", SoldVehicleList.get(), new SoldVehicleSerializer());
+            saveStatement("soldvehicles", SoldVehicleList.get(), new TransactionSerializer());
             saveStatement("users", UserList.get(), new UserSerializer());
         }
         catch (SQLException ex)
@@ -113,7 +113,7 @@ public class DatabaseManager
             loadStatement("brands", "brandId", BrandList.get(), new BrandDeserializer());
             loadStatement("models", "modelId", ModelList.get(), new ModelDeserializer());
             loadStatement("vehicles", "vehicleId", VehicleList.get(), new VehicleDeserializer());
-            loadStatement("soldVehicles", "soldVehicleId", SoldVehicleList.get(), new SoldVehicleDeserializer());
+            loadStatement("soldVehicles", "soldVehicleId", SoldVehicleList.get(), new TransactionDeserializer());
             loadStatement("users", "userId", UserList.get(), new UserDeserializer());
         }
         catch (DataNotBoundToList | SQLException | IndexOutOfBoundsException ex)

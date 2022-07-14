@@ -1,14 +1,13 @@
 package View.Form.Information;
 
-import Model.Data.SoldVehicleData;
+import Model.Data.TransactionData;
 import View.Form.IBaseForm;
-import View.Utility.SpringUtilities;
 
 import javax.swing.*;
 
-public class ShowSoldVehicleForm extends IBaseForm
+public class TransactionInfoForm extends IBaseForm
 {
-    private final SoldVehicleData soldVehicleRecord;
+    private final TransactionData soldVehicleRecord;
 
     @Override
     public void bindButtons(JButton okButton, JButton cancelButton)
@@ -17,7 +16,7 @@ public class ShowSoldVehicleForm extends IBaseForm
         cancelButton.addActionListener(e -> dispose());
     }
 
-    public ShowSoldVehicleForm(SoldVehicleData soldVehicleRecord)
+    public TransactionInfoForm(TransactionData soldVehicleRecord)
     {
         super();
 
