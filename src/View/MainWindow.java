@@ -44,6 +44,7 @@ public class MainWindow extends JFrame implements UpdateListener
     private final JoeButton deleteButton = new JoeButton("DELETE");
     private final JoeButton logInButton = new JoeButton("LOG IN");
     private final JoeButton logOutButton = new JoeButton("LOG OUT");
+    private final JoeButton registerButton = new JoeButton("REGISTER");
 
     private final DatabaseManager databaseManager;
     private IDataRecordController crudController;
