@@ -1,8 +1,8 @@
 package Controller.Model;
 
 import Controller.Model.Listener.UpdateListener;
-import Model.Data.ModelData;
-import Model.List.ModelList;
+import Model.ArraySingleton.ModelArraySingleton;
+import Model.Model.ModelDataModel;
 import View.Form.Input.ModelInputForm;
 
 import javax.swing.*;
@@ -26,7 +26,7 @@ public class ModelController extends IDataRecordController
     @Override
     public void openModifyWindow(JFrame parent)
     {
-        ModelData modelRecord = (ModelData) getSelectedItem(ModelList.get());
+        ModelDataModel modelRecord = (ModelDataModel) getSelectedItem(ModelArraySingleton.get());
         if (modelRecord == null) { return; }
         ModelInputForm form = new ModelInputForm(parent, true, modelRecord);
         form.bindUpdateListener(updateListener);
@@ -36,10 +36,10 @@ public class ModelController extends IDataRecordController
     @Override
     public void openDeleteWindow()
     {
-        ModelData modelRecord = (ModelData) getSelectedItem(ModelList.get());
+        ModelDataModel modelRecord = (ModelDataModel) getSelectedItem(ModelArraySingleton.get());
         if (modelRecord == null) { return; }
 
-        int modelIndex = ModelList.get().getIndexForComponent(modelRecord);
+        int modelIndex = ModelArraySingleton.get().getIndexForComponent(modelRecord);
         int childrenCount = modelRecord.countChildren();
 
         String deleteMsg = String.format(
@@ -60,7 +60,7 @@ public class ModelController extends IDataRecordController
 
         if (choice == JOptionPane.YES_OPTION)
         {
-            ModelList.get().unregisterComponent(modelRecord);
+            ModelArraySingleton.get().unregisterComponent(modelRecord);
             updateListener.onUpdateRecord();
         }
     }
@@ -77,12 +77,12 @@ public class ModelController extends IDataRecordController
                         "Seats",
                         "Fuel",
                         "Brand",
-                };
+                        };
 
         var tableDataMatrix = new ArrayList<ArrayList<Object>>();
-        for (var obj : ModelList.get())
+        for (var obj : ModelArraySingleton.get())
         {
-            ModelData modelRecord = (ModelData) obj;
+            ModelDataModel modelRecord = (ModelDataModel) obj;
             ArrayList<Object> innerData = new ArrayList<>();
             innerData.add(modelRecord.getModelName());
             innerData.add(modelRecord.getModelYear());

@@ -1,8 +1,8 @@
 package View.Form.Input;
 
 import Controller.Model.Listener.UpdateListener;
-import Model.Data.IRecordData;
-import Model.List.IRecordList;
+import Model.ArraySingleton.IRecordArraySingleton;
+import Model.Model.IRecordDataModel;
 import View.Form.IBaseForm;
 
 import javax.swing.*;
@@ -11,14 +11,14 @@ import java.awt.*;
 public abstract class IBaseInputForm extends IBaseForm
 {
     private final boolean updateRecord;
-    private final IRecordData originalRecord;
-    private final IRecordList componentPool;
+    private final IRecordDataModel originalRecord;
+    private final IRecordArraySingleton componentPool;
     private UpdateListener updateListener;
 
     public IBaseInputForm(
             boolean updateRecord,
-            IRecordData originalRecord,
-            IRecordList componentPool) throws HeadlessException
+            IRecordDataModel originalRecord,
+            IRecordArraySingleton componentPool) throws HeadlessException
     {
         super();
         setModal(true);
@@ -27,12 +27,12 @@ public abstract class IBaseInputForm extends IBaseForm
         this.componentPool = componentPool;
     }
 
-    protected IRecordData getOriginalRecord()
+    protected IRecordDataModel getOriginalRecord()
     {
         return originalRecord;
     }
 
-    public abstract IRecordData getFinishedRecord() throws Exception;
+    public abstract IRecordDataModel getFinishedRecord() throws Exception;
 
     public abstract boolean validateInputs();
 
@@ -69,7 +69,7 @@ public abstract class IBaseInputForm extends IBaseForm
         cancelButton.addActionListener(e -> dispose());
     }
 
-    public final void commitRecord(IRecordData newRecord)
+    public final void commitRecord(IRecordDataModel newRecord)
     {
         if (componentPool == null || newRecord == null) { return; }
         if (updateRecord) { componentPool.updateComponent(originalRecord, newRecord); }

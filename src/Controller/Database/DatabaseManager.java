@@ -3,7 +3,7 @@ package Controller.Database;
 import Controller.Database.Deserializer.*;
 import Controller.Database.Serializer.*;
 import Model.Exception.DataNotBoundToList;
-import Model.List.*;
+import Model.ArraySingleton.*;
 
 import javax.swing.*;
 import java.sql.Connection;
@@ -33,7 +33,7 @@ public class DatabaseManager
 
     private void saveStatement(
             String tableName,
-            IRecordList pool,
+            IRecordArraySingleton pool,
             IDataRecordSerializer serializer)
     throws SQLException
     {
@@ -61,11 +61,11 @@ public class DatabaseManager
     {
         try
         {
-            saveStatement("users", UserList.get(), new UserSerializer());
-            saveStatement("brands", BrandList.get(), new BrandSerializer());
-            saveStatement("models", ModelList.get(), new ModelSerializer());
-            saveStatement("vehicles", VehicleList.get(), new VehicleSerializer());
-            saveStatement("transactions", TransactionList.get(), new TransactionSerializer());
+            saveStatement("users", UserArraySingleton.get(), new UserSerializer());
+            saveStatement("brands", BrandArraySingleton.get(), new BrandSerializer());
+            saveStatement("models", ModelArraySingleton.get(), new ModelSerializer());
+            saveStatement("vehicles", VehicleArraySingleton.get(), new VehicleSerializer());
+            saveStatement("transactions", TransactionArraySingleton.get(), new TransactionSerializer());
         }
         catch (SQLException ex)
         {
@@ -80,7 +80,7 @@ public class DatabaseManager
 
     private void loadStatement(
             String query,
-            IRecordList pool,
+            IRecordArraySingleton pool,
             IDataRecordDeserializer deserializer)
     throws SQLException,
             IndexOutOfBoundsException,
@@ -97,9 +97,9 @@ public class DatabaseManager
     private void loadStatement(
             String tableName,
             String primaryKeyName,
-            IRecordList pool,
+            IRecordArraySingleton pool,
             IDataRecordDeserializer deserializer)
-    throws  SQLException,
+    throws SQLException,
             IndexOutOfBoundsException,
             DataNotBoundToList
     {
@@ -110,11 +110,11 @@ public class DatabaseManager
     {
         try
         {
-            loadStatement("users", "userId", UserList.get(), new UserDeserializer());
-            loadStatement("brands", "brandId", BrandList.get(), new BrandDeserializer());
-            loadStatement("models", "modelId", ModelList.get(), new ModelDeserializer());
-            loadStatement("vehicles", "vehicleId", VehicleList.get(), new VehicleDeserializer());
-            loadStatement("transactions", "transactionId", TransactionList.get(), new TransactionDeserializer());
+            loadStatement("users", "userId", UserArraySingleton.get(), new UserDeserializer());
+            loadStatement("brands", "brandId", BrandArraySingleton.get(), new BrandDeserializer());
+            loadStatement("models", "modelId", ModelArraySingleton.get(), new ModelDeserializer());
+            loadStatement("vehicles", "vehicleId", VehicleArraySingleton.get(), new VehicleDeserializer());
+            loadStatement("transactions", "transactionId", TransactionArraySingleton.get(), new TransactionDeserializer());
         }
         catch (DataNotBoundToList | SQLException | IndexOutOfBoundsException ex)
         {

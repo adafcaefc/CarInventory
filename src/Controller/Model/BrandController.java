@@ -1,8 +1,8 @@
 package Controller.Model;
 
 import Controller.Model.Listener.UpdateListener;
-import Model.Data.BrandData;
-import Model.List.BrandList;
+import Model.ArraySingleton.BrandArraySingleton;
+import Model.Model.BrandDataModel;
 import View.Form.Input.BrandInputForm;
 
 import javax.swing.*;
@@ -26,7 +26,7 @@ public class BrandController extends IDataRecordController
     @Override
     public void openModifyWindow(JFrame parent)
     {
-        BrandData brandRecord = (BrandData) getSelectedItem(BrandList.get());
+        BrandDataModel brandRecord = (BrandDataModel) getSelectedItem(BrandArraySingleton.get());
         if (brandRecord == null) { return; }
         BrandInputForm form = new BrandInputForm(parent, true, brandRecord);
         form.bindUpdateListener(updateListener);
@@ -36,9 +36,9 @@ public class BrandController extends IDataRecordController
     @Override
     public void openDeleteWindow()
     {
-        BrandData brandRecord = (BrandData) getSelectedItem(BrandList.get());
+        BrandDataModel brandRecord = (BrandDataModel) getSelectedItem(BrandArraySingleton.get());
         if (brandRecord == null) { return; }
-        int brandIndex = BrandList.get().getIndexForComponent(brandRecord);
+        int brandIndex = BrandArraySingleton.get().getIndexForComponent(brandRecord);
         int childrenCount = brandRecord.countChildren();
         String deleteMsg = String.format("Are you sure you want to delete model no.%d (%s)?", brandIndex + 1, brandRecord.getBrandName());
         if (childrenCount > 0)
@@ -48,7 +48,7 @@ public class BrandController extends IDataRecordController
         int choice = JOptionPane.showConfirmDialog(null, deleteMsg, "Delete Brands", JOptionPane.YES_NO_OPTION);
         if (choice == JOptionPane.YES_OPTION)
         {
-            BrandList.get().unregisterComponent(brandRecord);
+            BrandArraySingleton.get().unregisterComponent(brandRecord);
             updateListener.onUpdateRecord();
         }
     }
@@ -59,9 +59,9 @@ public class BrandController extends IDataRecordController
         String[] header = new String[]{ "Brand Name" };
 
         var tableDataMatrix = new ArrayList<ArrayList<Object>>();
-        for (var obj : BrandList.get())
+        for (var obj : BrandArraySingleton.get())
         {
-            BrandData brandRecord = (BrandData) obj;
+            BrandDataModel brandRecord = (BrandDataModel) obj;
             ArrayList<Object> innerData = new ArrayList<>();
             innerData.add(brandRecord.getBrandName());
             tableDataMatrix.add(innerData);

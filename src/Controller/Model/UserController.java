@@ -1,9 +1,12 @@
 package Controller.Model;
 
 import Controller.Model.Listener.UpdateListener;
-import Model.Data.UserData;
-import Model.List.UserList;
+import Model.ArraySingleton.UserArraySingleton;
+import Model.ArraySingleton.VehicleArraySingleton;
+import Model.Model.UserDataModel;
+import Model.Model.VehicleDataModel;
 import View.Form.Input.UserInputForm;
+import View.Form.User.RegistrationForm;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -23,10 +26,17 @@ public class UserController extends IDataRecordController
         form.setVisible(true);
     }
 
+    public void openRegistrationWindow(JFrame parent)
+    {
+        RegistrationForm form = new RegistrationForm(parent, false, null);
+        form.bindUpdateListener(updateListener);
+        form.setVisible(true);
+    }
+
     @Override
     public void openModifyWindow(JFrame parent)
     {
-        UserData userRecord = (UserData) getSelectedItem(UserList.get());
+        UserDataModel userRecord = (UserDataModel) getSelectedItem(UserArraySingleton.get());
         if (userRecord == null) { return; }
         UserInputForm form = new UserInputForm(parent, true, userRecord);
         form.bindUpdateListener(updateListener);
@@ -36,9 +46,29 @@ public class UserController extends IDataRecordController
     @Override
     public void openDeleteWindow()
     {
-        UserData userRecord = (UserData) getSelectedItem(UserList.get());
+        UserDataModel userRecord = (UserDataModel) getSelectedItem(UserArraySingleton.get());
         if (userRecord == null) { return; }
-        int userIndex = UserList.get().getIndexForComponent(userRecord);
+
+        for (var objVehicle : VehicleArraySingleton.get())
+        {
+            VehicleDataModel vehicle = (VehicleDataModel) objVehicle;
+            if (vehicle.getBuyer() == userRecord || vehicle.getSeller() == userRecord)
+            {
+                String message = String.format(
+                        "Error deleting user \"%s\" because the user is connected to vehicle \"%s - %s\"",
+                        userRecord.getUserName(),
+                        vehicle.getVIN(),
+                        vehicle.getModel().getModelName());
+                JOptionPane.showMessageDialog(
+                        null,
+                        message,
+                        "Could not delete user",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
+
+        int userIndex = UserArraySingleton.get().getIndexForComponent(userRecord);
         String deleteMsg = String.format(
                 "Are you sure you want to delete userRecord no.%d (%s)?",
                 userIndex + 1,
@@ -50,7 +80,7 @@ public class UserController extends IDataRecordController
                 JOptionPane.YES_NO_OPTION);
         if (choice == JOptionPane.YES_OPTION)
         {
-            UserList.get().unregisterComponent(userRecord);
+            UserArraySingleton.get().unregisterComponent(userRecord);
             updateListener.onUpdateRecord();
         }
     }
@@ -62,12 +92,12 @@ public class UserController extends IDataRecordController
                 {
                         "User Name",
                         "User Type",
-                };
+                        };
 
         var tableDataMatrix = new ArrayList<ArrayList<Object>>();
-        for (var obj : UserList.get())
+        for (var obj : UserArraySingleton.get())
         {
-            UserData userRecord = (UserData) obj;
+            UserDataModel userRecord = (UserDataModel) obj;
             ArrayList<Object> innerData = new ArrayList<>();
             innerData.add(userRecord.getUserName());
             innerData.add(userRecord.getUserLevel().name());

@@ -1,12 +1,11 @@
 package View.Form.Input;
 
 import Controller.Utility.ValidationUtilities;
-import Model.Data.BrandData;
-import Model.Data.IRecordData;
-import Model.Data.ModelData;
-import Model.List.BrandList;
-import Model.List.ModelList;
-import View.Utility.SpringUtilities;
+import Model.ArraySingleton.BrandArraySingleton;
+import Model.ArraySingleton.ModelArraySingleton;
+import Model.Model.BrandDataModel;
+import Model.Model.IRecordDataModel;
+import Model.Model.ModelDataModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,10 +23,10 @@ public class ModelInputForm extends IBaseInputForm
     public ModelInputForm(
             JFrame parentFrame,
             boolean updateRecord,
-            ModelData originalRecord)
+            ModelDataModel originalRecord)
     throws HeadlessException
     {
-        super(updateRecord, originalRecord, ModelList.get());
+        super(updateRecord, originalRecord, ModelArraySingleton.get());
         setTitle("Model Form");
 
         bindButtons(okButton, cancelButton);
@@ -55,12 +54,12 @@ public class ModelInputForm extends IBaseInputForm
 
         JComponent[] uiInputs = new JComponent[]
                 {
-                    nameTextField,
-                    yearTextField,
-                    capacityTextField,
-                    doorCountSpinner,
-                    seatCountSpinner,
-                };
+                        nameTextField,
+                        yearTextField,
+                        capacityTextField,
+                        doorCountSpinner,
+                        seatCountSpinner,
+                        };
 
         for (JComponent c : uiInputs) { c.setBackground(Color.WHITE); }
 
@@ -88,10 +87,10 @@ public class ModelInputForm extends IBaseInputForm
     }
 
     @Override
-    public IRecordData getFinishedRecord() throws Exception
+    public IRecordDataModel getFinishedRecord() throws Exception
     {
-        IRecordData parentBrand = BrandList.get().getComponentAt(brandDropdownBox.getSelectedIndex());
-        ModelData modelRecord = new ModelData((BrandData) parentBrand);
+        IRecordDataModel parentBrand = BrandArraySingleton.get().getComponentAt(brandDropdownBox.getSelectedIndex());
+        ModelDataModel modelRecord = new ModelDataModel((BrandDataModel) parentBrand);
         modelRecord.setModelName(nameTextField.getText());
         modelRecord.setModelYear(Integer.parseInt(yearTextField.getText()));
         modelRecord.setHasSunroof(hasSunroofCheckbox.isSelected());
@@ -103,15 +102,15 @@ public class ModelInputForm extends IBaseInputForm
 
     public void populateBrandCombobox()
     {
-        for (var obj : BrandList.get())
+        for (var obj : BrandArraySingleton.get())
         {
-            BrandData brandRecord = (BrandData) obj;
+            BrandDataModel brandRecord = (BrandDataModel) obj;
             brandDropdownBox.addItem(brandRecord.getBrandName());
         }
         brandDropdownBox.setSelectedItem(null);
     }
 
-    public void loadModelData(ModelData modelRecord)
+    public void loadModelData(ModelDataModel modelRecord)
     {
         if (modelRecord == null) { return; }
         nameTextField.setText(modelRecord.getModelName());
@@ -120,7 +119,7 @@ public class ModelInputForm extends IBaseInputForm
         doorCountSpinner.setValue(modelRecord.getDoorCount());
         seatCountSpinner.setValue(modelRecord.getSeatCount());
         capacityTextField.setText(modelRecord.getFuelCapacity().toString());
-        int brandIndex = BrandList.get().getIndexForComponent(modelRecord.getBrand());
+        int brandIndex = BrandArraySingleton.get().getIndexForComponent(modelRecord.getBrand());
         brandDropdownBox.setSelectedIndex(brandIndex);
     }
 }

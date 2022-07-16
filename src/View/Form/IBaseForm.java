@@ -7,6 +7,7 @@ import java.awt.*;
 
 public abstract class IBaseForm extends JDialog
 {
+    public int componentPairCount = 0;
     protected JPanel mainBody = new JPanel();
     protected JButton okButton = new JButton("Ok");
     protected JButton cancelButton = new JButton("Cancel");
@@ -23,12 +24,12 @@ public abstract class IBaseForm extends JDialog
     {
         cancelButton.addActionListener(e -> dispose());
     }
+
     public final Color getErrorBackgroundColor()
     {
         return new Color(0xf99597);
     }
 
-    public int componentPairCount = 0;
     protected void addComponentPair(Component a, Component b)
     {
         mainBody.add(a);

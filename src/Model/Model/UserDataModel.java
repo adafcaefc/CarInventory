@@ -1,10 +1,10 @@
-package Model.Data;
+package Model.Model;
 
 import Controller.Utility.PasswordUtilities;
 
 import java.security.NoSuchAlgorithmException;
 
-public class UserData extends IRecordData
+public class UserDataModel extends IRecordDataModel
 {
     private String userName;
     private String password;
@@ -54,6 +54,6 @@ public class UserData extends IRecordData
     public void setPasswordRaw(String str) throws NoSuchAlgorithmException
     {
         this.salt = PasswordUtilities.generateSalt();
-        this.password = PasswordUtilities.sha256Salted(str,this.salt);
+        this.password = PasswordUtilities.sha256Salted(str, this.salt);
     }
 }

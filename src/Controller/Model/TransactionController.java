@@ -1,11 +1,10 @@
 package Controller.Model;
 
 import Controller.Model.Listener.UpdateListener;
-import Model.Data.TransactionData;
-import Model.Data.UserData;
-import Model.Data.VehicleData;
-import Model.List.TransactionList;
-import View.Form.Input.ModelInputForm;
+import Model.ArraySingleton.TransactionArraySingleton;
+import Model.Model.TransactionDataModel;
+import Model.Model.UserDataModel;
+import Model.Model.VehicleDataModel;
 import View.Form.Input.TransactionForm;
 
 import javax.swing.*;
@@ -30,7 +29,7 @@ public class TransactionController extends IDataRecordController
     @Override
     public void openModifyWindow(JFrame parent)
     {
-        TransactionData soldVehicleRecord = (TransactionData) getSelectedItem(TransactionList.get());
+        TransactionDataModel soldVehicleRecord = (TransactionDataModel) getSelectedItem(TransactionArraySingleton.get());
         if (soldVehicleRecord == null) { return; }
         TransactionForm form = new TransactionForm(parent, true, soldVehicleRecord);
         form.bindUpdateListener(updateListener);
@@ -40,14 +39,14 @@ public class TransactionController extends IDataRecordController
     @Override
     public void openDeleteWindow()
     {
-        TransactionData soldVehicleRecord = (TransactionData) getSelectedItem(TransactionList.get());
+        TransactionDataModel soldVehicleRecord = (TransactionDataModel) getSelectedItem(TransactionArraySingleton.get());
         if (soldVehicleRecord == null) { return; }
-        int vehicleIndex = TransactionList.get().getIndexForComponent(soldVehicleRecord);
+        int vehicleIndex = TransactionArraySingleton.get().getIndexForComponent(soldVehicleRecord);
         String deleteMsg = String.format("Are you sure you want to delete sales no.%d from the Sales Log?", vehicleIndex + 1);
         int choice = JOptionPane.showConfirmDialog(null, deleteMsg, "Delete Sales Log", JOptionPane.YES_NO_OPTION);
         if (choice == JOptionPane.YES_OPTION)
         {
-            TransactionList.get().unregisterComponent(soldVehicleRecord);
+            TransactionArraySingleton.get().unregisterComponent(soldVehicleRecord);
             updateListener.onUpdateRecord();
         }
     }
@@ -66,13 +65,13 @@ public class TransactionController extends IDataRecordController
                 };
 
         var tableDataMatrix = new ArrayList<ArrayList<Object>>();
-        for (var obj : TransactionList.get())
+        for (var obj : TransactionArraySingleton.get())
         {
-            TransactionData vehicleObject = (TransactionData) obj;
+            TransactionDataModel vehicleObject = (TransactionDataModel) obj;
             ArrayList<Object> innerData = new ArrayList<>();
-            VehicleData vehicle = (VehicleData) obj.getParent();
-            UserData seller = vehicle.getSeller();
-            UserData buyer = vehicle.getBuyer();
+            VehicleDataModel vehicle = (VehicleDataModel) obj.getParent();
+            UserDataModel seller = vehicle.getSeller();
+            UserDataModel buyer = vehicle.getBuyer();
             innerData.add(vehicle.getVIN());
             innerData.add(vehicle.getLicensePlate());
             innerData.add(vehicleObject.getPaidAmount());

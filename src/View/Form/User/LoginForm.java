@@ -1,10 +1,9 @@
-package View.Form.Login;
+package View.Form.User;
 
 import Controller.Session.SessionManager;
-import Model.Data.UserData;
+import Model.Model.UserDataModel;
 import View.Form.IBaseForm;
 import View.MainWindow;
-import View.Utility.SpringUtilities;
 
 import javax.swing.*;
 import java.security.NoSuchAlgorithmException;
@@ -15,7 +14,23 @@ public class LoginForm extends IBaseForm
     private final JPasswordField passwordTextField = new JPasswordField();
     private final MainWindow mainWindow;
 
-    private UserData logIn() throws NoSuchAlgorithmException
+    public LoginForm(MainWindow mainWindow)
+    {
+        super();
+
+        bindButtons(okButton, cancelButton);
+
+        setTitle("Login Form");
+
+        addComponentPair("User Name", userNameTextField);
+        addComponentPair("Password", passwordTextField);
+
+        buildForm(mainWindow);
+
+        this.mainWindow = mainWindow;
+    }
+
+    private UserDataModel logIn() throws NoSuchAlgorithmException
     {
         String userName = userNameTextField.getText();
         String password = String.valueOf(passwordTextField.getPassword());
@@ -29,7 +44,7 @@ public class LoginForm extends IBaseForm
         {
             try
             {
-                UserData userRecord = logIn();
+                UserDataModel userRecord = logIn();
                 if (userRecord != null)
                 {
                     JOptionPane.showMessageDialog(
@@ -57,21 +72,5 @@ public class LoginForm extends IBaseForm
         });
 
         cancelButton.addActionListener(e -> dispose());
-    }
-
-    public LoginForm(MainWindow mainWindow)
-    {
-        super();
-
-        bindButtons(okButton, cancelButton);
-
-        setTitle("Login Form");
-
-        addComponentPair("User Name", userNameTextField);
-        addComponentPair("Password", passwordTextField);
-
-        buildForm(mainWindow);
-
-        this.mainWindow = mainWindow;
     }
 }

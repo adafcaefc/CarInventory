@@ -1,8 +1,10 @@
 package Controller.Database.Deserializer;
 
-import Model.Data.*;
 import Model.Exception.DataNotBoundToList;
-import Model.List.VehicleList;
+import Model.ArraySingleton.VehicleArraySingleton;
+import Model.Model.IRecordDataModel;
+import Model.Model.TransactionDataModel;
+import Model.Model.VehicleDataModel;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,10 +12,10 @@ import java.util.GregorianCalendar;
 
 public class TransactionDeserializer implements IDataRecordDeserializer
 {
-    public IRecordData deserialize(ResultSet rs) throws SQLException, DataNotBoundToList
+    public IRecordDataModel deserialize(ResultSet rs) throws SQLException, DataNotBoundToList
     {
-        VehicleData parentObj = (VehicleData) VehicleList.get().getComponentAt(rs.getInt("parentVehicleId"));
-        var transactionData = new TransactionData(parentObj);
+        VehicleDataModel parentObj = (VehicleDataModel) VehicleArraySingleton.get().getComponentAt(rs.getInt("parentVehicleId"));
+        var transactionData = new TransactionDataModel(parentObj);
 
         transactionData.setPaidAmount(rs.getInt("paidAmount"));
 

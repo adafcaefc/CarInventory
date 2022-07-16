@@ -1,10 +1,10 @@
 package View.Form.Input;
 
-import Controller.Utility.ValidationUtilities;
-import Model.Data.*;
-import Model.List.ModelList;
-import Model.List.TransactionList;
-import Model.List.VehicleList;
+import Model.ArraySingleton.TransactionArraySingleton;
+import Model.ArraySingleton.VehicleArraySingleton;
+import Model.Model.IRecordDataModel;
+import Model.Model.TransactionDataModel;
+import Model.Model.VehicleDataModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,9 +22,9 @@ public class TransactionForm extends IBaseInputForm
     public TransactionForm(
             JFrame parentFrame,
             boolean updateRecord,
-            TransactionData originalRecord) throws HeadlessException
+            TransactionDataModel originalRecord) throws HeadlessException
     {
-        super(updateRecord, originalRecord, TransactionList.get());
+        super(updateRecord, originalRecord, TransactionArraySingleton.get());
 
         setTitle("Transaction Form");
 
@@ -52,19 +52,19 @@ public class TransactionForm extends IBaseInputForm
 
     public void populateVehicleCombobox()
     {
-        for (var obj : VehicleList.get())
+        for (var obj : VehicleArraySingleton.get())
         {
-            VehicleData vehicleData = (VehicleData) obj;
+            VehicleDataModel vehicleData = (VehicleDataModel) obj;
             vehicleComboBox.addItem(vehicleData.getVIN() + " - " + vehicleData.getModel().getModelName());
         }
         vehicleComboBox.setSelectedItem(null);
     }
 
     @Override
-    public IRecordData getFinishedRecord() throws Exception
+    public IRecordDataModel getFinishedRecord() throws Exception
     {
-        IRecordData parentVehicle = VehicleList.get().getComponentAt(vehicleComboBox.getSelectedIndex());
-        TransactionData modifiedRecord = new TransactionData((VehicleData) parentVehicle);
+        IRecordDataModel parentVehicle = VehicleArraySingleton.get().getComponentAt(vehicleComboBox.getSelectedIndex());
+        TransactionDataModel modifiedRecord = new TransactionDataModel((VehicleDataModel) parentVehicle);
 
         var date = new GregorianCalendar(
                 (int) yearSpinner.getValue(),
@@ -113,7 +113,7 @@ public class TransactionForm extends IBaseInputForm
         yearSpinner.addChangeListener(e -> populateDateCheckbox());
     }
 
-    public void loadSoldVehicleData(TransactionData soldVehicleRecord)
+    public void loadSoldVehicleData(TransactionDataModel soldVehicleRecord)
     {
         var default_date = new GregorianCalendar();
         yearSpinner.setValue(default_date.get(Calendar.YEAR));
@@ -126,7 +126,7 @@ public class TransactionForm extends IBaseInputForm
         yearSpinner.setValue(date.get(Calendar.YEAR));
         monthComboBox.setSelectedIndex(date.get(Calendar.MONTH));
         dayComboBox.setSelectedIndex(date.get(Calendar.DAY_OF_MONTH) - 1);
-        int vehicleIndex = VehicleList.get().getIndexForComponent(soldVehicleRecord.getVehicle());
+        int vehicleIndex = VehicleArraySingleton.get().getIndexForComponent(soldVehicleRecord.getVehicle());
         vehicleComboBox.setSelectedIndex(vehicleIndex);
     }
 

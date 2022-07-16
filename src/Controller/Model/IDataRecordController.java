@@ -1,8 +1,8 @@
 package Controller.Model;
 
 import Controller.Model.Listener.UpdateListener;
-import Model.Data.IRecordData;
-import Model.List.IRecordList;
+import Model.ArraySingleton.IRecordArraySingleton;
+import Model.Model.IRecordDataModel;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -19,7 +19,7 @@ public abstract class IDataRecordController
         this.updateListener = updateListener;
     }
 
-    public final IRecordData getSelectedItem(IRecordList pool)
+    public final IRecordDataModel getSelectedItem(IRecordArraySingleton pool)
     {
         int row = table.getSelectedRow();
         if (row == -1 || row >= pool.countRegisteredComponents()) { return null; }
