@@ -1,6 +1,6 @@
 package Controller.Session;
 
-import Model.List.UserList;
+import Model.ArraySingleton.UserArraySingleton;
 import Model.Model.UserDataModel;
 
 public class SessionData implements java.io.Serializable
@@ -25,7 +25,7 @@ public class SessionData implements java.io.Serializable
 
     public UserDataModel getUser()
     {
-        for (var obj : UserList.get())
+        for (var obj : UserArraySingleton.get())
         {
             UserDataModel userRecord = (UserDataModel) obj;
             if (isTheSame(userRecord))

@@ -1,8 +1,8 @@
 package Controller.Database.Deserializer;
 
 import Model.Exception.DataNotBoundToList;
-import Model.List.ModelList;
-import Model.List.UserList;
+import Model.ArraySingleton.ModelArraySingleton;
+import Model.ArraySingleton.UserArraySingleton;
 import Model.Model.IRecordDataModel;
 import Model.Model.ModelDataModel;
 import Model.Model.UserDataModel;
@@ -15,7 +15,7 @@ public class VehicleDeserializer implements IDataRecordDeserializer
 {
     public IRecordDataModel deserialize(ResultSet rs) throws SQLException, DataNotBoundToList
     {
-        ModelDataModel parentObj = (ModelDataModel) ModelList.get().getComponentAt(rs.getInt("parentModelId"));
+        ModelDataModel parentObj = (ModelDataModel) ModelArraySingleton.get().getComponentAt(rs.getInt("parentModelId"));
         var vehicle = new VehicleDataModel(parentObj);
 
         vehicle.setVIN(rs.getString("VIN"));
@@ -27,10 +27,10 @@ public class VehicleDeserializer implements IDataRecordDeserializer
         vehicle.setPrice(rs.getInt("price"));
 
         int buyerObjIndex = rs.getInt("buyerUserId");
-        if (buyerObjIndex != -1) { vehicle.setBuyer((UserDataModel) UserList.get().getComponentAt(buyerObjIndex)); }
+        if (buyerObjIndex != -1) { vehicle.setBuyer((UserDataModel) UserArraySingleton.get().getComponentAt(buyerObjIndex)); }
 
         int sellerObjIndex = rs.getInt("sellerUserId");
-        if (sellerObjIndex != -1) { vehicle.setSeller((UserDataModel) UserList.get().getComponentAt(sellerObjIndex)); }
+        if (sellerObjIndex != -1) { vehicle.setSeller((UserDataModel) UserArraySingleton.get().getComponentAt(sellerObjIndex)); }
 
         return vehicle;
     }

@@ -1,7 +1,7 @@
 package View.Form.Input;
 
-import Model.List.TransactionList;
-import Model.List.VehicleList;
+import Model.ArraySingleton.TransactionArraySingleton;
+import Model.ArraySingleton.VehicleArraySingleton;
 import Model.Model.IRecordDataModel;
 import Model.Model.TransactionDataModel;
 import Model.Model.VehicleDataModel;
@@ -24,7 +24,7 @@ public class TransactionForm extends IBaseInputForm
             boolean updateRecord,
             TransactionDataModel originalRecord) throws HeadlessException
     {
-        super(updateRecord, originalRecord, TransactionList.get());
+        super(updateRecord, originalRecord, TransactionArraySingleton.get());
 
         setTitle("Transaction Form");
 
@@ -52,7 +52,7 @@ public class TransactionForm extends IBaseInputForm
 
     public void populateVehicleCombobox()
     {
-        for (var obj : VehicleList.get())
+        for (var obj : VehicleArraySingleton.get())
         {
             VehicleDataModel vehicleData = (VehicleDataModel) obj;
             vehicleComboBox.addItem(vehicleData.getVIN() + " - " + vehicleData.getModel().getModelName());
@@ -63,7 +63,7 @@ public class TransactionForm extends IBaseInputForm
     @Override
     public IRecordDataModel getFinishedRecord() throws Exception
     {
-        IRecordDataModel parentVehicle = VehicleList.get().getComponentAt(vehicleComboBox.getSelectedIndex());
+        IRecordDataModel parentVehicle = VehicleArraySingleton.get().getComponentAt(vehicleComboBox.getSelectedIndex());
         TransactionDataModel modifiedRecord = new TransactionDataModel((VehicleDataModel) parentVehicle);
 
         var date = new GregorianCalendar(
@@ -126,7 +126,7 @@ public class TransactionForm extends IBaseInputForm
         yearSpinner.setValue(date.get(Calendar.YEAR));
         monthComboBox.setSelectedIndex(date.get(Calendar.MONTH));
         dayComboBox.setSelectedIndex(date.get(Calendar.DAY_OF_MONTH) - 1);
-        int vehicleIndex = VehicleList.get().getIndexForComponent(soldVehicleRecord.getVehicle());
+        int vehicleIndex = VehicleArraySingleton.get().getIndexForComponent(soldVehicleRecord.getVehicle());
         vehicleComboBox.setSelectedIndex(vehicleIndex);
     }
 

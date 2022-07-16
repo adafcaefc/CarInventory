@@ -1,6 +1,6 @@
 package View.Form.Input;
 
-import Model.List.UserList;
+import Model.ArraySingleton.UserArraySingleton;
 import Model.Model.IRecordDataModel;
 import Model.Model.UserDataModel;
 import Model.Model.UserLevel;
@@ -21,7 +21,7 @@ public class UserInputForm extends IBaseInputForm
             UserDataModel originalRecord)
     throws HeadlessException
     {
-        super(updateRecord, originalRecord, UserList.get());
+        super(updateRecord, originalRecord, UserArraySingleton.get());
 
         setTitle("User Form");
 
@@ -55,7 +55,7 @@ public class UserInputForm extends IBaseInputForm
 
         if (!isUpdateRecord())
         {
-            for (var obj : UserList.get())
+            for (var obj : UserArraySingleton.get())
             {
                 UserDataModel userRecord = (UserDataModel) obj;
                 if (userRecord.getUserName().equals(userNameTextField.getText()))

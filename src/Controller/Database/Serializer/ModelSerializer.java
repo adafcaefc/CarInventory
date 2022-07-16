@@ -1,7 +1,7 @@
 package Controller.Database.Serializer;
 
-import Model.List.BrandList;
-import Model.List.ModelList;
+import Model.ArraySingleton.BrandArraySingleton;
+import Model.ArraySingleton.ModelArraySingleton;
 import Model.Model.IRecordDataModel;
 import Model.Model.ModelDataModel;
 
@@ -15,8 +15,8 @@ public class ModelSerializer implements IDataRecordSerializer
         var model = (ModelDataModel) component;
         HashMap<String, String> map = new HashMap<>();
 
-        int objIndex = ModelList.get().getIndexForComponent(model);
-        int parentObjIndex = BrandList.get().getIndexForComponent(model.getBrand());
+        int objIndex = ModelArraySingleton.get().getIndexForComponent(model);
+        int parentObjIndex = BrandArraySingleton.get().getIndexForComponent(model.getBrand());
 
         map.put("modelId", String.valueOf(objIndex));
         map.put("parentBrandId", String.valueOf(parentObjIndex));

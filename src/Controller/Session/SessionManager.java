@@ -1,7 +1,7 @@
 package Controller.Session;
 
 import Controller.Utility.PasswordUtilities;
-import Model.List.UserList;
+import Model.ArraySingleton.UserArraySingleton;
 import Model.Model.UserDataModel;
 
 import javax.swing.*;
@@ -90,7 +90,7 @@ public class SessionManager
         var password = loadStringFromFile(PASSWORD_FILE);
         var salt = loadStringFromFile(SALT_FILE);
 
-        for (var obj : UserList.get())
+        for (var obj : UserArraySingleton.get())
         {
             UserDataModel userRecord = (UserDataModel) obj;
             if (userRecord.getUserName().equals(userName) && userRecord.getPassword().equals(password))
@@ -103,7 +103,7 @@ public class SessionManager
 
     public UserDataModel logIn(String userName, String password) throws NoSuchAlgorithmException
     {
-        for (var obj : UserList.get())
+        for (var obj : UserArraySingleton.get())
         {
             UserDataModel userRecord = (UserDataModel) obj;
             if (userRecord.getUserName().equals(userName) && userRecord.getPassword().equals(PasswordUtilities.sha256Salted(password, userRecord.getSalt())))

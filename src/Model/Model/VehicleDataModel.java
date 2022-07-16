@@ -1,7 +1,7 @@
 package Model.Model;
 
 import Model.Exception.DataNotBoundToList;
-import Model.List.ModelList;
+import Model.ArraySingleton.ModelArraySingleton;
 
 public class VehicleDataModel extends IRecordDataModel
 {
@@ -17,7 +17,7 @@ public class VehicleDataModel extends IRecordDataModel
     public VehicleDataModel(ModelDataModel modelRecord) throws DataNotBoundToList
     {
         if (modelRecord == null) { return; }
-        if (!ModelList.get().componentIsRegisteredAtPool(modelRecord))
+        if (!ModelArraySingleton.get().componentIsRegisteredAtPool(modelRecord))
         {
             throw new DataNotBoundToList("The 'model' object passed to bindToModel does not exist inside ModelPool");
         }

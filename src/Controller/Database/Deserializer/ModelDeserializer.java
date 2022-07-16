@@ -1,7 +1,7 @@
 package Controller.Database.Deserializer;
 
 import Model.Exception.DataNotBoundToList;
-import Model.List.BrandList;
+import Model.ArraySingleton.BrandArraySingleton;
 import Model.Model.BrandDataModel;
 import Model.Model.IRecordDataModel;
 import Model.Model.ModelDataModel;
@@ -13,7 +13,7 @@ public class ModelDeserializer implements IDataRecordDeserializer
 {
     public IRecordDataModel deserialize(ResultSet rs) throws SQLException, DataNotBoundToList
     {
-        BrandDataModel parentObj = (BrandDataModel) BrandList.get().getComponentAt(rs.getInt("parentBrandId"));
+        BrandDataModel parentObj = (BrandDataModel) BrandArraySingleton.get().getComponentAt(rs.getInt("parentBrandId"));
         var model = new ModelDataModel(parentObj);
 
         model.setModelName(rs.getString("modelName"));

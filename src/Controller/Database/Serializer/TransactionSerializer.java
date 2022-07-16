@@ -1,7 +1,7 @@
 package Controller.Database.Serializer;
 
-import Model.List.TransactionList;
-import Model.List.VehicleList;
+import Model.ArraySingleton.TransactionArraySingleton;
+import Model.ArraySingleton.VehicleArraySingleton;
 import Model.Model.IRecordDataModel;
 import Model.Model.TransactionDataModel;
 
@@ -15,8 +15,8 @@ public class TransactionSerializer implements IDataRecordSerializer
     {
         var transactionData = (TransactionDataModel) component;
         HashMap<String, String> map = new HashMap<>();
-        int objIndex = TransactionList.get().getIndexForComponent(transactionData);
-        int parentObjIndex = VehicleList.get().getIndexForComponent(transactionData.getParent());
+        int objIndex = TransactionArraySingleton.get().getIndexForComponent(transactionData);
+        int parentObjIndex = VehicleArraySingleton.get().getIndexForComponent(transactionData.getParent());
 
         map.put("transactionId", String.valueOf(objIndex));
         map.put("parentVehicleId", String.valueOf(parentObjIndex));

@@ -1,15 +1,15 @@
-package Model.List;
+package Model.ArraySingleton;
 
 import Model.Model.IRecordDataModel;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public abstract class IRecordList implements Iterable<IRecordDataModel>
+public abstract class IRecordArraySingleton implements Iterable<IRecordDataModel>
 {
     private final ArrayList<IRecordDataModel> componentObjects = new ArrayList<>();
-    private final IRecordList nextPool;
-    public IRecordList(IRecordList nextPool)
+    private final IRecordArraySingleton nextPool;
+    public IRecordArraySingleton(IRecordArraySingleton nextPool)
     {
         this.nextPool = nextPool;
     }

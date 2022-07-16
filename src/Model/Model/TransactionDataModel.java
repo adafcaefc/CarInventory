@@ -1,7 +1,7 @@
 package Model.Model;
 
 import Model.Exception.DataNotBoundToList;
-import Model.List.VehicleList;
+import Model.ArraySingleton.VehicleArraySingleton;
 
 import java.util.GregorianCalendar;
 
@@ -13,7 +13,7 @@ public class TransactionDataModel extends IRecordDataModel implements Cloneable
     public TransactionDataModel(VehicleDataModel sourceVehicleRecord) throws DataNotBoundToList
     {
         if (sourceVehicleRecord == null) { return; }
-        if (!VehicleList.get().componentIsRegisteredAtPool(sourceVehicleRecord))
+        if (!VehicleArraySingleton.get().componentIsRegisteredAtPool(sourceVehicleRecord))
         {
             throw new DataNotBoundToList("The 'transaction' object passed to bindToVehicle does not exist inside TransactionPool");
         }

@@ -1,7 +1,7 @@
 package Controller.Database.Deserializer;
 
 import Model.Exception.DataNotBoundToList;
-import Model.List.VehicleList;
+import Model.ArraySingleton.VehicleArraySingleton;
 import Model.Model.IRecordDataModel;
 import Model.Model.TransactionDataModel;
 import Model.Model.VehicleDataModel;
@@ -14,7 +14,7 @@ public class TransactionDeserializer implements IDataRecordDeserializer
 {
     public IRecordDataModel deserialize(ResultSet rs) throws SQLException, DataNotBoundToList
     {
-        VehicleDataModel parentObj = (VehicleDataModel) VehicleList.get().getComponentAt(rs.getInt("parentVehicleId"));
+        VehicleDataModel parentObj = (VehicleDataModel) VehicleArraySingleton.get().getComponentAt(rs.getInt("parentVehicleId"));
         var transactionData = new TransactionDataModel(parentObj);
 
         transactionData.setPaidAmount(rs.getInt("paidAmount"));

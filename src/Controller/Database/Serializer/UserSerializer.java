@@ -1,6 +1,6 @@
 package Controller.Database.Serializer;
 
-import Model.List.UserList;
+import Model.ArraySingleton.UserArraySingleton;
 import Model.Model.IRecordDataModel;
 import Model.Model.UserDataModel;
 
@@ -14,7 +14,7 @@ public class UserSerializer implements IDataRecordSerializer
         var user = (UserDataModel) component;
 
         HashMap<String, String> map = new HashMap<>();
-        int objIndex = UserList.get().getIndexForComponent(user);
+        int objIndex = UserArraySingleton.get().getIndexForComponent(user);
 
         map.put("userId", String.valueOf(objIndex));
         map.put("userName", user.getUserName());

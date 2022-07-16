@@ -1,7 +1,7 @@
 package Controller.Model;
 
 import Controller.Model.Listener.UpdateListener;
-import Model.List.VehicleList;
+import Model.ArraySingleton.VehicleArraySingleton;
 import Model.Model.UserDataModel;
 import Model.Model.VehicleDataModel;
 import View.Form.Input.VehicleInputForm;
@@ -27,7 +27,7 @@ public class VehicleController extends IDataRecordController
     @Override
     public void openModifyWindow(JFrame parent)
     {
-        VehicleDataModel vehicleRecord = (VehicleDataModel) getSelectedItem(VehicleList.get());
+        VehicleDataModel vehicleRecord = (VehicleDataModel) getSelectedItem(VehicleArraySingleton.get());
         if (vehicleRecord == null) { return; }
         VehicleInputForm form = new VehicleInputForm(parent, true, vehicleRecord);
         form.bindUpdateListener(updateListener);
@@ -37,9 +37,9 @@ public class VehicleController extends IDataRecordController
     @Override
     public void openDeleteWindow()
     {
-        VehicleDataModel vehicleRecord = (VehicleDataModel) getSelectedItem(VehicleList.get());
+        VehicleDataModel vehicleRecord = (VehicleDataModel) getSelectedItem(VehicleArraySingleton.get());
         if (vehicleRecord == null) { return; }
-        int vehicleIndex = VehicleList.get().getIndexForComponent(vehicleRecord);
+        int vehicleIndex = VehicleArraySingleton.get().getIndexForComponent(vehicleRecord);
         String deleteMsg = String.format(
                 "Are you sure you want to delete vehicleRecord no.%d with VehicleRecord Identification Number %s?",
                 vehicleIndex + 1,
@@ -47,7 +47,7 @@ public class VehicleController extends IDataRecordController
         int choice = JOptionPane.showConfirmDialog(null, deleteMsg, "Delete VehicleRecord", JOptionPane.YES_NO_OPTION);
         if (choice == JOptionPane.YES_OPTION)
         {
-            VehicleList.get().unregisterComponent(vehicleRecord);
+            VehicleArraySingleton.get().unregisterComponent(vehicleRecord);
             updateListener.onUpdateRecord();
         }
     }
@@ -67,7 +67,7 @@ public class VehicleController extends IDataRecordController
                 };
 
         var tableDataMatrix = new ArrayList<ArrayList<Object>>();
-        for (var obj : VehicleList.get())
+        for (var obj : VehicleArraySingleton.get())
         {
             VehicleDataModel vehicleRecord = (VehicleDataModel) obj;
             UserDataModel seller = vehicleRecord.getSeller();

@@ -1,8 +1,8 @@
 package Controller.Model;
 
 import Controller.Model.Listener.UpdateListener;
-import Model.List.UserList;
-import Model.List.VehicleList;
+import Model.ArraySingleton.UserArraySingleton;
+import Model.ArraySingleton.VehicleArraySingleton;
 import Model.Model.UserDataModel;
 import Model.Model.VehicleDataModel;
 import View.Form.Input.UserInputForm;
@@ -36,7 +36,7 @@ public class UserController extends IDataRecordController
     @Override
     public void openModifyWindow(JFrame parent)
     {
-        UserDataModel userRecord = (UserDataModel) getSelectedItem(UserList.get());
+        UserDataModel userRecord = (UserDataModel) getSelectedItem(UserArraySingleton.get());
         if (userRecord == null) { return; }
         UserInputForm form = new UserInputForm(parent, true, userRecord);
         form.bindUpdateListener(updateListener);
@@ -46,10 +46,10 @@ public class UserController extends IDataRecordController
     @Override
     public void openDeleteWindow()
     {
-        UserDataModel userRecord = (UserDataModel) getSelectedItem(UserList.get());
+        UserDataModel userRecord = (UserDataModel) getSelectedItem(UserArraySingleton.get());
         if (userRecord == null) { return; }
 
-        for (var objVehicle : VehicleList.get())
+        for (var objVehicle : VehicleArraySingleton.get())
         {
             VehicleDataModel vehicle = (VehicleDataModel) objVehicle;
             if (vehicle.getBuyer() == userRecord || vehicle.getSeller() == userRecord)
@@ -68,7 +68,7 @@ public class UserController extends IDataRecordController
             }
         }
 
-        int userIndex = UserList.get().getIndexForComponent(userRecord);
+        int userIndex = UserArraySingleton.get().getIndexForComponent(userRecord);
         String deleteMsg = String.format(
                 "Are you sure you want to delete userRecord no.%d (%s)?",
                 userIndex + 1,
@@ -80,7 +80,7 @@ public class UserController extends IDataRecordController
                 JOptionPane.YES_NO_OPTION);
         if (choice == JOptionPane.YES_OPTION)
         {
-            UserList.get().unregisterComponent(userRecord);
+            UserArraySingleton.get().unregisterComponent(userRecord);
             updateListener.onUpdateRecord();
         }
     }
@@ -95,7 +95,7 @@ public class UserController extends IDataRecordController
                         };
 
         var tableDataMatrix = new ArrayList<ArrayList<Object>>();
-        for (var obj : UserList.get())
+        for (var obj : UserArraySingleton.get())
         {
             UserDataModel userRecord = (UserDataModel) obj;
             ArrayList<Object> innerData = new ArrayList<>();

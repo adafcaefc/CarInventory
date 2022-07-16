@@ -1,6 +1,6 @@
 package View.Form.Input;
 
-import Model.List.BrandList;
+import Model.ArraySingleton.BrandArraySingleton;
 import Model.Model.BrandDataModel;
 import Model.Model.IRecordDataModel;
 
@@ -12,7 +12,7 @@ public class BrandInputForm extends IBaseInputForm
 
     public BrandInputForm(JFrame parentFrame, boolean updateRecord, BrandDataModel originalBrandRecord)
     {
-        super(updateRecord, originalBrandRecord, BrandList.get());
+        super(updateRecord, originalBrandRecord, BrandArraySingleton.get());
 
         setTitle("Brand Form");
 

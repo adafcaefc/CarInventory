@@ -1,7 +1,7 @@
 package View.Form.Input;
 
 import Controller.Model.Listener.UpdateListener;
-import Model.List.IRecordList;
+import Model.ArraySingleton.IRecordArraySingleton;
 import Model.Model.IRecordDataModel;
 import View.Form.IBaseForm;
 
@@ -12,13 +12,13 @@ public abstract class IBaseInputForm extends IBaseForm
 {
     private final boolean updateRecord;
     private final IRecordDataModel originalRecord;
-    private final IRecordList componentPool;
+    private final IRecordArraySingleton componentPool;
     private UpdateListener updateListener;
 
     public IBaseInputForm(
             boolean updateRecord,
             IRecordDataModel originalRecord,
-            IRecordList componentPool) throws HeadlessException
+            IRecordArraySingleton componentPool) throws HeadlessException
     {
         super();
         setModal(true);

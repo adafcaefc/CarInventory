@@ -1,7 +1,7 @@
 package Model.Model;
 
 import Model.Exception.DataNotBoundToList;
-import Model.List.BrandList;
+import Model.ArraySingleton.BrandArraySingleton;
 
 public class ModelDataModel extends IRecordDataModel
 {
@@ -15,7 +15,7 @@ public class ModelDataModel extends IRecordDataModel
     public ModelDataModel(BrandDataModel brandRecord) throws DataNotBoundToList
     {
         if (brandRecord == null) { return; }
-        if (!BrandList.get().componentIsRegisteredAtPool(brandRecord))
+        if (!BrandArraySingleton.get().componentIsRegisteredAtPool(brandRecord))
         {
             throw new DataNotBoundToList("The 'brand' object passed to bindToBrand does not exist inside BrandPool");
         }
