@@ -1,20 +1,20 @@
 package Controller.Database.Deserializer;
 
-import Model.Exception.DataNotBoundToList;
-import Model.ArraySingleton.BrandArraySingleton;
-import Model.Model.BrandDataModel;
-import Model.Model.IRecordDataModel;
-import Model.Model.ModelDataModel;
+import Model.Exception.InvalidData;
+import Model.Record.Data.BrandData;
+import Model.Record.Data.IData;
+import Model.Record.Data.ModelData;
+import Model.Record.List.BrandList;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ModelDeserializer implements IDataRecordDeserializer
+public class ModelDeserializer implements IDeserializer
 {
-    public IRecordDataModel deserialize(ResultSet rs) throws SQLException, DataNotBoundToList
+    public IData deserialize(ResultSet rs) throws SQLException, InvalidData
     {
-        BrandDataModel parentObj = (BrandDataModel) BrandArraySingleton.get().getComponentAt(rs.getInt("parentBrandId"));
-        var model = new ModelDataModel(parentObj);
+        BrandData parentObj = (BrandData) BrandList.get().getComponentAt(rs.getInt("parentBrandId"));
+        var model = new ModelData(parentObj);
 
         model.setModelName(rs.getString("modelName"));
         model.setModelYear(rs.getInt("modelYear"));

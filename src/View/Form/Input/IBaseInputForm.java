@@ -1,8 +1,8 @@
 package View.Form.Input;
 
-import Controller.Model.Listener.UpdateListener;
-import Model.ArraySingleton.IRecordArraySingleton;
-import Model.Model.IRecordDataModel;
+import Controller.Model.Listener.IUpdateListener;
+import Model.Record.Data.IData;
+import Model.Record.List.IList;
 import View.Form.IBaseForm;
 
 import javax.swing.*;
@@ -11,14 +11,14 @@ import java.awt.*;
 public abstract class IBaseInputForm extends IBaseForm
 {
     private final boolean updateRecord;
-    private final IRecordDataModel originalRecord;
-    private final IRecordArraySingleton componentPool;
-    private UpdateListener updateListener;
+    private final IData originalRecord;
+    private final IList componentPool;
+    private IUpdateListener updateListener;
 
     public IBaseInputForm(
             boolean updateRecord,
-            IRecordDataModel originalRecord,
-            IRecordArraySingleton componentPool) throws HeadlessException
+            IData originalRecord,
+            IList componentPool) throws HeadlessException
     {
         super();
         setModal(true);
@@ -27,16 +27,16 @@ public abstract class IBaseInputForm extends IBaseForm
         this.componentPool = componentPool;
     }
 
-    protected IRecordDataModel getOriginalRecord()
+    protected IData getOriginalRecord()
     {
         return originalRecord;
     }
 
-    public abstract IRecordDataModel getFinishedRecord() throws Exception;
+    public abstract IData getFinishedRecord() throws Exception;
 
     public abstract boolean validateInputs();
 
-    public final void bindUpdateListener(UpdateListener listener)
+    public final void bindUpdateListener(IUpdateListener listener)
     {
         updateListener = listener;
     }
@@ -69,7 +69,7 @@ public abstract class IBaseInputForm extends IBaseForm
         cancelButton.addActionListener(e -> dispose());
     }
 
-    public final void commitRecord(IRecordDataModel newRecord)
+    public final void commitRecord(IData newRecord)
     {
         if (componentPool == null || newRecord == null) { return; }
         if (updateRecord) { componentPool.updateComponent(originalRecord, newRecord); }

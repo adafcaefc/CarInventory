@@ -1,6 +1,6 @@
 package Controller.Model.Listener;
 
-public interface UpdateListener
+public interface IUpdateListener
 {
     void onUpdateRecord();
 }

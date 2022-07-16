@@ -1,16 +1,16 @@
 package Controller.Model;
 
-import Controller.Model.Listener.UpdateListener;
-import Model.ArraySingleton.ModelArraySingleton;
-import Model.Model.ModelDataModel;
+import Controller.Model.Listener.IUpdateListener;
+import Model.Record.Data.ModelData;
+import Model.Record.List.ModelList;
 import View.Form.Input.ModelInputForm;
 
 import javax.swing.*;
 import java.util.ArrayList;
 
-public class ModelController extends IDataRecordController
+public class ModelController extends IController
 {
-    public ModelController(JTable table, UpdateListener updateListener)
+    public ModelController(JTable table, IUpdateListener updateListener)
     {
         super(table, updateListener);
     }
@@ -26,7 +26,7 @@ public class ModelController extends IDataRecordController
     @Override
     public void openModifyWindow(JFrame parent)
     {
-        ModelDataModel modelRecord = (ModelDataModel) getSelectedItem(ModelArraySingleton.get());
+        ModelData modelRecord = (ModelData) getSelectedItem(ModelList.get());
         if (modelRecord == null) { return; }
         ModelInputForm form = new ModelInputForm(parent, true, modelRecord);
         form.bindUpdateListener(updateListener);
@@ -36,10 +36,10 @@ public class ModelController extends IDataRecordController
     @Override
     public void openDeleteWindow()
     {
-        ModelDataModel modelRecord = (ModelDataModel) getSelectedItem(ModelArraySingleton.get());
+        ModelData modelRecord = (ModelData) getSelectedItem(ModelList.get());
         if (modelRecord == null) { return; }
 
-        int modelIndex = ModelArraySingleton.get().getIndexForComponent(modelRecord);
+        int modelIndex = ModelList.get().getIndexForComponent(modelRecord);
         int childrenCount = modelRecord.countChildren();
 
         String deleteMsg = String.format(
@@ -60,7 +60,7 @@ public class ModelController extends IDataRecordController
 
         if (choice == JOptionPane.YES_OPTION)
         {
-            ModelArraySingleton.get().unregisterComponent(modelRecord);
+            ModelList.get().unregisterComponent(modelRecord);
             updateListener.onUpdateRecord();
         }
     }
@@ -80,9 +80,9 @@ public class ModelController extends IDataRecordController
                         };
 
         var tableDataMatrix = new ArrayList<ArrayList<Object>>();
-        for (var obj : ModelArraySingleton.get())
+        for (var obj : ModelList.get())
         {
-            ModelDataModel modelRecord = (ModelDataModel) obj;
+            ModelData modelRecord = (ModelData) obj;
             ArrayList<Object> innerData = new ArrayList<>();
             innerData.add(modelRecord.getModelName());
             innerData.add(modelRecord.getModelYear());

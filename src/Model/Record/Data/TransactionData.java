@@ -1,21 +1,21 @@
-package Model.Model;
+package Model.Record.Data;
 
-import Model.Exception.DataNotBoundToList;
-import Model.ArraySingleton.VehicleArraySingleton;
+import Model.Exception.InvalidData;
+import Model.Record.List.VehicleList;
 
 import java.util.GregorianCalendar;
 
-public class TransactionDataModel extends IRecordDataModel implements Cloneable
+public class TransactionData extends IData
 {
     private GregorianCalendar dateOfTransaction;
     private int paidAmount;
 
-    public TransactionDataModel(VehicleDataModel sourceVehicleRecord) throws DataNotBoundToList
+    public TransactionData(VehicleData sourceVehicleRecord) throws InvalidData
     {
         if (sourceVehicleRecord == null) { return; }
-        if (!VehicleArraySingleton.get().componentIsRegisteredAtPool(sourceVehicleRecord))
+        if (!VehicleList.get().componentIsRegisteredAtPool(sourceVehicleRecord))
         {
-            throw new DataNotBoundToList("The 'transaction' object passed to bindToVehicle does not exist inside TransactionPool");
+            throw new InvalidData("The 'transaction' object passed to bindToVehicle does not exist inside TransactionPool");
         }
         sourceVehicleRecord.addChild(this);
     }
@@ -37,5 +37,5 @@ public class TransactionDataModel extends IRecordDataModel implements Cloneable
         this.paidAmount = paidAmount;
     }
 
-    public VehicleDataModel getVehicle() { return (VehicleDataModel) getParent(); }
+    public VehicleData getVehicle() { return (VehicleData) getParent(); }
 }

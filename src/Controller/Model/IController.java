@@ -1,25 +1,25 @@
 package Controller.Model;
 
-import Controller.Model.Listener.UpdateListener;
-import Model.ArraySingleton.IRecordArraySingleton;
-import Model.Model.IRecordDataModel;
+import Controller.Model.Listener.IUpdateListener;
+import Model.Record.Data.IData;
+import Model.Record.List.IList;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 
-public abstract class IDataRecordController
+public abstract class IController
 {
     protected JTable table;
-    protected UpdateListener updateListener;
+    protected IUpdateListener updateListener;
 
-    public IDataRecordController(JTable table, UpdateListener updateListener)
+    public IController(JTable table, IUpdateListener updateListener)
     {
         this.table = table;
         this.updateListener = updateListener;
     }
 
-    public final IRecordDataModel getSelectedItem(IRecordArraySingleton pool)
+    public final IData getSelectedItem(IList pool)
     {
         int row = table.getSelectedRow();
         if (row == -1 || row >= pool.countRegisteredComponents()) { return null; }

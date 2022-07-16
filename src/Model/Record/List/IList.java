@@ -1,23 +1,24 @@
-package Model.ArraySingleton;
+package Model.Record.List;
 
-import Model.Model.IRecordDataModel;
+import Model.Record.Data.IData;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public abstract class IRecordArraySingleton implements Iterable<IRecordDataModel>
+public abstract class IList implements Iterable<IData>
 {
-    private final ArrayList<IRecordDataModel> componentObjects = new ArrayList<>();
-    private final IRecordArraySingleton nextPool;
-    public IRecordArraySingleton(IRecordArraySingleton nextPool)
+    private final ArrayList<IData> componentObjects = new ArrayList<>();
+    private final IList nextPool;
+
+    public IList(IList nextPool)
     {
         this.nextPool = nextPool;
     }
 
     @Override
-    public Iterator<IRecordDataModel> iterator() { return componentObjects.iterator(); }
+    public Iterator<IData> iterator() { return componentObjects.iterator(); }
 
-    public void registerComponent(IRecordDataModel object)
+    public void registerComponent(IData object)
     {
         if (!componentObjects.contains(object))
         {
@@ -30,7 +31,7 @@ public abstract class IRecordArraySingleton implements Iterable<IRecordDataModel
         if (nextPool == null) { return; }
         for (int i = 0; i < nextPool.countRegisteredComponents(); )
         {
-            IRecordDataModel childComponent = nextPool.getComponentAt(i);
+            IData childComponent = nextPool.getComponentAt(i);
             if (!componentIsRegisteredAtPool(childComponent.getParent()))
             {
                 nextPool.unregisterComponent(childComponent);
@@ -43,7 +44,7 @@ public abstract class IRecordArraySingleton implements Iterable<IRecordDataModel
         nextPool.cleanupOrphanedChildren();
     }
 
-    public void unregisterComponent(IRecordDataModel object)
+    public void unregisterComponent(IData object)
     {
         if (componentObjects.contains(object))
         {
@@ -54,13 +55,13 @@ public abstract class IRecordArraySingleton implements Iterable<IRecordDataModel
         cleanupOrphanedChildren();
     }
 
-    public void updateComponent(IRecordDataModel oldObject, IRecordDataModel newObject)
+    public void updateComponent(IData oldObject, IData newObject)
     {
         final int oldObjectIndex = componentObjects.indexOf(oldObject);
         if (oldObjectIndex == -1) { return; }
         for (int i = 0; i < oldObject.countChildren(); i++)
         {
-            IRecordDataModel child = oldObject.getChildAt(i);
+            IData child = oldObject.getChildAt(i);
             newObject.addChild(child);
         }
         var parent = oldObject.getParent();
@@ -70,12 +71,12 @@ public abstract class IRecordArraySingleton implements Iterable<IRecordDataModel
         oldObject.removeFromParent();
     }
 
-    public IRecordDataModel getComponentAt(int index)
+    public IData getComponentAt(int index)
     {
         return componentObjects.get(index);
     }
 
-    public int getIndexForComponent(IRecordDataModel component)
+    public int getIndexForComponent(IData component)
     {
         return componentObjects.indexOf(component);
     }
@@ -85,5 +86,5 @@ public abstract class IRecordArraySingleton implements Iterable<IRecordDataModel
         return componentObjects.size();
     }
 
-    public boolean componentIsRegisteredAtPool(IRecordDataModel object) { return componentObjects.contains(object); }
+    public boolean componentIsRegisteredAtPool(IData object) { return componentObjects.contains(object); }
 }

@@ -1,17 +1,17 @@
 package Controller.Model;
 
-import Controller.Model.Listener.UpdateListener;
-import Model.ArraySingleton.VehicleArraySingleton;
-import Model.Model.UserDataModel;
-import Model.Model.VehicleDataModel;
+import Controller.Model.Listener.IUpdateListener;
+import Model.Record.Data.UserData;
+import Model.Record.Data.VehicleData;
+import Model.Record.List.VehicleList;
 import View.Form.Input.VehicleInputForm;
 
 import javax.swing.*;
 import java.util.ArrayList;
 
-public class VehicleController extends IDataRecordController
+public class VehicleController extends IController
 {
-    public VehicleController(JTable table, UpdateListener updateListener)
+    public VehicleController(JTable table, IUpdateListener updateListener)
     {
         super(table, updateListener);
     }
@@ -27,7 +27,7 @@ public class VehicleController extends IDataRecordController
     @Override
     public void openModifyWindow(JFrame parent)
     {
-        VehicleDataModel vehicleRecord = (VehicleDataModel) getSelectedItem(VehicleArraySingleton.get());
+        VehicleData vehicleRecord = (VehicleData) getSelectedItem(VehicleList.get());
         if (vehicleRecord == null) { return; }
         VehicleInputForm form = new VehicleInputForm(parent, true, vehicleRecord);
         form.bindUpdateListener(updateListener);
@@ -37,9 +37,9 @@ public class VehicleController extends IDataRecordController
     @Override
     public void openDeleteWindow()
     {
-        VehicleDataModel vehicleRecord = (VehicleDataModel) getSelectedItem(VehicleArraySingleton.get());
+        VehicleData vehicleRecord = (VehicleData) getSelectedItem(VehicleList.get());
         if (vehicleRecord == null) { return; }
-        int vehicleIndex = VehicleArraySingleton.get().getIndexForComponent(vehicleRecord);
+        int vehicleIndex = VehicleList.get().getIndexForComponent(vehicleRecord);
         String deleteMsg = String.format(
                 "Are you sure you want to delete vehicleRecord no.%d with VehicleRecord Identification Number %s?",
                 vehicleIndex + 1,
@@ -47,7 +47,7 @@ public class VehicleController extends IDataRecordController
         int choice = JOptionPane.showConfirmDialog(null, deleteMsg, "Delete VehicleRecord", JOptionPane.YES_NO_OPTION);
         if (choice == JOptionPane.YES_OPTION)
         {
-            VehicleArraySingleton.get().unregisterComponent(vehicleRecord);
+            VehicleList.get().unregisterComponent(vehicleRecord);
             updateListener.onUpdateRecord();
         }
     }
@@ -67,11 +67,11 @@ public class VehicleController extends IDataRecordController
                 };
 
         var tableDataMatrix = new ArrayList<ArrayList<Object>>();
-        for (var obj : VehicleArraySingleton.get())
+        for (var obj : VehicleList.get())
         {
-            VehicleDataModel vehicleRecord = (VehicleDataModel) obj;
-            UserDataModel seller = vehicleRecord.getSeller();
-            UserDataModel buyer = vehicleRecord.getBuyer();
+            VehicleData vehicleRecord = (VehicleData) obj;
+            UserData seller = vehicleRecord.getSeller();
+            UserData buyer = vehicleRecord.getBuyer();
             ArrayList<Object> innerData = new ArrayList<>();
             innerData.add(vehicleRecord.getVIN());
             innerData.add(vehicleRecord.getLicensePlate());

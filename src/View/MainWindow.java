@@ -2,10 +2,10 @@ package View;
 
 import Controller.Database.DatabaseManager;
 import Controller.Model.*;
-import Controller.Model.Listener.UpdateListener;
+import Controller.Model.Listener.IUpdateListener;
 import Controller.Session.SessionManager;
-import Model.Model.UserLevel;
-import View.Button.JoeButton;
+import Model.Enum.UserLevel;
+import View.Button.SideButton;
 import View.Form.User.LoginForm;
 import View.Utility.FormUtilities;
 import View.Utility.SpringUtilities;
@@ -17,21 +17,19 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
 
-public class MainWindow extends JFrame implements UpdateListener
+public class MainWindow extends JFrame implements IUpdateListener
 {
-    private static final Color BACKGROUND_COLOR = new Color(0x2C394B);
-    
     public final static String BRAND_ID = "Card.Brand.Panel";
     public final static String MODEL_ID = "Card.Model.Panel";
     public final static String VEHICLE_ID = "Card.VehicleRecord.Panel";
     public final static String SALES_ID = "Card.Sales.Panel";
     public final static String USER_ID = "Card.Sales.UserRecord";
-    
-    private final JoeButton vehiclesButton = new JoeButton("VEHICLES");
-    private final JoeButton modelsButton = new JoeButton("MODELS");
-    private final JoeButton brandsButton = new JoeButton("BRANDS");
-    private final JoeButton transactionsButton = new JoeButton("SALES");
-    private final JoeButton userButton = new JoeButton("USERS");
+    private static final Color BACKGROUND_COLOR = new Color(0x2C394B);
+    private final SideButton vehiclesButton = new SideButton("VEHICLES");
+    private final SideButton modelsButton = new SideButton("MODELS");
+    private final SideButton brandsButton = new SideButton("BRANDS");
+    private final SideButton transactionsButton = new SideButton("SALES");
+    private final SideButton userButton = new SideButton("USERS");
 
     private final JTable displayTable = new JTable();
     private final JScrollPane cCenterPanel = new JScrollPane(displayTable);
@@ -39,17 +37,17 @@ public class MainWindow extends JFrame implements UpdateListener
     private final JPanel cRightPanel = new JPanel();
     private final JLabel welcomeLabel = new JLabel();
 
-    private final JoeButton insertButton = new JoeButton("INSERT");
-    private final JoeButton modifyButton = new JoeButton("MODIFY");
-    private final JoeButton deleteButton = new JoeButton("DELETE");
-    private final JoeButton logInButton = new JoeButton("LOG IN");
-    private final JoeButton logOutButton = new JoeButton("LOG OUT");
-    private final JoeButton registerButton = new JoeButton("REGISTER");
+    private final SideButton insertButton = new SideButton("INSERT");
+    private final SideButton modifyButton = new SideButton("MODIFY");
+    private final SideButton deleteButton = new SideButton("DELETE");
+    private final SideButton logInButton = new SideButton("LOG IN");
+    private final SideButton logOutButton = new SideButton("LOG OUT");
+    private final SideButton registerButton = new SideButton("REGISTER");
 
     private final DatabaseManager databaseManager;
-    private IDataRecordController crudController;
-    private HashMap<String, JoeButton> idToButtonMap;
-    private HashMap<String, IDataRecordController> idToCRUDControllerMap;
+    private IController crudController;
+    private HashMap<String, SideButton> idToButtonMap;
+    private HashMap<String, IController> idToCRUDControllerMap;
 
     public MainWindow(DatabaseManager databaseManager)
     {
@@ -102,16 +100,16 @@ public class MainWindow extends JFrame implements UpdateListener
         cellRenderer.setHorizontalAlignment(JLabel.CENTER);
         cCenterPanel.getViewport().setBackground(BACKGROUND_COLOR);
         displayTable.setBackground(BACKGROUND_COLOR);
-        displayTable.setForeground(JoeButton.TEXT_COLOR);
-        displayTable.setSelectionBackground(JoeButton.SELECTED_COLOR);
-        displayTable.setSelectionForeground(JoeButton.TEXT_COLOR);
+        displayTable.setForeground(SideButton.TEXT_COLOR);
+        displayTable.setSelectionBackground(SideButton.SELECTED_COLOR);
+        displayTable.setSelectionForeground(SideButton.TEXT_COLOR);
         displayTable.setShowVerticalLines(false);
         displayTable.setDefaultRenderer(Object.class, cellRenderer);
         displayTable.setRowHeight(28);
 
         var header = displayTable.getTableHeader();
         header.setBackground(BACKGROUND_COLOR);
-        header.setForeground(JoeButton.TEXT_COLOR);
+        header.setForeground(SideButton.TEXT_COLOR);
         var headerRenderer = new DefaultTableCellRenderer()
         {
             @Override
@@ -124,7 +122,7 @@ public class MainWindow extends JFrame implements UpdateListener
                     int column)
             {
                 Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                c.setFont(JoeButton.JOE_BUTTON_FONT);
+                c.setFont(SideButton.BUTTON_FONT);
                 return c;
             }
         };
@@ -137,18 +135,18 @@ public class MainWindow extends JFrame implements UpdateListener
 
         JLabel mainLabel = new JLabel("JoeCar Inventory System");
         mainLabel.setFont(new Font("Century Gothic", Font.BOLD, 36));
-        mainLabel.setForeground(JoeButton.TEXT_COLOR);
+        mainLabel.setForeground(SideButton.TEXT_COLOR);
         mainLabel.setHorizontalAlignment(JLabel.CENTER);
 
         welcomeLabel.setFont(new Font("Century Gothic", Font.PLAIN, 18));
-        welcomeLabel.setForeground(JoeButton.TEXT_COLOR);
+        welcomeLabel.setForeground(SideButton.TEXT_COLOR);
         welcomeLabel.setHorizontalAlignment(JLabel.CENTER);
 
         var sepLabel = new JLabel("...");
         sepLabel.setFont(new Font("Century Gothic", Font.PLAIN, 36));
         sepLabel.setVisible(false);
 
-        var closeButton = new JoeButton("X");
+        var closeButton = new SideButton("X");
         closeButton.addActionListener(e -> System.exit(0));
         closeButton.setBorderPainted(false);
         closeButton.setContentAreaFilled(false);
@@ -200,7 +198,7 @@ public class MainWindow extends JFrame implements UpdateListener
         addMouseListener(frameDragListener);
         addMouseMotionListener(frameDragListener);
 
-        mainPanel.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, JoeButton.CLICKED_COLOR));
+        mainPanel.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, SideButton.CLICKED_COLOR));
 
         new Thread(() ->
         {
@@ -228,9 +226,9 @@ public class MainWindow extends JFrame implements UpdateListener
 
     private void highlightButton(JButton targetButton)
     {
-        for (JoeButton currButton : idToButtonMap.values())
+        for (SideButton currButton : idToButtonMap.values())
         {
-            currButton.setJoeSelected(targetButton == currButton);
+            currButton.setSideButtonSelected(targetButton == currButton);
             currButton.updateAppearance();
         }
     }
@@ -238,7 +236,7 @@ public class MainWindow extends JFrame implements UpdateListener
     public void updateMenuState(String id)
     {
         JButton button = idToButtonMap.get(id);
-        IDataRecordController controller = idToCRUDControllerMap.get(id);
+        IController controller = idToCRUDControllerMap.get(id);
         if (button != null && controller != null)
         {
             highlightButton(button);
@@ -257,19 +255,19 @@ public class MainWindow extends JFrame implements UpdateListener
         {
             welcomeLabel.setText("You are not logged in, please log in.");
 
-            registerButton.setJoeEnabled(true);
-            logInButton.setJoeEnabled(true);
-            logOutButton.setJoeEnabled(false);
+            registerButton.setSideButtonEnabled(true);
+            logInButton.setSideButtonEnabled(true);
+            logOutButton.setSideButtonEnabled(false);
 
-            vehiclesButton.setJoeEnabled(false);
-            modelsButton.setJoeEnabled(false);
-            brandsButton.setJoeEnabled(false);
-            transactionsButton.setJoeEnabled(false);
-            userButton.setJoeEnabled(false);
+            vehiclesButton.setSideButtonEnabled(false);
+            modelsButton.setSideButtonEnabled(false);
+            brandsButton.setSideButtonEnabled(false);
+            transactionsButton.setSideButtonEnabled(false);
+            userButton.setSideButtonEnabled(false);
 
-            insertButton.setJoeEnabled(false);
-            modifyButton.setJoeEnabled(false);
-            deleteButton.setJoeEnabled(false);
+            insertButton.setSideButtonEnabled(false);
+            modifyButton.setSideButtonEnabled(false);
+            deleteButton.setSideButtonEnabled(false);
 
             cCenterPanel.setVisible(false);
         }
@@ -277,23 +275,23 @@ public class MainWindow extends JFrame implements UpdateListener
         {
             welcomeLabel.setText(String.format("Welcome, %s! You are logged in as %s.", user.getUserName(), user.getUserLevel().toString()));
 
-            registerButton.setJoeEnabled(false);
-            logInButton.setJoeEnabled(false);
-            logOutButton.setJoeEnabled(true);
+            registerButton.setSideButtonEnabled(false);
+            logInButton.setSideButtonEnabled(false);
+            logOutButton.setSideButtonEnabled(true);
 
             boolean salesAccess = user.getUserLevel() == UserLevel.ADMIN || user.getUserLevel() == UserLevel.SALES_MANAGER;
             boolean adminAccess = user.getUserLevel() == UserLevel.ADMIN;
             boolean managerAccess = user.getUserLevel() == UserLevel.ADMIN || user.getUserLevel() == UserLevel.PRODUCT_MANAGER;
 
-            vehiclesButton.setJoeEnabled(true);
-            transactionsButton.setJoeEnabled(salesAccess);
-            brandsButton.setJoeEnabled(managerAccess);
-            modelsButton.setJoeEnabled(managerAccess);
-            userButton.setJoeEnabled(adminAccess);
+            vehiclesButton.setSideButtonEnabled(true);
+            transactionsButton.setSideButtonEnabled(salesAccess);
+            brandsButton.setSideButtonEnabled(managerAccess);
+            modelsButton.setSideButtonEnabled(managerAccess);
+            userButton.setSideButtonEnabled(adminAccess);
 
-            insertButton.setJoeEnabled(true);
-            modifyButton.setJoeEnabled(true);
-            deleteButton.setJoeEnabled(true);
+            insertButton.setSideButtonEnabled(true);
+            modifyButton.setSideButtonEnabled(true);
+            deleteButton.setSideButtonEnabled(true);
 
             cCenterPanel.setVisible(true);
         }

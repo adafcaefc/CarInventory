@@ -1,8 +1,8 @@
 package Controller.Session;
 
 import Controller.Utility.PasswordUtilities;
-import Model.ArraySingleton.UserArraySingleton;
-import Model.Model.UserDataModel;
+import Model.Record.Data.UserData;
+import Model.Record.List.UserList;
 
 import javax.swing.*;
 import java.io.File;
@@ -18,7 +18,7 @@ public class SessionManager
     final String USERNAME_FILE = "JoeCarSession_1.dat";
     final String PASSWORD_FILE = "JoeCarSession_2.dat";
     final String SALT_FILE = "JoeCarSession_3.dat";
-    UserDataModel currentUserRecord = null;
+    UserData currentUserRecord = null;
 
     private SessionManager() { }
 
@@ -57,7 +57,7 @@ public class SessionManager
         }
     }
 
-    public UserDataModel getCurrentUser()
+    public UserData getCurrentUser()
     {
         return currentUserRecord;
     }
@@ -90,9 +90,9 @@ public class SessionManager
         var password = loadStringFromFile(PASSWORD_FILE);
         var salt = loadStringFromFile(SALT_FILE);
 
-        for (var obj : UserArraySingleton.get())
+        for (var obj : UserList.get())
         {
-            UserDataModel userRecord = (UserDataModel) obj;
+            UserData userRecord = (UserData) obj;
             if (userRecord.getUserName().equals(userName) && userRecord.getPassword().equals(password))
             {
                 currentUserRecord = userRecord;
@@ -101,11 +101,11 @@ public class SessionManager
         }
     }
 
-    public UserDataModel logIn(String userName, String password) throws NoSuchAlgorithmException
+    public UserData logIn(String userName, String password) throws NoSuchAlgorithmException
     {
-        for (var obj : UserArraySingleton.get())
+        for (var obj : UserList.get())
         {
-            UserDataModel userRecord = (UserDataModel) obj;
+            UserData userRecord = (UserData) obj;
             if (userRecord.getUserName().equals(userName) && userRecord.getPassword().equals(PasswordUtilities.sha256Salted(password, userRecord.getSalt())))
             {
                 currentUserRecord = userRecord;

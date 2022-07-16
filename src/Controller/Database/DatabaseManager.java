@@ -2,8 +2,8 @@ package Controller.Database;
 
 import Controller.Database.Deserializer.*;
 import Controller.Database.Serializer.*;
-import Model.Exception.DataNotBoundToList;
-import Model.ArraySingleton.*;
+import Model.Exception.InvalidData;
+import Model.Record.List.*;
 
 import javax.swing.*;
 import java.sql.Connection;
@@ -33,8 +33,8 @@ public class DatabaseManager
 
     private void saveStatement(
             String tableName,
-            IRecordArraySingleton pool,
-            IDataRecordSerializer serializer)
+            IList pool,
+            ISerializer serializer)
     throws SQLException
     {
         conn.createStatement().executeUpdate(String.format("TRUNCATE TABLE `%s`;", tableName));
@@ -61,11 +61,11 @@ public class DatabaseManager
     {
         try
         {
-            saveStatement("users", UserArraySingleton.get(), new UserSerializer());
-            saveStatement("brands", BrandArraySingleton.get(), new BrandSerializer());
-            saveStatement("models", ModelArraySingleton.get(), new ModelSerializer());
-            saveStatement("vehicles", VehicleArraySingleton.get(), new VehicleSerializer());
-            saveStatement("transactions", TransactionArraySingleton.get(), new TransactionSerializer());
+            saveStatement("users", UserList.get(), new UserSerializer());
+            saveStatement("brands", BrandList.get(), new BrandSerializer());
+            saveStatement("models", ModelList.get(), new ModelSerializer());
+            saveStatement("vehicles", VehicleList.get(), new VehicleSerializer());
+            saveStatement("transactions", TransactionList.get(), new TransactionSerializer());
         }
         catch (SQLException ex)
         {
@@ -80,11 +80,11 @@ public class DatabaseManager
 
     private void loadStatement(
             String query,
-            IRecordArraySingleton pool,
-            IDataRecordDeserializer deserializer)
+            IList pool,
+            IDeserializer deserializer)
     throws SQLException,
             IndexOutOfBoundsException,
-            DataNotBoundToList
+            InvalidData
     {
 
         ResultSet rs = conn.createStatement().executeQuery(query);
@@ -97,11 +97,11 @@ public class DatabaseManager
     private void loadStatement(
             String tableName,
             String primaryKeyName,
-            IRecordArraySingleton pool,
-            IDataRecordDeserializer deserializer)
+            IList pool,
+            IDeserializer deserializer)
     throws SQLException,
             IndexOutOfBoundsException,
-            DataNotBoundToList
+            InvalidData
     {
         loadStatement(String.format("SELECT * FROM `%s` ORDER BY `%s`;", tableName, primaryKeyName), pool, deserializer);
     }
@@ -110,13 +110,13 @@ public class DatabaseManager
     {
         try
         {
-            loadStatement("users", "userId", UserArraySingleton.get(), new UserDeserializer());
-            loadStatement("brands", "brandId", BrandArraySingleton.get(), new BrandDeserializer());
-            loadStatement("models", "modelId", ModelArraySingleton.get(), new ModelDeserializer());
-            loadStatement("vehicles", "vehicleId", VehicleArraySingleton.get(), new VehicleDeserializer());
-            loadStatement("transactions", "transactionId", TransactionArraySingleton.get(), new TransactionDeserializer());
+            loadStatement("users", "userId", UserList.get(), new UserDeserializer());
+            loadStatement("brands", "brandId", BrandList.get(), new BrandDeserializer());
+            loadStatement("models", "modelId", ModelList.get(), new ModelDeserializer());
+            loadStatement("vehicles", "vehicleId", VehicleList.get(), new VehicleDeserializer());
+            loadStatement("transactions", "transactionId", TransactionList.get(), new TransactionDeserializer());
         }
-        catch (DataNotBoundToList | SQLException | IndexOutOfBoundsException ex)
+        catch (InvalidData | SQLException | IndexOutOfBoundsException ex)
         {
             JOptionPane.showMessageDialog(
                     null,
