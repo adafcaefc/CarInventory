@@ -1,9 +1,9 @@
 package Controller.Model;
 
 import Controller.Model.Listener.UpdateListener;
+import Model.List.VehicleList;
 import Model.Model.UserDataModel;
 import Model.Model.VehicleDataModel;
-import Model.List.VehicleList;
 import View.Form.Input.VehicleInputForm;
 
 import javax.swing.*;

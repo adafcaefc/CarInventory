@@ -1,8 +1,8 @@
 package View.Form.Input;
 
+import Model.List.BrandList;
 import Model.Model.BrandDataModel;
 import Model.Model.IRecordDataModel;
-import Model.List.BrandList;
 
 import javax.swing.*;
 

@@ -1,8 +1,8 @@
 package Controller.Model;
 
 import Controller.Model.Listener.UpdateListener;
-import Model.Model.UserDataModel;
 import Model.List.UserList;
+import Model.Model.UserDataModel;
 import View.Form.Input.UserInputForm;
 import View.Form.User.RegistrationForm;
 
@@ -70,7 +70,7 @@ public class UserController extends IDataRecordController
                 {
                         "User Name",
                         "User Type",
-                };
+                        };
 
         var tableDataMatrix = new ArrayList<ArrayList<Object>>();
         for (var obj : UserList.get())

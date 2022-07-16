@@ -1,8 +1,8 @@
 package Controller.Database.Serializer;
 
+import Model.List.UserList;
 import Model.Model.IRecordDataModel;
 import Model.Model.UserDataModel;
-import Model.List.UserList;
 
 import java.util.HashMap;
 
@@ -20,7 +20,7 @@ public class UserSerializer implements IDataRecordSerializer
         map.put("userName", user.getUserName());
         map.put("password", user.getPassword());
         map.put("salt", user.getSalt());
-        map .put("userLevel", String.valueOf(user.getUserLevel().getValue()));
+        map.put("userLevel", String.valueOf(user.getUserLevel().getValue()));
 
         return map;
     }

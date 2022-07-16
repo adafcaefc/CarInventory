@@ -1,10 +1,10 @@
 package View.Form.Input;
 
 import Controller.Utility.ValidationUtilities;
-import Model.Model.*;
 import Model.List.ModelList;
 import Model.List.UserList;
 import Model.List.VehicleList;
+import Model.Model.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -87,7 +87,7 @@ public class VehicleInputForm extends IBaseInputForm
                         discountTextField,
                         sellerDropdownBox,
                         buyerDropdownBox,
-                };
+                        };
 
         for (JComponent c : uiInputs) { c.setBackground(Color.WHITE); }
 

@@ -1,8 +1,10 @@
 package View.Form.Input;
 
-import Model.Model.*;
 import Model.List.TransactionList;
 import Model.List.VehicleList;
+import Model.Model.IRecordDataModel;
+import Model.Model.TransactionDataModel;
+import Model.Model.VehicleDataModel;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,19 +1,19 @@
 package View.Form.Input;
 
+import Model.List.UserList;
 import Model.Model.IRecordDataModel;
 import Model.Model.UserDataModel;
 import Model.Model.UserLevel;
-import Model.List.UserList;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class UserInputForm extends IBaseInputForm
 {
+    public final JComboBox<String> userLevelDropdownBox = new JComboBox<>();
     private final JPasswordField passwordTextField = new JPasswordField();
     private final JPasswordField passwordConfirmationTextField = new JPasswordField();
     private final JTextField userNameTextField = new JTextField();
-    public final JComboBox<String> userLevelDropdownBox = new JComboBox<>();
 
     public UserInputForm(
             JFrame parentFrame,

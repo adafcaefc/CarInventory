@@ -1,8 +1,8 @@
 package View.Form.Input;
 
 import Controller.Model.Listener.UpdateListener;
-import Model.Model.IRecordDataModel;
 import Model.List.IRecordList;
+import Model.Model.IRecordDataModel;
 import View.Form.IBaseForm;
 
 import javax.swing.*;

@@ -1,7 +1,7 @@
 package Controller.Session;
 
-import Model.Model.UserDataModel;
 import Model.List.UserList;
+import Model.Model.UserDataModel;
 
 public class SessionData implements java.io.Serializable
 {

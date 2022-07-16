@@ -8,9 +8,9 @@ import java.util.Random;
 
 public class PasswordUtilities
 {
-    private PasswordUtilities() { }
-
     private static final Random rng = new SecureRandom();
+
+    private PasswordUtilities() { }
 
     public static String bytesToHex(byte[] hash)
     {

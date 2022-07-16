@@ -17,7 +17,32 @@ public class JoeButton extends JButton
     public static final Color DISABLED_TEXT_COLOR = new Color(0xF1EEE9);
 
     public static final Font JOE_BUTTON_FONT = new Font("Century Gothic", Font.BOLD, 16);
+    boolean isJoeSelected = false;
+    boolean isJoeEnabled = true;
 
+    public JoeButton(String text)
+    {
+        super(text);
+        setFocusPainted(false);
+        setBorderPainted(false);
+        setRolloverEnabled(false);
+        updateAppearance();
+        addMouseListener(new MouseAdapter()
+        {
+            @Override
+            public void mouseEntered(MouseEvent evt)
+            {
+                if (isEnabled()) { setBackground(HOVER_COLOR); }
+            }
+
+            @Override
+            public void mouseExited(MouseEvent evt)
+            {
+                setBackground(getSelectedColor());
+            }
+        });
+        setFont(JOE_BUTTON_FONT);
+    }
 
     public boolean isJoeSelected()
     {
@@ -43,9 +68,6 @@ public class JoeButton extends JButton
         updateAppearance();
     }
 
-    boolean isJoeSelected = false;
-    boolean isJoeEnabled = true;
-
     private Color getSelectedColor()
     {
         return isJoeSelected ? SELECTED_COLOR : UNSELECTED_COLOR;
@@ -60,29 +82,5 @@ public class JoeButton extends JButton
     {
         setBackground(getSelectedColor());
         setForeground(getTextColor());
-    }
-
-    public JoeButton(String text)
-    {
-        super(text);
-        setFocusPainted(false);
-        setBorderPainted(false);
-        setRolloverEnabled(false);
-        updateAppearance();
-        addMouseListener(new MouseAdapter()
-        {
-            @Override
-            public void mouseEntered(MouseEvent evt)
-            {
-                if (isEnabled()) { setBackground(HOVER_COLOR); }
-            }
-
-            @Override
-            public void mouseExited(MouseEvent evt)
-            {
-                setBackground(getSelectedColor());
-            }
-        });
-        setFont(JOE_BUTTON_FONT);
     }
 }

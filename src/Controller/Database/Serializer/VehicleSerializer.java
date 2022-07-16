@@ -1,10 +1,10 @@
 package Controller.Database.Serializer;
 
-import Model.Model.IRecordDataModel;
-import Model.Model.VehicleDataModel;
 import Model.List.ModelList;
 import Model.List.UserList;
 import Model.List.VehicleList;
+import Model.Model.IRecordDataModel;
+import Model.Model.VehicleDataModel;
 
 import java.util.HashMap;
 

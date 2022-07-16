@@ -1,11 +1,11 @@
 package View.Form.Input;
 
 import Controller.Utility.ValidationUtilities;
+import Model.List.BrandList;
+import Model.List.ModelList;
 import Model.Model.BrandDataModel;
 import Model.Model.IRecordDataModel;
 import Model.Model.ModelDataModel;
-import Model.List.BrandList;
-import Model.List.ModelList;
 
 import javax.swing.*;
 import java.awt.*;
@@ -54,12 +54,12 @@ public class ModelInputForm extends IBaseInputForm
 
         JComponent[] uiInputs = new JComponent[]
                 {
-                    nameTextField,
-                    yearTextField,
-                    capacityTextField,
-                    doorCountSpinner,
-                    seatCountSpinner,
-                };
+                        nameTextField,
+                        yearTextField,
+                        capacityTextField,
+                        doorCountSpinner,
+                        seatCountSpinner,
+                        };
 
         for (JComponent c : uiInputs) { c.setBackground(Color.WHITE); }
 

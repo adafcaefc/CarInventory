@@ -1,8 +1,8 @@
 package Controller.Model;
 
 import Controller.Model.Listener.UpdateListener;
-import Model.Model.BrandDataModel;
 import Model.List.BrandList;
+import Model.Model.BrandDataModel;
 import View.Form.Input.BrandInputForm;
 
 import javax.swing.*;

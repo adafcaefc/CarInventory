@@ -14,6 +14,22 @@ public class LoginForm extends IBaseForm
     private final JPasswordField passwordTextField = new JPasswordField();
     private final MainWindow mainWindow;
 
+    public LoginForm(MainWindow mainWindow)
+    {
+        super();
+
+        bindButtons(okButton, cancelButton);
+
+        setTitle("Login Form");
+
+        addComponentPair("User Name", userNameTextField);
+        addComponentPair("Password", passwordTextField);
+
+        buildForm(mainWindow);
+
+        this.mainWindow = mainWindow;
+    }
+
     private UserDataModel logIn() throws NoSuchAlgorithmException
     {
         String userName = userNameTextField.getText();
@@ -56,21 +72,5 @@ public class LoginForm extends IBaseForm
         });
 
         cancelButton.addActionListener(e -> dispose());
-    }
-
-    public LoginForm(MainWindow mainWindow)
-    {
-        super();
-
-        bindButtons(okButton, cancelButton);
-
-        setTitle("Login Form");
-
-        addComponentPair("User Name", userNameTextField);
-        addComponentPair("Password", passwordTextField);
-
-        buildForm(mainWindow);
-
-        this.mainWindow = mainWindow;
     }
 }

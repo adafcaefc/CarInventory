@@ -1,8 +1,8 @@
 package View;
 
+import Controller.Database.DatabaseManager;
 import Controller.Model.*;
 import Controller.Model.Listener.UpdateListener;
-import Controller.Database.DatabaseManager;
 import Controller.Session.SessionManager;
 import Model.Model.UserLevel;
 import View.Button.JoeButton;
@@ -19,14 +19,12 @@ import java.util.HashMap;
 
 public class MainWindow extends JFrame implements UpdateListener
 {
-    private static final Color BACKGROUND_COLOR = new Color(0x2C394B);
-
     public final static String BRAND_ID = "Card.Brand.Panel";
     public final static String MODEL_ID = "Card.Model.Panel";
     public final static String VEHICLE_ID = "Card.VehicleRecord.Panel";
     public final static String SALES_ID = "Card.Sales.Panel";
     public final static String USER_ID = "Card.Sales.UserRecord";
-
+    private static final Color BACKGROUND_COLOR = new Color(0x2C394B);
     private final JoeButton vehiclesButton = new JoeButton("VEHICLES");
     private final JoeButton modelsButton = new JoeButton("MODELS");
     private final JoeButton brandsButton = new JoeButton("BRANDS");
@@ -212,9 +210,9 @@ public class MainWindow extends JFrame implements UpdateListener
                 counter += 0.05;
                 while (counter > 2.f * Math.PI) { counter -= 2.f * Math.PI; }
                 var color = new Color(
-                        (int)(FormUtilities.calculateRainbow(counter + 0) * 255.),
-                        (int)(FormUtilities.calculateRainbow(counter + 2) * 255.),
-                        (int)(FormUtilities.calculateRainbow(counter + 4) * 255.));
+                        (int) (FormUtilities.calculateRainbow(counter + 0) * 255.),
+                        (int) (FormUtilities.calculateRainbow(counter + 2) * 255.),
+                        (int) (FormUtilities.calculateRainbow(counter + 4) * 255.));
                 mainPanel.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, color));
             }
         }).start();
@@ -283,7 +281,7 @@ public class MainWindow extends JFrame implements UpdateListener
 
             boolean salesAccess = user.getUserLevel() == UserLevel.ADMIN || user.getUserLevel() == UserLevel.SALES_MANAGER;
             boolean adminAccess = user.getUserLevel() == UserLevel.ADMIN;
-            boolean managerAccess =  user.getUserLevel() == UserLevel.ADMIN ||user.getUserLevel() == UserLevel.PRODUCT_MANAGER;
+            boolean managerAccess = user.getUserLevel() == UserLevel.ADMIN || user.getUserLevel() == UserLevel.PRODUCT_MANAGER;
 
             vehiclesButton.setJoeEnabled(true);
             transactionsButton.setJoeEnabled(salesAccess);

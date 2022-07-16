@@ -1,8 +1,8 @@
 package Controller.Database.Serializer;
 
+import Model.List.BrandList;
 import Model.Model.BrandDataModel;
 import Model.Model.IRecordDataModel;
-import Model.List.BrandList;
 
 import java.util.HashMap;
 

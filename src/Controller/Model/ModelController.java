@@ -1,8 +1,8 @@
 package Controller.Model;
 
 import Controller.Model.Listener.UpdateListener;
-import Model.Model.ModelDataModel;
 import Model.List.ModelList;
+import Model.Model.ModelDataModel;
 import View.Form.Input.ModelInputForm;
 
 import javax.swing.*;
@@ -77,7 +77,7 @@ public class ModelController extends IDataRecordController
                         "Seats",
                         "Fuel",
                         "Brand",
-                };
+                        };
 
         var tableDataMatrix = new ArrayList<ArrayList<Object>>();
         for (var obj : ModelList.get())

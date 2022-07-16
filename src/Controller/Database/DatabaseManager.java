@@ -99,7 +99,7 @@ public class DatabaseManager
             String primaryKeyName,
             IRecordList pool,
             IDataRecordDeserializer deserializer)
-    throws  SQLException,
+    throws SQLException,
             IndexOutOfBoundsException,
             DataNotBoundToList
     {

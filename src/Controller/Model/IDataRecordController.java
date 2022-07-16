@@ -1,8 +1,8 @@
 package Controller.Model;
 
 import Controller.Model.Listener.UpdateListener;
-import Model.Model.IRecordDataModel;
 import Model.List.IRecordList;
+import Model.Model.IRecordDataModel;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

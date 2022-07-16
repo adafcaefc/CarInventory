@@ -14,6 +14,16 @@ public class VehicleDataModel extends IRecordDataModel
     private UserDataModel seller = null;
     private UserDataModel buyer = null;
 
+    public VehicleDataModel(ModelDataModel modelRecord) throws DataNotBoundToList
+    {
+        if (modelRecord == null) { return; }
+        if (!ModelList.get().componentIsRegisteredAtPool(modelRecord))
+        {
+            throw new DataNotBoundToList("The 'model' object passed to bindToModel does not exist inside ModelPool");
+        }
+        modelRecord.addChild(this);
+    }
+
     public Double getDiscount()
     {
         return discount;
@@ -52,16 +62,6 @@ public class VehicleDataModel extends IRecordDataModel
     public void setBuyer(UserDataModel buyer)
     {
         this.buyer = buyer;
-    }
-
-    public VehicleDataModel(ModelDataModel modelRecord) throws DataNotBoundToList
-    {
-        if (modelRecord == null) { return; }
-        if (!ModelList.get().componentIsRegisteredAtPool(modelRecord))
-        {
-            throw new DataNotBoundToList("The 'model' object passed to bindToModel does not exist inside ModelPool");
-        }
-        modelRecord.addChild(this);
     }
 
     public ModelDataModel getModel()

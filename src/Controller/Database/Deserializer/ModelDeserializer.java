@@ -1,10 +1,10 @@
 package Controller.Database.Deserializer;
 
 import Model.Exception.DataNotBoundToList;
+import Model.List.BrandList;
 import Model.Model.BrandDataModel;
 import Model.Model.IRecordDataModel;
 import Model.Model.ModelDataModel;
-import Model.List.BrandList;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

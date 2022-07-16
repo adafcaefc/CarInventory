@@ -7,15 +7,15 @@ import java.util.Iterator;
 
 public abstract class IRecordList implements Iterable<IRecordDataModel>
 {
-    @Override
-    public Iterator<IRecordDataModel> iterator() { return componentObjects.iterator(); }
     private final ArrayList<IRecordDataModel> componentObjects = new ArrayList<>();
     private final IRecordList nextPool;
-
     public IRecordList(IRecordList nextPool)
     {
         this.nextPool = nextPool;
     }
+
+    @Override
+    public Iterator<IRecordDataModel> iterator() { return componentObjects.iterator(); }
 
     public void registerComponent(IRecordDataModel object)
     {

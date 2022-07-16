@@ -54,6 +54,6 @@ public class UserDataModel extends IRecordDataModel
     public void setPasswordRaw(String str) throws NoSuchAlgorithmException
     {
         this.salt = PasswordUtilities.generateSalt();
-        this.password = PasswordUtilities.sha256Salted(str,this.salt);
+        this.password = PasswordUtilities.sha256Salted(str, this.salt);
     }
 }

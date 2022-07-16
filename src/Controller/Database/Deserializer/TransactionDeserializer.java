@@ -1,8 +1,10 @@
 package Controller.Database.Deserializer;
 
-import Model.Model.*;
 import Model.Exception.DataNotBoundToList;
 import Model.List.VehicleList;
+import Model.Model.IRecordDataModel;
+import Model.Model.TransactionDataModel;
+import Model.Model.VehicleDataModel;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

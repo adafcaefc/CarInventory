@@ -1,9 +1,9 @@
 package Controller.Database.Serializer;
 
-import Model.Model.IRecordDataModel;
-import Model.Model.TransactionDataModel;
 import Model.List.TransactionList;
 import Model.List.VehicleList;
+import Model.Model.IRecordDataModel;
+import Model.Model.TransactionDataModel;
 
 import java.util.Calendar;
 import java.util.HashMap;
