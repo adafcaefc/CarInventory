@@ -4,6 +4,7 @@ import Controller.Model.Listener.UpdateListener;
 import Model.Data.UserData;
 import Model.List.UserList;
 import View.Form.Input.UserInputForm;
+import View.Form.User.RegistrationForm;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -19,6 +20,13 @@ public class UserController extends IDataRecordController
     public void openCreateWindow(JFrame parent)
     {
         UserInputForm form = new UserInputForm(parent, false, null);
+        form.bindUpdateListener(updateListener);
+        form.setVisible(true);
+    }
+
+    public void openRegistrationWindow(JFrame parent)
+    {
+        RegistrationForm form = new RegistrationForm(parent, false, null);
         form.bindUpdateListener(updateListener);
         form.setVisible(true);
     }

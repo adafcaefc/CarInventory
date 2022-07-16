@@ -14,7 +14,7 @@ public class UserInputForm extends IBaseInputForm
     private final JPasswordField passwordTextField = new JPasswordField();
     private final JPasswordField passwordConfirmationTextField = new JPasswordField();
     private final JTextField userNameTextField = new JTextField();
-    private final JComboBox<String> userLevelDropdownBox = new JComboBox<>();
+    public final JComboBox<String> userLevelDropdownBox = new JComboBox<>();
 
     public UserInputForm(
             JFrame parentFrame,

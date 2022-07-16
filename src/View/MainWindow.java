@@ -6,7 +6,7 @@ import Controller.Database.DatabaseManager;
 import Controller.Session.SessionManager;
 import Model.Data.UserLevel;
 import View.Button.JoeButton;
-import View.Form.Login.LoginForm;
+import View.Form.User.LoginForm;
 import View.Utility.FormUtilities;
 import View.Utility.SpringUtilities;
 
@@ -80,7 +80,8 @@ public class MainWindow extends JFrame implements UpdateListener
         cRightPanel.add(deleteButton);
         cRightPanel.add(logInButton);
         cRightPanel.add(logOutButton);
-        SpringUtilities.makeCompactGrid(cRightPanel, 5, 1, 6, 6, 6, 6);
+        cRightPanel.add(registerButton);
+        SpringUtilities.makeCompactGrid(cRightPanel, 6, 1, 6, 6, 6, 6);
 
         var cellRenderer = new DefaultTableCellRenderer()
         {
@@ -256,6 +257,7 @@ public class MainWindow extends JFrame implements UpdateListener
         {
             welcomeLabel.setText("You are not logged in, please log in.");
 
+            registerButton.setJoeEnabled(true);
             logInButton.setJoeEnabled(true);
             logOutButton.setJoeEnabled(false);
 
@@ -275,6 +277,7 @@ public class MainWindow extends JFrame implements UpdateListener
         {
             welcomeLabel.setText(String.format("Welcome, %s! You are logged in as %s.", user.getUserName(), user.getUserLevel().toString()));
 
+            registerButton.setJoeEnabled(false);
             logInButton.setJoeEnabled(false);
             logOutButton.setJoeEnabled(true);
 
@@ -303,6 +306,7 @@ public class MainWindow extends JFrame implements UpdateListener
         brandsButton.addActionListener(e -> updateMenuState(BRAND_ID));
         transactionsButton.addActionListener(e -> updateMenuState(SALES_ID));
         userButton.addActionListener(e -> updateMenuState(USER_ID));
+        registerButton.addActionListener(e -> ((UserController) idToCRUDControllerMap.get(USER_ID)).openRegistrationWindow(MainWindow.this));
     }
 
     private void setupCRUDButtons()

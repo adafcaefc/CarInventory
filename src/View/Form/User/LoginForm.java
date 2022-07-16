@@ -1,10 +1,9 @@
-package View.Form.Login;
+package View.Form.User;
 
 import Controller.Session.SessionManager;
 import Model.Data.UserData;
 import View.Form.IBaseForm;
 import View.MainWindow;
-import View.Utility.SpringUtilities;
 
 import javax.swing.*;
 import java.security.NoSuchAlgorithmException;
