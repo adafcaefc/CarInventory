@@ -2,7 +2,9 @@ package Controller.Model;
 
 import Controller.Model.Listener.UpdateListener;
 import Model.List.UserList;
+import Model.List.VehicleList;
 import Model.Model.UserDataModel;
+import Model.Model.VehicleDataModel;
 import View.Form.Input.UserInputForm;
 import View.Form.User.RegistrationForm;
 
@@ -46,6 +48,26 @@ public class UserController extends IDataRecordController
     {
         UserDataModel userRecord = (UserDataModel) getSelectedItem(UserList.get());
         if (userRecord == null) { return; }
+
+        for (var objVehicle : VehicleList.get())
+        {
+            VehicleDataModel vehicle = (VehicleDataModel) objVehicle;
+            if (vehicle.getBuyer() == userRecord || vehicle.getSeller() == userRecord)
+            {
+                String message = String.format(
+                        "Error deleting user \"%s\" because the user is connected to vehicle \"%s - %s\"",
+                        userRecord.getUserName(),
+                        vehicle.getVIN(),
+                        vehicle.getModel().getModelName());
+                JOptionPane.showMessageDialog(
+                        null,
+                        message,
+                        "Could not delete user",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
+
         int userIndex = UserList.get().getIndexForComponent(userRecord);
         String deleteMsg = String.format(
                 "Are you sure you want to delete userRecord no.%d (%s)?",
