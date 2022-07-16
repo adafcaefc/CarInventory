@@ -1,6 +1,6 @@
 package Controller.Database.Serializer;
 
-import Model.Data.IRecordData;
+import Model.Model.IRecordData;
 
 import java.util.HashMap;
 

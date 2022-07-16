@@ -1,7 +1,7 @@
 package Controller.Database.Serializer;
 
-import Model.Data.IRecordData;
-import Model.Data.TransactionData;
+import Model.Model.IRecordData;
+import Model.Model.TransactionData;
 import Model.List.TransactionList;
 import Model.List.VehicleList;
 

@@ -1,7 +1,7 @@
 package Controller.Model;
 
 import Controller.Model.Listener.UpdateListener;
-import Model.Data.IRecordData;
+import Model.Model.IRecordData;
 import Model.List.IRecordList;
 
 import javax.swing.*;

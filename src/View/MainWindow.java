@@ -4,7 +4,7 @@ import Controller.Model.*;
 import Controller.Model.Listener.UpdateListener;
 import Controller.Database.DatabaseManager;
 import Controller.Session.SessionManager;
-import Model.Data.UserLevel;
+import Model.Model.UserLevel;
 import View.Button.JoeButton;
 import View.Form.User.LoginForm;
 import View.Utility.FormUtilities;

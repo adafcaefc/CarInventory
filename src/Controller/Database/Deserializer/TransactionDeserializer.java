@@ -1,6 +1,6 @@
 package Controller.Database.Deserializer;
 
-import Model.Data.*;
+import Model.Model.*;
 import Model.Exception.DataNotBoundToList;
 import Model.List.VehicleList;
 

@@ -1,10 +1,10 @@
 package Controller.Database.Deserializer;
 
-import Model.Data.UserData;
+import Model.Model.UserData;
 import Model.Exception.DataNotBoundToList;
-import Model.Data.IRecordData;
-import Model.Data.ModelData;
-import Model.Data.VehicleData;
+import Model.Model.IRecordData;
+import Model.Model.ModelData;
+import Model.Model.VehicleData;
 import Model.List.ModelList;
 import Model.List.UserList;
 

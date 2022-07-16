@@ -1,6 +1,6 @@
 package Model.List;
 
-import Model.Data.IRecordData;
+import Model.Model.IRecordData;
 
 import java.util.ArrayList;
 import java.util.Iterator;

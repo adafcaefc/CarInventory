@@ -1,12 +1,11 @@
 package View.Form.Input;
 
 import Controller.Utility.ValidationUtilities;
-import Model.Data.BrandData;
-import Model.Data.IRecordData;
-import Model.Data.ModelData;
+import Model.Model.BrandData;
+import Model.Model.IRecordData;
+import Model.Model.ModelData;
 import Model.List.BrandList;
 import Model.List.ModelList;
-import View.Utility.SpringUtilities;
 
 import javax.swing.*;
 import java.awt.*;

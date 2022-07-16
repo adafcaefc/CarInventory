@@ -1,11 +1,10 @@
 package Controller.Model;
 
 import Controller.Model.Listener.UpdateListener;
-import Model.Data.TransactionData;
-import Model.Data.UserData;
-import Model.Data.VehicleData;
+import Model.Model.TransactionData;
+import Model.Model.UserData;
+import Model.Model.VehicleData;
 import Model.List.TransactionList;
-import View.Form.Input.ModelInputForm;
 import View.Form.Input.TransactionForm;
 
 import javax.swing.*;

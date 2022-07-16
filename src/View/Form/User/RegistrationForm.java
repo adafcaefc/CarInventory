@@ -1,8 +1,7 @@
 package View.Form.User;
 
-import Model.Data.UserData;
-import Model.Data.UserLevel;
-import Model.List.UserList;
+import Model.Model.UserData;
+import Model.Model.UserLevel;
 import View.Form.Input.UserInputForm;
 import View.Utility.FormUtilities;
 

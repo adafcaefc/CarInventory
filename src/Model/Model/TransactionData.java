@@ -1,7 +1,6 @@
-package Model.Data;
+package Model.Model;
 
 import Model.Exception.DataNotBoundToList;
-import Model.List.TransactionList;
 import Model.List.VehicleList;
 
 import java.util.GregorianCalendar;

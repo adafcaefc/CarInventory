@@ -1,8 +1,8 @@
 package Controller.Model;
 
 import Controller.Model.Listener.UpdateListener;
-import Model.Data.UserData;
-import Model.Data.VehicleData;
+import Model.Model.UserData;
+import Model.Model.VehicleData;
 import Model.List.VehicleList;
 import View.Form.Input.VehicleInputForm;
 

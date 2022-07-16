@@ -1,8 +1,8 @@
 package Controller.Database.Deserializer;
 
-import Model.Data.IRecordData;
-import Model.Data.UserData;
-import Model.Data.UserLevel;
+import Model.Model.IRecordData;
+import Model.Model.UserData;
+import Model.Model.UserLevel;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

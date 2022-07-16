@@ -1,4 +1,4 @@
-package Model.Data;
+package Model.Model;
 
 import Model.Exception.DataNotBoundToList;
 import Model.List.BrandList;

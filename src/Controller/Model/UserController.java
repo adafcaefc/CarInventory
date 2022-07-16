@@ -1,7 +1,7 @@
 package Controller.Model;
 
 import Controller.Model.Listener.UpdateListener;
-import Model.Data.UserData;
+import Model.Model.UserData;
 import Model.List.UserList;
 import View.Form.Input.UserInputForm;
 import View.Form.User.RegistrationForm;

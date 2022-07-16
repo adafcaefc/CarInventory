@@ -1,7 +1,7 @@
 package Controller.Database.Serializer;
 
-import Model.Data.IRecordData;
-import Model.Data.UserData;
+import Model.Model.IRecordData;
+import Model.Model.UserData;
 import Model.List.UserList;
 
 import java.util.HashMap;

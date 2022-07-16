@@ -1,7 +1,7 @@
 package View.Form.User;
 
 import Controller.Session.SessionManager;
-import Model.Data.UserData;
+import Model.Model.UserData;
 import View.Form.IBaseForm;
 import View.MainWindow;
 

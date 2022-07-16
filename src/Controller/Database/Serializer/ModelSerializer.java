@@ -1,7 +1,7 @@
 package Controller.Database.Serializer;
 
-import Model.Data.IRecordData;
-import Model.Data.ModelData;
+import Model.Model.IRecordData;
+import Model.Model.ModelData;
 import Model.List.BrandList;
 import Model.List.ModelList;
 

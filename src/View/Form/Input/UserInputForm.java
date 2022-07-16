@@ -1,10 +1,9 @@
 package View.Form.Input;
 
-import Model.Data.IRecordData;
-import Model.Data.UserData;
-import Model.Data.UserLevel;
+import Model.Model.IRecordData;
+import Model.Model.UserData;
+import Model.Model.UserLevel;
 import Model.List.UserList;
-import View.Utility.SpringUtilities;
 
 import javax.swing.*;
 import java.awt.*;

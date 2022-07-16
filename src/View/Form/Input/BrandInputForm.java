@@ -1,9 +1,8 @@
 package View.Form.Input;
 
-import Model.Data.BrandData;
-import Model.Data.IRecordData;
+import Model.Model.BrandData;
+import Model.Model.IRecordData;
 import Model.List.BrandList;
-import View.Utility.SpringUtilities;
 
 import javax.swing.*;
 

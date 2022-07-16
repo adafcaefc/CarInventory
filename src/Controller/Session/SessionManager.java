@@ -1,7 +1,7 @@
 package Controller.Session;
 
 import Controller.Utility.PasswordUtilities;
-import Model.Data.UserData;
+import Model.Model.UserData;
 import Model.List.UserList;
 
 import javax.swing.*;

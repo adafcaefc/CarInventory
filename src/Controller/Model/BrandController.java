@@ -1,7 +1,7 @@
 package Controller.Model;
 
 import Controller.Model.Listener.UpdateListener;
-import Model.Data.BrandData;
+import Model.Model.BrandData;
 import Model.List.BrandList;
 import View.Form.Input.BrandInputForm;
 

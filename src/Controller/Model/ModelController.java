@@ -1,7 +1,7 @@
 package Controller.Model;
 
 import Controller.Model.Listener.UpdateListener;
-import Model.Data.ModelData;
+import Model.Model.ModelData;
 import Model.List.ModelList;
 import View.Form.Input.ModelInputForm;
 

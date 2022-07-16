@@ -1,4 +1,4 @@
-package Model.Data;
+package Model.Model;
 
 import Controller.Utility.PasswordUtilities;
 

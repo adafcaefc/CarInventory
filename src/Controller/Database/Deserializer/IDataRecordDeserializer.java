@@ -1,7 +1,7 @@
 package Controller.Database.Deserializer;
 
 import Model.Exception.DataNotBoundToList;
-import Model.Data.IRecordData;
+import Model.Model.IRecordData;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
