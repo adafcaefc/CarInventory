@@ -1,7 +1,7 @@
 package Controller.Database.Serializer;
 
-import Model.Model.IRecordData;
-import Model.Model.TransactionData;
+import Model.Model.IRecordDataModel;
+import Model.Model.TransactionDataModel;
 import Model.List.TransactionList;
 import Model.List.VehicleList;
 
@@ -11,9 +11,9 @@ import java.util.HashMap;
 public class TransactionSerializer implements IDataRecordSerializer
 {
     @Override
-    public HashMap<String, String> serialize(IRecordData component)
+    public HashMap<String, String> serialize(IRecordDataModel component)
     {
-        var transactionData = (TransactionData) component;
+        var transactionData = (TransactionDataModel) component;
         HashMap<String, String> map = new HashMap<>();
         int objIndex = TransactionList.get().getIndexForComponent(transactionData);
         int parentObjIndex = VehicleList.get().getIndexForComponent(transactionData.getParent());

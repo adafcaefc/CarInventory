@@ -20,7 +20,7 @@ public class TransactionForm extends IBaseInputForm
     public TransactionForm(
             JFrame parentFrame,
             boolean updateRecord,
-            TransactionData originalRecord) throws HeadlessException
+            TransactionDataModel originalRecord) throws HeadlessException
     {
         super(updateRecord, originalRecord, TransactionList.get());
 
@@ -52,17 +52,17 @@ public class TransactionForm extends IBaseInputForm
     {
         for (var obj : VehicleList.get())
         {
-            VehicleData vehicleData = (VehicleData) obj;
+            VehicleDataModel vehicleData = (VehicleDataModel) obj;
             vehicleComboBox.addItem(vehicleData.getVIN() + " - " + vehicleData.getModel().getModelName());
         }
         vehicleComboBox.setSelectedItem(null);
     }
 
     @Override
-    public IRecordData getFinishedRecord() throws Exception
+    public IRecordDataModel getFinishedRecord() throws Exception
     {
-        IRecordData parentVehicle = VehicleList.get().getComponentAt(vehicleComboBox.getSelectedIndex());
-        TransactionData modifiedRecord = new TransactionData((VehicleData) parentVehicle);
+        IRecordDataModel parentVehicle = VehicleList.get().getComponentAt(vehicleComboBox.getSelectedIndex());
+        TransactionDataModel modifiedRecord = new TransactionDataModel((VehicleDataModel) parentVehicle);
 
         var date = new GregorianCalendar(
                 (int) yearSpinner.getValue(),
@@ -111,7 +111,7 @@ public class TransactionForm extends IBaseInputForm
         yearSpinner.addChangeListener(e -> populateDateCheckbox());
     }
 
-    public void loadSoldVehicleData(TransactionData soldVehicleRecord)
+    public void loadSoldVehicleData(TransactionDataModel soldVehicleRecord)
     {
         var default_date = new GregorianCalendar();
         yearSpinner.setValue(default_date.get(Calendar.YEAR));

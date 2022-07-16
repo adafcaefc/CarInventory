@@ -1,7 +1,7 @@
 package View.Form.Input;
 
-import Model.Model.BrandData;
-import Model.Model.IRecordData;
+import Model.Model.BrandDataModel;
+import Model.Model.IRecordDataModel;
 import Model.List.BrandList;
 
 import javax.swing.*;
@@ -10,7 +10,7 @@ public class BrandInputForm extends IBaseInputForm
 {
     private final JTextField nameTextField = new JTextField();
 
-    public BrandInputForm(JFrame parentFrame, boolean updateRecord, BrandData originalBrandRecord)
+    public BrandInputForm(JFrame parentFrame, boolean updateRecord, BrandDataModel originalBrandRecord)
     {
         super(updateRecord, originalBrandRecord, BrandList.get());
 
@@ -26,9 +26,9 @@ public class BrandInputForm extends IBaseInputForm
     }
 
     @Override
-    public IRecordData getFinishedRecord()
+    public IRecordDataModel getFinishedRecord()
     {
-        BrandData brandRecord = new BrandData();
+        BrandDataModel brandRecord = new BrandDataModel();
         brandRecord.setBrandName(nameTextField.getText());
         return brandRecord;
     }
@@ -39,7 +39,7 @@ public class BrandInputForm extends IBaseInputForm
         return true;
     }
 
-    public void loadBrandData(BrandData brandRecord)
+    public void loadBrandData(BrandDataModel brandRecord)
     {
         if (brandRecord == null) { return; }
         nameTextField.setText(brandRecord.getBrandName());

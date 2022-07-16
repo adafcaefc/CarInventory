@@ -1,7 +1,7 @@
 package Controller.Database.Serializer;
 
-import Model.Model.IRecordData;
-import Model.Model.ModelData;
+import Model.Model.IRecordDataModel;
+import Model.Model.ModelDataModel;
 import Model.List.BrandList;
 import Model.List.ModelList;
 
@@ -10,9 +10,9 @@ import java.util.HashMap;
 public class ModelSerializer implements IDataRecordSerializer
 {
     @Override
-    public HashMap<String, String> serialize(IRecordData component)
+    public HashMap<String, String> serialize(IRecordDataModel component)
     {
-        var model = (ModelData) component;
+        var model = (ModelDataModel) component;
         HashMap<String, String> map = new HashMap<>();
 
         int objIndex = ModelList.get().getIndexForComponent(model);

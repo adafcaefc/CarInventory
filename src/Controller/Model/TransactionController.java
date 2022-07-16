@@ -1,9 +1,9 @@
 package Controller.Model;
 
 import Controller.Model.Listener.UpdateListener;
-import Model.Model.TransactionData;
-import Model.Model.UserData;
-import Model.Model.VehicleData;
+import Model.Model.TransactionDataModel;
+import Model.Model.UserDataModel;
+import Model.Model.VehicleDataModel;
 import Model.List.TransactionList;
 import View.Form.Input.TransactionForm;
 
@@ -29,7 +29,7 @@ public class TransactionController extends IDataRecordController
     @Override
     public void openModifyWindow(JFrame parent)
     {
-        TransactionData soldVehicleRecord = (TransactionData) getSelectedItem(TransactionList.get());
+        TransactionDataModel soldVehicleRecord = (TransactionDataModel) getSelectedItem(TransactionList.get());
         if (soldVehicleRecord == null) { return; }
         TransactionForm form = new TransactionForm(parent, true, soldVehicleRecord);
         form.bindUpdateListener(updateListener);
@@ -39,7 +39,7 @@ public class TransactionController extends IDataRecordController
     @Override
     public void openDeleteWindow()
     {
-        TransactionData soldVehicleRecord = (TransactionData) getSelectedItem(TransactionList.get());
+        TransactionDataModel soldVehicleRecord = (TransactionDataModel) getSelectedItem(TransactionList.get());
         if (soldVehicleRecord == null) { return; }
         int vehicleIndex = TransactionList.get().getIndexForComponent(soldVehicleRecord);
         String deleteMsg = String.format("Are you sure you want to delete sales no.%d from the Sales Log?", vehicleIndex + 1);
@@ -67,11 +67,11 @@ public class TransactionController extends IDataRecordController
         var tableDataMatrix = new ArrayList<ArrayList<Object>>();
         for (var obj : TransactionList.get())
         {
-            TransactionData vehicleObject = (TransactionData) obj;
+            TransactionDataModel vehicleObject = (TransactionDataModel) obj;
             ArrayList<Object> innerData = new ArrayList<>();
-            VehicleData vehicle = (VehicleData) obj.getParent();
-            UserData seller = vehicle.getSeller();
-            UserData buyer = vehicle.getBuyer();
+            VehicleDataModel vehicle = (VehicleDataModel) obj.getParent();
+            UserDataModel seller = vehicle.getSeller();
+            UserDataModel buyer = vehicle.getBuyer();
             innerData.add(vehicle.getVIN());
             innerData.add(vehicle.getLicensePlate());
             innerData.add(vehicleObject.getPaidAmount());

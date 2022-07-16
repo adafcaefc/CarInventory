@@ -1,9 +1,9 @@
 package Controller.Database.Deserializer;
 
 import Model.Exception.DataNotBoundToList;
-import Model.Model.BrandData;
-import Model.Model.IRecordData;
-import Model.Model.ModelData;
+import Model.Model.BrandDataModel;
+import Model.Model.IRecordDataModel;
+import Model.Model.ModelDataModel;
 import Model.List.BrandList;
 
 import java.sql.ResultSet;
@@ -11,10 +11,10 @@ import java.sql.SQLException;
 
 public class ModelDeserializer implements IDataRecordDeserializer
 {
-    public IRecordData deserialize(ResultSet rs) throws SQLException, DataNotBoundToList
+    public IRecordDataModel deserialize(ResultSet rs) throws SQLException, DataNotBoundToList
     {
-        BrandData parentObj = (BrandData) BrandList.get().getComponentAt(rs.getInt("parentBrandId"));
-        var model = new ModelData(parentObj);
+        BrandDataModel parentObj = (BrandDataModel) BrandList.get().getComponentAt(rs.getInt("parentBrandId"));
+        var model = new ModelDataModel(parentObj);
 
         model.setModelName(rs.getString("modelName"));
         model.setModelYear(rs.getInt("modelYear"));

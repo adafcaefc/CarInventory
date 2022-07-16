@@ -5,12 +5,12 @@ import Model.List.VehicleList;
 
 import java.util.GregorianCalendar;
 
-public class TransactionData extends IRecordData implements Cloneable
+public class TransactionDataModel extends IRecordDataModel implements Cloneable
 {
     private GregorianCalendar dateOfTransaction;
     private int paidAmount;
 
-    public TransactionData(VehicleData sourceVehicleRecord) throws DataNotBoundToList
+    public TransactionDataModel(VehicleDataModel sourceVehicleRecord) throws DataNotBoundToList
     {
         if (sourceVehicleRecord == null) { return; }
         if (!VehicleList.get().componentIsRegisteredAtPool(sourceVehicleRecord))
@@ -37,5 +37,5 @@ public class TransactionData extends IRecordData implements Cloneable
         this.paidAmount = paidAmount;
     }
 
-    public VehicleData getVehicle() { return (VehicleData) getParent(); }
+    public VehicleDataModel getVehicle() { return (VehicleDataModel) getParent(); }
 }

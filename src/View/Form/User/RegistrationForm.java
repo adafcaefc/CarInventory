@@ -1,6 +1,6 @@
 package View.Form.User;
 
-import Model.Model.UserData;
+import Model.Model.UserDataModel;
 import Model.Model.UserLevel;
 import View.Form.Input.UserInputForm;
 import View.Utility.FormUtilities;
@@ -13,7 +13,7 @@ public class RegistrationForm extends UserInputForm
     public RegistrationForm(
             JFrame parentFrame,
             boolean updateRecord,
-            UserData originalRecord)
+            UserDataModel originalRecord)
     throws HeadlessException
     {
         super(parentFrame, updateRecord, originalRecord);

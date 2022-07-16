@@ -1,8 +1,8 @@
 package Controller.Model;
 
 import Controller.Model.Listener.UpdateListener;
-import Model.Model.UserData;
-import Model.Model.VehicleData;
+import Model.Model.UserDataModel;
+import Model.Model.VehicleDataModel;
 import Model.List.VehicleList;
 import View.Form.Input.VehicleInputForm;
 
@@ -27,7 +27,7 @@ public class VehicleController extends IDataRecordController
     @Override
     public void openModifyWindow(JFrame parent)
     {
-        VehicleData vehicleRecord = (VehicleData) getSelectedItem(VehicleList.get());
+        VehicleDataModel vehicleRecord = (VehicleDataModel) getSelectedItem(VehicleList.get());
         if (vehicleRecord == null) { return; }
         VehicleInputForm form = new VehicleInputForm(parent, true, vehicleRecord);
         form.bindUpdateListener(updateListener);
@@ -37,7 +37,7 @@ public class VehicleController extends IDataRecordController
     @Override
     public void openDeleteWindow()
     {
-        VehicleData vehicleRecord = (VehicleData) getSelectedItem(VehicleList.get());
+        VehicleDataModel vehicleRecord = (VehicleDataModel) getSelectedItem(VehicleList.get());
         if (vehicleRecord == null) { return; }
         int vehicleIndex = VehicleList.get().getIndexForComponent(vehicleRecord);
         String deleteMsg = String.format(
@@ -69,9 +69,9 @@ public class VehicleController extends IDataRecordController
         var tableDataMatrix = new ArrayList<ArrayList<Object>>();
         for (var obj : VehicleList.get())
         {
-            VehicleData vehicleRecord = (VehicleData) obj;
-            UserData seller = vehicleRecord.getSeller();
-            UserData buyer = vehicleRecord.getBuyer();
+            VehicleDataModel vehicleRecord = (VehicleDataModel) obj;
+            UserDataModel seller = vehicleRecord.getSeller();
+            UserDataModel buyer = vehicleRecord.getBuyer();
             ArrayList<Object> innerData = new ArrayList<>();
             innerData.add(vehicleRecord.getVIN());
             innerData.add(vehicleRecord.getLicensePlate());

@@ -10,10 +10,10 @@ import java.util.GregorianCalendar;
 
 public class TransactionDeserializer implements IDataRecordDeserializer
 {
-    public IRecordData deserialize(ResultSet rs) throws SQLException, DataNotBoundToList
+    public IRecordDataModel deserialize(ResultSet rs) throws SQLException, DataNotBoundToList
     {
-        VehicleData parentObj = (VehicleData) VehicleList.get().getComponentAt(rs.getInt("parentVehicleId"));
-        var transactionData = new TransactionData(parentObj);
+        VehicleDataModel parentObj = (VehicleDataModel) VehicleList.get().getComponentAt(rs.getInt("parentVehicleId"));
+        var transactionData = new TransactionDataModel(parentObj);
 
         transactionData.setPaidAmount(rs.getInt("paidAmount"));
 

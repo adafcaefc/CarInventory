@@ -1,7 +1,7 @@
 package View.Form.Input;
 
-import Model.Model.IRecordData;
-import Model.Model.UserData;
+import Model.Model.IRecordDataModel;
+import Model.Model.UserDataModel;
 import Model.Model.UserLevel;
 import Model.List.UserList;
 
@@ -18,7 +18,7 @@ public class UserInputForm extends IBaseInputForm
     public UserInputForm(
             JFrame parentFrame,
             boolean updateRecord,
-            UserData originalRecord)
+            UserDataModel originalRecord)
     throws HeadlessException
     {
         super(updateRecord, originalRecord, UserList.get());
@@ -57,7 +57,7 @@ public class UserInputForm extends IBaseInputForm
         {
             for (var obj : UserList.get())
             {
-                UserData userRecord = (UserData) obj;
+                UserDataModel userRecord = (UserDataModel) obj;
                 if (userRecord.getUserName().equals(userNameTextField.getText()))
                 {
                     userNameTextField.setBackground(getErrorBackgroundColor());
@@ -88,9 +88,9 @@ public class UserInputForm extends IBaseInputForm
     }
 
     @Override
-    public IRecordData getFinishedRecord() throws Exception
+    public IRecordDataModel getFinishedRecord() throws Exception
     {
-        UserData userRecord = new UserData();
+        UserDataModel userRecord = new UserDataModel();
         userRecord.setUserName(userNameTextField.getText());
         userRecord.setPasswordRaw(new String(passwordTextField.getPassword()));
         userRecord.setUserLevel(UserLevel.valueOf(userLevelDropdownBox.getSelectedIndex()));
@@ -105,7 +105,7 @@ public class UserInputForm extends IBaseInputForm
         }
     }
 
-    public void loadUserData(UserData userRecord)
+    public void loadUserData(UserDataModel userRecord)
     {
         if (userRecord == null) { return; }
         userNameTextField.setText(userRecord.getUserName());
