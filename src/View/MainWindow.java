@@ -19,12 +19,14 @@ import java.util.HashMap;
 
 public class MainWindow extends JFrame implements UpdateListener
 {
+    private static final Color BACKGROUND_COLOR = new Color(0x2C394B);
+    
     public final static String BRAND_ID = "Card.Brand.Panel";
     public final static String MODEL_ID = "Card.Model.Panel";
     public final static String VEHICLE_ID = "Card.VehicleRecord.Panel";
     public final static String SALES_ID = "Card.Sales.Panel";
     public final static String USER_ID = "Card.Sales.UserRecord";
-    private static final Color BACKGROUND_COLOR = new Color(0x2C394B);
+    
     private final JoeButton vehiclesButton = new JoeButton("VEHICLES");
     private final JoeButton modelsButton = new JoeButton("MODELS");
     private final JoeButton brandsButton = new JoeButton("BRANDS");
