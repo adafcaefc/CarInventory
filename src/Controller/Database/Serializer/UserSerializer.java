@@ -1,20 +1,20 @@
 package Controller.Database.Serializer;
 
-import Model.Record.Data.IData;
-import Model.Record.Data.UserData;
-import Model.Record.List.UserList;
+import Model.ArraySingleton.UserArraySingleton;
+import Model.Model.IRecordDataModel;
+import Model.Model.UserDataModel;
 
 import java.util.HashMap;
 
-public class UserSerializer implements ISerializer
+public class UserSerializer implements IDataRecordSerializer
 {
     @Override
-    public HashMap<String, String> serialize(IData component)
+    public HashMap<String, String> serialize(IRecordDataModel component)
     {
-        var user = (UserData) component;
+        var user = (UserDataModel) component;
 
         HashMap<String, String> map = new HashMap<>();
-        int objIndex = UserList.get().getIndexForComponent(user);
+        int objIndex = UserArraySingleton.get().getIndexForComponent(user);
 
         map.put("userId", String.valueOf(objIndex));
         map.put("userName", user.getUserName());

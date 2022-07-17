@@ -1,9 +1,9 @@
-package Model.Record.Data;
+package Model.Model;
 
-import Model.Exception.InvalidData;
-import Model.Record.List.ModelList;
+import Model.Exception.DataNotBoundToList;
+import Model.ArraySingleton.ModelArraySingleton;
 
-public class VehicleData extends IData
+public class VehicleDataModel extends IRecordDataModel
 {
     private String VIN;
     private String licensePlate;
@@ -11,15 +11,15 @@ public class VehicleData extends IData
     private Double mileage = 0.0;
     private Double discount = 0.2;
     private int price = 0;
-    private UserData seller = null;
-    private UserData buyer = null;
+    private UserDataModel seller = null;
+    private UserDataModel buyer = null;
 
-    public VehicleData(ModelData modelRecord) throws InvalidData
+    public VehicleDataModel(ModelDataModel modelRecord) throws DataNotBoundToList
     {
         if (modelRecord == null) { return; }
-        if (!ModelList.get().componentIsRegisteredAtPool(modelRecord))
+        if (!ModelArraySingleton.get().componentIsRegisteredAtPool(modelRecord))
         {
-            throw new InvalidData("The 'model' object passed to bindToModel does not exist inside ModelPool");
+            throw new DataNotBoundToList("The 'model' object passed to bindToModel does not exist inside ModelPool");
         }
         modelRecord.addChild(this);
     }
@@ -44,29 +44,29 @@ public class VehicleData extends IData
         this.price = price;
     }
 
-    public UserData getSeller()
+    public UserDataModel getSeller()
     {
         return seller;
     }
 
-    public void setSeller(UserData seller)
+    public void setSeller(UserDataModel seller)
     {
         this.seller = seller;
     }
 
-    public UserData getBuyer()
+    public UserDataModel getBuyer()
     {
         return buyer;
     }
 
-    public void setBuyer(UserData buyer)
+    public void setBuyer(UserDataModel buyer)
     {
         this.buyer = buyer;
     }
 
-    public ModelData getModel()
+    public ModelDataModel getModel()
     {
-        return (ModelData) getParent();
+        return (ModelDataModel) getParent();
     }
 
     public String getVIN()

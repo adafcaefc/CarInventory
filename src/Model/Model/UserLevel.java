@@ -1,4 +1,4 @@
-package Model.Enum;
+package Model.Model;
 
 import java.util.HashMap;
 

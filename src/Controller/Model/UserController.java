@@ -1,20 +1,19 @@
 package Controller.Model;
 
-import Controller.Model.Listener.IUpdateListener;
-import Controller.Model.Table.TableData;
-import Model.Record.Data.UserData;
-import Model.Record.Data.VehicleData;
-import Model.Record.List.UserList;
-import Model.Record.List.VehicleList;
+import Controller.Model.Listener.UpdateListener;
+import Model.ArraySingleton.UserArraySingleton;
+import Model.ArraySingleton.VehicleArraySingleton;
+import Model.Model.UserDataModel;
+import Model.Model.VehicleDataModel;
 import View.Form.Input.UserInputForm;
 import View.Form.User.RegistrationForm;
 
 import javax.swing.*;
 import java.util.ArrayList;
 
-public class UserController extends IController
+public class UserController extends IDataRecordController
 {
-    public UserController(JTable table, IUpdateListener updateListener)
+    public UserController(JTable table, UpdateListener updateListener)
     {
         super(table, updateListener);
     }
@@ -37,7 +36,7 @@ public class UserController extends IController
     @Override
     public void openModifyWindow(JFrame parent)
     {
-        UserData userRecord = (UserData) getSelectedItem(UserList.get());
+        UserDataModel userRecord = (UserDataModel) getSelectedItem(UserArraySingleton.get());
         if (userRecord == null) { return; }
         UserInputForm form = new UserInputForm(parent, true, userRecord);
         form.bindUpdateListener(updateListener);
@@ -47,12 +46,12 @@ public class UserController extends IController
     @Override
     public void openDeleteWindow()
     {
-        UserData userRecord = (UserData) getSelectedItem(UserList.get());
+        UserDataModel userRecord = (UserDataModel) getSelectedItem(UserArraySingleton.get());
         if (userRecord == null) { return; }
 
-        for (var objVehicle : VehicleList.get())
+        for (var objVehicle : VehicleArraySingleton.get())
         {
-            VehicleData vehicle = (VehicleData) objVehicle;
+            VehicleDataModel vehicle = (VehicleDataModel) objVehicle;
             if (vehicle.getBuyer() == userRecord || vehicle.getSeller() == userRecord)
             {
                 String message = String.format(
@@ -69,7 +68,7 @@ public class UserController extends IController
             }
         }
 
-        int userIndex = UserList.get().getIndexForComponent(userRecord);
+        int userIndex = UserArraySingleton.get().getIndexForComponent(userRecord);
         String deleteMsg = String.format(
                 "Are you sure you want to delete userRecord no.%d (%s)?",
                 userIndex + 1,
@@ -81,7 +80,7 @@ public class UserController extends IController
                 JOptionPane.YES_NO_OPTION);
         if (choice == JOptionPane.YES_OPTION)
         {
-            UserList.get().unregisterComponent(userRecord);
+            UserArraySingleton.get().unregisterComponent(userRecord);
             updateListener.onUpdateRecord();
         }
     }
@@ -89,9 +88,22 @@ public class UserController extends IController
     @Override
     public void loadViewTable()
     {
-        ArrayList<TableData> entries = new ArrayList<>();
-        entries.add(new TableData("User Name", (n) -> ((UserData) n).getUserName()));
-        entries.add(new TableData("User Type", (n) -> ((UserData) n).getUserLevel().name()));
-        loadTableData(entries, UserList.get());
+        String[] header = new String[]
+                {
+                        "User Name",
+                        "User Type",
+                        };
+
+        var tableDataMatrix = new ArrayList<ArrayList<Object>>();
+        for (var obj : UserArraySingleton.get())
+        {
+            UserDataModel userRecord = (UserDataModel) obj;
+            ArrayList<Object> innerData = new ArrayList<>();
+            innerData.add(userRecord.getUserName());
+            innerData.add(userRecord.getUserLevel().name());
+            tableDataMatrix.add(innerData);
+        }
+
+        setTableSettings(header, tableDataMatrix);
     }
 }

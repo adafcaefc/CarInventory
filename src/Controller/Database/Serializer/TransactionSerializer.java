@@ -1,31 +1,30 @@
 package Controller.Database.Serializer;
 
-import Model.Record.Data.IData;
-import Model.Record.Data.TransactionData;
-import Model.Record.List.TransactionList;
-import Model.Record.List.VehicleList;
+import Model.ArraySingleton.TransactionArraySingleton;
+import Model.ArraySingleton.VehicleArraySingleton;
+import Model.Model.IRecordDataModel;
+import Model.Model.TransactionDataModel;
 
-import java.text.SimpleDateFormat;
-import java.time.temporal.TemporalField;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.TimeZone;
 
-public class TransactionSerializer implements ISerializer
+public class TransactionSerializer implements IDataRecordSerializer
 {
     @Override
-    public HashMap<String, String> serialize(IData component)
+    public HashMap<String, String> serialize(IRecordDataModel component)
     {
-        var transactionData = (TransactionData) component;
+        var transactionData = (TransactionDataModel) component;
         HashMap<String, String> map = new HashMap<>();
-        int objIndex = TransactionList.get().getIndexForComponent(transactionData);
-        int parentObjIndex = VehicleList.get().getIndexForComponent(transactionData.getParent());
+        int objIndex = TransactionArraySingleton.get().getIndexForComponent(transactionData);
+        int parentObjIndex = VehicleArraySingleton.get().getIndexForComponent(transactionData.getParent());
 
         map.put("transactionId", String.valueOf(objIndex));
         map.put("parentVehicleId", String.valueOf(parentObjIndex));
         map.put("paidAmount", String.valueOf(transactionData.getPaidAmount()));
 
-        map.put("dateOfTransaction", new SimpleDateFormat("yyyy-MM-dd").format(transactionData.getDateOfTransaction().getTime()));
+        map.put("dateOfTransactionDate", String.valueOf(transactionData.getDateOfTransaction().get(Calendar.DAY_OF_MONTH)));
+        map.put("dateOfTransactionMonth", String.valueOf(transactionData.getDateOfTransaction().get(Calendar.MONTH)));
+        map.put("dateOfTransactionYear", String.valueOf(transactionData.getDateOfTransaction().get(Calendar.YEAR)));
 
         return map;
     }

@@ -2,8 +2,8 @@ package Controller.Database;
 
 import Controller.Database.Deserializer.*;
 import Controller.Database.Serializer.*;
-import Model.Exception.InvalidData;
-import Model.Record.List.*;
+import Model.Exception.DataNotBoundToList;
+import Model.ArraySingleton.*;
 
 import javax.swing.*;
 import java.sql.Connection;
@@ -13,25 +13,13 @@ import java.sql.SQLException;
 
 public class DatabaseManager
 {
-    private static final DatabaseManager instance = new DatabaseManager();
+    Connection conn;
 
-    private DatabaseManager()
-    {
-        super();
-    }
-
-    public static DatabaseManager get()
-    {
-        return instance;
-    }
-
-    Connection connection;
-
-    public void connect(String url, String username, String password)
+    public DatabaseManager(String url, String username, String password)
     {
         try
         {
-            connection = DriverManager.getConnection(url, username, password);
+            conn = DriverManager.getConnection(url, username, password);
         }
         catch (SQLException ex)
         {
@@ -45,11 +33,11 @@ public class DatabaseManager
 
     private void saveStatement(
             String tableName,
-            IList pool,
-            ISerializer serializer)
+            IRecordArraySingleton pool,
+            IDataRecordSerializer serializer)
     throws SQLException
     {
-        connection.createStatement().executeUpdate(String.format("TRUNCATE TABLE `%s`;", tableName));
+        conn.createStatement().executeUpdate(String.format("TRUNCATE TABLE `%s`;", tableName));
 
         for (var obj : pool)
         {
@@ -65,7 +53,7 @@ public class DatabaseManager
                 if (values.length() > 0) { values.append(", "); }
                 values.append(String.format("'%s'", set.getValue()));
             }
-            connection.createStatement().executeUpdate(String.format("INSERT INTO `%s` (%s) VALUES (%s);", tableName, vars, values));
+            conn.createStatement().executeUpdate(String.format("INSERT INTO `%s` (%s) VALUES (%s);", tableName, vars, values));
         }
     }
 
@@ -73,11 +61,11 @@ public class DatabaseManager
     {
         try
         {
-            saveStatement("users", UserList.get(), new UserSerializer());
-            saveStatement("brands", BrandList.get(), new BrandSerializer());
-            saveStatement("models", ModelList.get(), new ModelSerializer());
-            saveStatement("vehicles", VehicleList.get(), new VehicleSerializer());
-            saveStatement("transactions", TransactionList.get(), new TransactionSerializer());
+            saveStatement("users", UserArraySingleton.get(), new UserSerializer());
+            saveStatement("brands", BrandArraySingleton.get(), new BrandSerializer());
+            saveStatement("models", ModelArraySingleton.get(), new ModelSerializer());
+            saveStatement("vehicles", VehicleArraySingleton.get(), new VehicleSerializer());
+            saveStatement("transactions", TransactionArraySingleton.get(), new TransactionSerializer());
         }
         catch (SQLException ex)
         {
@@ -92,14 +80,14 @@ public class DatabaseManager
 
     private void loadStatement(
             String query,
-            IList pool,
-            IDeserializer deserializer)
+            IRecordArraySingleton pool,
+            IDataRecordDeserializer deserializer)
     throws SQLException,
             IndexOutOfBoundsException,
-            InvalidData
+            DataNotBoundToList
     {
 
-        ResultSet rs = connection.createStatement().executeQuery(query);
+        ResultSet rs = conn.createStatement().executeQuery(query);
         while (rs.next())
         {
             pool.registerComponent(deserializer.deserialize(rs));
@@ -109,11 +97,11 @@ public class DatabaseManager
     private void loadStatement(
             String tableName,
             String primaryKeyName,
-            IList pool,
-            IDeserializer deserializer)
+            IRecordArraySingleton pool,
+            IDataRecordDeserializer deserializer)
     throws SQLException,
             IndexOutOfBoundsException,
-            InvalidData
+            DataNotBoundToList
     {
         loadStatement(String.format("SELECT * FROM `%s` ORDER BY `%s`;", tableName, primaryKeyName), pool, deserializer);
     }
@@ -122,13 +110,13 @@ public class DatabaseManager
     {
         try
         {
-            loadStatement("users", "userId", UserList.get(), new UserDeserializer());
-            loadStatement("brands", "brandId", BrandList.get(), new BrandDeserializer());
-            loadStatement("models", "modelId", ModelList.get(), new ModelDeserializer());
-            loadStatement("vehicles", "vehicleId", VehicleList.get(), new VehicleDeserializer());
-            loadStatement("transactions", "transactionId", TransactionList.get(), new TransactionDeserializer());
+            loadStatement("users", "userId", UserArraySingleton.get(), new UserDeserializer());
+            loadStatement("brands", "brandId", BrandArraySingleton.get(), new BrandDeserializer());
+            loadStatement("models", "modelId", ModelArraySingleton.get(), new ModelDeserializer());
+            loadStatement("vehicles", "vehicleId", VehicleArraySingleton.get(), new VehicleDeserializer());
+            loadStatement("transactions", "transactionId", TransactionArraySingleton.get(), new TransactionDeserializer());
         }
-        catch (InvalidData | SQLException | IndexOutOfBoundsException ex)
+        catch (DataNotBoundToList | SQLException | IndexOutOfBoundsException ex)
         {
             JOptionPane.showMessageDialog(
                     null,

@@ -1,20 +1,19 @@
 package Controller.Model;
 
-import Controller.Model.Listener.IUpdateListener;
-import Controller.Model.Table.TableData;
-import Model.Record.Data.TransactionData;
-import Model.Record.Data.UserData;
-import Model.Record.Data.VehicleData;
-import Model.Record.List.TransactionList;
+import Controller.Model.Listener.UpdateListener;
+import Model.ArraySingleton.TransactionArraySingleton;
+import Model.Model.TransactionDataModel;
+import Model.Model.UserDataModel;
+import Model.Model.VehicleDataModel;
 import View.Form.Input.TransactionForm;
 
 import javax.swing.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-public class TransactionController extends IController
+public class TransactionController extends IDataRecordController
 {
-    public TransactionController(JTable table, IUpdateListener updateListener)
+    public TransactionController(JTable table, UpdateListener updateListener)
     {
         super(table, updateListener);
     }
@@ -30,7 +29,7 @@ public class TransactionController extends IController
     @Override
     public void openModifyWindow(JFrame parent)
     {
-        TransactionData soldVehicleRecord = (TransactionData) getSelectedItem(TransactionList.get());
+        TransactionDataModel soldVehicleRecord = (TransactionDataModel) getSelectedItem(TransactionArraySingleton.get());
         if (soldVehicleRecord == null) { return; }
         TransactionForm form = new TransactionForm(parent, true, soldVehicleRecord);
         form.bindUpdateListener(updateListener);
@@ -40,14 +39,14 @@ public class TransactionController extends IController
     @Override
     public void openDeleteWindow()
     {
-        TransactionData soldVehicleRecord = (TransactionData) getSelectedItem(TransactionList.get());
+        TransactionDataModel soldVehicleRecord = (TransactionDataModel) getSelectedItem(TransactionArraySingleton.get());
         if (soldVehicleRecord == null) { return; }
-        int vehicleIndex = TransactionList.get().getIndexForComponent(soldVehicleRecord);
+        int vehicleIndex = TransactionArraySingleton.get().getIndexForComponent(soldVehicleRecord);
         String deleteMsg = String.format("Are you sure you want to delete sales no.%d from the Sales Log?", vehicleIndex + 1);
         int choice = JOptionPane.showConfirmDialog(null, deleteMsg, "Delete Sales Log", JOptionPane.YES_NO_OPTION);
         if (choice == JOptionPane.YES_OPTION)
         {
-            TransactionList.get().unregisterComponent(soldVehicleRecord);
+            TransactionArraySingleton.get().unregisterComponent(soldVehicleRecord);
             updateListener.onUpdateRecord();
         }
     }
@@ -55,13 +54,33 @@ public class TransactionController extends IController
     @Override
     public void loadViewTable()
     {
-        ArrayList<TableData> entries = new ArrayList<>();
-        entries.add(new TableData("Vehicle ID", (n) -> ((TransactionData) n).getVehicle().getVIN()));
-        entries.add(new TableData("Plate", (n) -> ((TransactionData) n).getVehicle().getLicensePlate()));
-        entries.add(new TableData("Amount", (n) -> ((TransactionData) n).getPaidAmount()));
-        entries.add(new TableData("Date", (n) -> (new SimpleDateFormat("dd-MMM-yyyy").format(((TransactionData) n).getDateOfTransaction().getTime()))));
-        entries.add(new TableData("Seller", (n) -> ((TransactionData) n).getVehicle().getSeller() == null ? "-" : ((TransactionData) n).getVehicle().getSeller().getUserName()));
-        entries.add(new TableData("Buyer", (n) -> ((TransactionData) n).getVehicle().getBuyer() == null ? "-" : ((TransactionData) n).getVehicle().getBuyer().getUserName()));
-        loadTableData(entries, TransactionList.get());
+        String[] header = new String[]
+                {
+                        "Vehicle ID",
+                        "Plate",
+                        "Amount",
+                        "Date",
+                        "Seller",
+                        "Buyer"
+                };
+
+        var tableDataMatrix = new ArrayList<ArrayList<Object>>();
+        for (var obj : TransactionArraySingleton.get())
+        {
+            TransactionDataModel vehicleObject = (TransactionDataModel) obj;
+            ArrayList<Object> innerData = new ArrayList<>();
+            VehicleDataModel vehicle = (VehicleDataModel) obj.getParent();
+            UserDataModel seller = vehicle.getSeller();
+            UserDataModel buyer = vehicle.getBuyer();
+            innerData.add(vehicle.getVIN());
+            innerData.add(vehicle.getLicensePlate());
+            innerData.add(vehicleObject.getPaidAmount());
+            innerData.add(new SimpleDateFormat("dd-MMM-yyyy").format(vehicleObject.getDateOfTransaction().getTime()));
+            innerData.add(seller == null ? "-" : seller.getUserName());
+            innerData.add(buyer == null ? "-" : buyer.getUserName());
+            tableDataMatrix.add(innerData);
+        }
+
+        setTableSettings(header, tableDataMatrix);
     }
 }

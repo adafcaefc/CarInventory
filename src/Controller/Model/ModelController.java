@@ -1,18 +1,16 @@
 package Controller.Model;
 
-import Controller.Model.Listener.IUpdateListener;
-import Controller.Model.Table.TableData;
-import Model.Record.Data.ModelData;
-import Model.Record.Data.UserData;
-import Model.Record.List.ModelList;
+import Controller.Model.Listener.UpdateListener;
+import Model.ArraySingleton.ModelArraySingleton;
+import Model.Model.ModelDataModel;
 import View.Form.Input.ModelInputForm;
 
 import javax.swing.*;
 import java.util.ArrayList;
 
-public class ModelController extends IController
+public class ModelController extends IDataRecordController
 {
-    public ModelController(JTable table, IUpdateListener updateListener)
+    public ModelController(JTable table, UpdateListener updateListener)
     {
         super(table, updateListener);
     }
@@ -28,7 +26,7 @@ public class ModelController extends IController
     @Override
     public void openModifyWindow(JFrame parent)
     {
-        ModelData modelRecord = (ModelData) getSelectedItem(ModelList.get());
+        ModelDataModel modelRecord = (ModelDataModel) getSelectedItem(ModelArraySingleton.get());
         if (modelRecord == null) { return; }
         ModelInputForm form = new ModelInputForm(parent, true, modelRecord);
         form.bindUpdateListener(updateListener);
@@ -38,10 +36,10 @@ public class ModelController extends IController
     @Override
     public void openDeleteWindow()
     {
-        ModelData modelRecord = (ModelData) getSelectedItem(ModelList.get());
+        ModelDataModel modelRecord = (ModelDataModel) getSelectedItem(ModelArraySingleton.get());
         if (modelRecord == null) { return; }
 
-        int modelIndex = ModelList.get().getIndexForComponent(modelRecord);
+        int modelIndex = ModelArraySingleton.get().getIndexForComponent(modelRecord);
         int childrenCount = modelRecord.countChildren();
 
         String deleteMsg = String.format(
@@ -62,7 +60,7 @@ public class ModelController extends IController
 
         if (choice == JOptionPane.YES_OPTION)
         {
-            ModelList.get().unregisterComponent(modelRecord);
+            ModelArraySingleton.get().unregisterComponent(modelRecord);
             updateListener.onUpdateRecord();
         }
     }
@@ -70,14 +68,32 @@ public class ModelController extends IController
     @Override
     public void loadViewTable()
     {
-        ArrayList<TableData> entries = new ArrayList<>();
-        entries.add(new TableData("Model Name", (n) -> ((ModelData) n).getModelName()));
-        entries.add(new TableData("Year", (n) -> ((ModelData) n).getModelYear()));
-        entries.add(new TableData("Sunroof", (n) -> ((ModelData) n).getHasSunroof() ? "Yes" : "No"));
-        entries.add(new TableData("Doors", (n) -> ((ModelData) n).getDoorCount()));
-        entries.add(new TableData("Seats", (n) -> ((ModelData) n).getSeatCount()));
-        entries.add(new TableData("Fuel", (n) -> ((ModelData) n).getFuelCapacity()));
-        entries.add(new TableData("Brand", (n) -> ((ModelData) n).getBrand().getBrandName()));
-        loadTableData(entries, ModelList.get());
+        String[] header = new String[]
+                {
+                        "Name",
+                        "Year",
+                        "Sunroof",
+                        "Doors",
+                        "Seats",
+                        "Fuel",
+                        "Brand",
+                        };
+
+        var tableDataMatrix = new ArrayList<ArrayList<Object>>();
+        for (var obj : ModelArraySingleton.get())
+        {
+            ModelDataModel modelRecord = (ModelDataModel) obj;
+            ArrayList<Object> innerData = new ArrayList<>();
+            innerData.add(modelRecord.getModelName());
+            innerData.add(modelRecord.getModelYear());
+            innerData.add(modelRecord.getHasSunroof() ? "Yes" : "No");
+            innerData.add(modelRecord.getDoorCount());
+            innerData.add(modelRecord.getSeatCount());
+            innerData.add(modelRecord.getFuelCapacity());
+            innerData.add(modelRecord.getBrand().getBrandName());
+            tableDataMatrix.add(innerData);
+        }
+
+        setTableSettings(header, tableDataMatrix);
     }
 }

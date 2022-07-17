@@ -1,18 +1,16 @@
 package Controller.Model;
 
-import Controller.Model.Listener.IUpdateListener;
-import Controller.Model.Table.TableData;
-import Model.Record.Data.BrandData;
-import Model.Record.Data.UserData;
-import Model.Record.List.BrandList;
+import Controller.Model.Listener.UpdateListener;
+import Model.ArraySingleton.BrandArraySingleton;
+import Model.Model.BrandDataModel;
 import View.Form.Input.BrandInputForm;
 
 import javax.swing.*;
 import java.util.ArrayList;
 
-public class BrandController extends IController
+public class BrandController extends IDataRecordController
 {
-    public BrandController(JTable table, IUpdateListener updateListener)
+    public BrandController(JTable table, UpdateListener updateListener)
     {
         super(table, updateListener);
     }
@@ -28,7 +26,7 @@ public class BrandController extends IController
     @Override
     public void openModifyWindow(JFrame parent)
     {
-        BrandData brandRecord = (BrandData) getSelectedItem(BrandList.get());
+        BrandDataModel brandRecord = (BrandDataModel) getSelectedItem(BrandArraySingleton.get());
         if (brandRecord == null) { return; }
         BrandInputForm form = new BrandInputForm(parent, true, brandRecord);
         form.bindUpdateListener(updateListener);
@@ -38,9 +36,9 @@ public class BrandController extends IController
     @Override
     public void openDeleteWindow()
     {
-        BrandData brandRecord = (BrandData) getSelectedItem(BrandList.get());
+        BrandDataModel brandRecord = (BrandDataModel) getSelectedItem(BrandArraySingleton.get());
         if (brandRecord == null) { return; }
-        int brandIndex = BrandList.get().getIndexForComponent(brandRecord);
+        int brandIndex = BrandArraySingleton.get().getIndexForComponent(brandRecord);
         int childrenCount = brandRecord.countChildren();
         String deleteMsg = String.format("Are you sure you want to delete model no.%d (%s)?", brandIndex + 1, brandRecord.getBrandName());
         if (childrenCount > 0)
@@ -50,7 +48,7 @@ public class BrandController extends IController
         int choice = JOptionPane.showConfirmDialog(null, deleteMsg, "Delete Brands", JOptionPane.YES_NO_OPTION);
         if (choice == JOptionPane.YES_OPTION)
         {
-            BrandList.get().unregisterComponent(brandRecord);
+            BrandArraySingleton.get().unregisterComponent(brandRecord);
             updateListener.onUpdateRecord();
         }
     }
@@ -58,8 +56,17 @@ public class BrandController extends IController
     @Override
     public void loadViewTable()
     {
-        ArrayList<TableData> entries = new ArrayList<>();
-        entries.add(new TableData("Brand Name", (n) -> ((BrandData) n).getBrandName()));
-        loadTableData(entries, BrandList.get());
+        String[] header = new String[]{ "Brand Name" };
+
+        var tableDataMatrix = new ArrayList<ArrayList<Object>>();
+        for (var obj : BrandArraySingleton.get())
+        {
+            BrandDataModel brandRecord = (BrandDataModel) obj;
+            ArrayList<Object> innerData = new ArrayList<>();
+            innerData.add(brandRecord.getBrandName());
+            tableDataMatrix.add(innerData);
+        }
+
+        setTableSettings(header, tableDataMatrix);
     }
 }
