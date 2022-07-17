@@ -1,28 +1,24 @@
 package Controller.Database.Deserializer;
 
-import Model.Exception.DataNotBoundToList;
-import Model.ArraySingleton.VehicleArraySingleton;
-import Model.Model.IRecordDataModel;
-import Model.Model.TransactionDataModel;
-import Model.Model.VehicleDataModel;
+import Model.Exception.InvalidData;
+import Model.Record.Data.IData;
+import Model.Record.Data.TransactionData;
+import Model.Record.Data.VehicleData;
+import Model.Record.List.VehicleList;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.GregorianCalendar;
 
-public class TransactionDeserializer implements IDataRecordDeserializer
+public class TransactionDeserializer implements IDeserializer
 {
-    public IRecordDataModel deserialize(ResultSet rs) throws SQLException, DataNotBoundToList
+    public IData deserialize(ResultSet rs) throws SQLException, InvalidData
     {
-        VehicleDataModel parentObj = (VehicleDataModel) VehicleArraySingleton.get().getComponentAt(rs.getInt("parentVehicleId"));
-        var transactionData = new TransactionDataModel(parentObj);
+        VehicleData parentObj = (VehicleData) VehicleList.get().getComponentAt(rs.getInt("parentVehicleId"));
+        var transactionData = new TransactionData(parentObj);
 
         transactionData.setPaidAmount(rs.getInt("paidAmount"));
-
-        transactionData.setDateOfTransaction(new GregorianCalendar(
-                rs.getInt("dateOfTransactionYear"),
-                rs.getInt("dateOfTransactionMonth"),
-                rs.getInt("dateOfTransactionDate")));
+        transactionData.getDateOfTransaction().setTime(rs.getDate("dateOfTransaction"));
 
         return transactionData;
     }

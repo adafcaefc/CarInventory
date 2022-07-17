@@ -1,28 +1,28 @@
 package Controller.Database.Serializer;
 
-import Model.ArraySingleton.ModelArraySingleton;
-import Model.ArraySingleton.UserArraySingleton;
-import Model.ArraySingleton.VehicleArraySingleton;
-import Model.Model.IRecordDataModel;
-import Model.Model.VehicleDataModel;
+import Model.Record.Data.IData;
+import Model.Record.Data.VehicleData;
+import Model.Record.List.ModelList;
+import Model.Record.List.UserList;
+import Model.Record.List.VehicleList;
 
 import java.util.HashMap;
 
-public class VehicleSerializer implements IDataRecordSerializer
+public class VehicleSerializer implements ISerializer
 {
     @Override
-    public HashMap<String, String> serialize(IRecordDataModel component)
+    public HashMap<String, String> serialize(IData component)
     {
-        var vehicle = (VehicleDataModel) component;
+        var vehicle = (VehicleData) component;
         HashMap<String, String> map = new HashMap<>();
-        int objIndex = VehicleArraySingleton.get().getIndexForComponent(vehicle);
-        int parentObjIndex = ModelArraySingleton.get().getIndexForComponent(vehicle.getModel());
+        int objIndex = VehicleList.get().getIndexForComponent(vehicle);
+        int parentObjIndex = ModelList.get().getIndexForComponent(vehicle.getModel());
 
         int buyerObjIndex = -1;
         int sellerObjIndex = -1;
 
-        if (vehicle.getBuyer() != null) { buyerObjIndex = UserArraySingleton.get().getIndexForComponent(vehicle.getBuyer()); }
-        if (vehicle.getSeller() != null) { sellerObjIndex = UserArraySingleton.get().getIndexForComponent(vehicle.getSeller()); }
+        if (vehicle.getBuyer() != null) { buyerObjIndex = UserList.get().getIndexForComponent(vehicle.getBuyer()); }
+        if (vehicle.getSeller() != null) { sellerObjIndex = UserList.get().getIndexForComponent(vehicle.getSeller()); }
 
         map.put("vehicleId", String.valueOf(objIndex));
         map.put("parentModelId", String.valueOf(parentObjIndex));

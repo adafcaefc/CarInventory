@@ -1,10 +1,14 @@
 package View.Form.Input;
 
 import Controller.Utility.ValidationUtilities;
-import Model.ArraySingleton.ModelArraySingleton;
-import Model.ArraySingleton.UserArraySingleton;
-import Model.ArraySingleton.VehicleArraySingleton;
-import Model.Model.*;
+import Model.Enum.UserLevel;
+import Model.Record.Data.IData;
+import Model.Record.Data.ModelData;
+import Model.Record.Data.UserData;
+import Model.Record.Data.VehicleData;
+import Model.Record.List.ModelList;
+import Model.Record.List.UserList;
+import Model.Record.List.VehicleList;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,9 +28,9 @@ public class VehicleInputForm extends IBaseInputForm
     public VehicleInputForm(
             JFrame parentFrame,
             boolean updateRecord,
-            VehicleDataModel originalRecord)
+            VehicleData originalRecord)
     {
-        super(updateRecord, originalRecord, VehicleArraySingleton.get());
+        super(updateRecord, originalRecord, VehicleList.get());
 
         setTitle("Vehicle Form");
 
@@ -54,9 +58,9 @@ public class VehicleInputForm extends IBaseInputForm
 
     private void populateModelCombobox()
     {
-        for (var obj : ModelArraySingleton.get())
+        for (var obj : ModelList.get())
         {
-            ModelDataModel modelRecord = (ModelDataModel) obj;
+            ModelData modelRecord = (ModelData) obj;
             modelDropdownBox.addItem(modelRecord.getModelName());
         }
         modelDropdownBox.setSelectedItem(null);
@@ -66,9 +70,9 @@ public class VehicleInputForm extends IBaseInputForm
     {
         sellerDropdownBox.addItem("-");
         buyerDropdownBox.addItem("-");
-        for (var obj : UserArraySingleton.get())
+        for (var obj : UserList.get())
         {
-            UserDataModel userData = (UserDataModel) obj;
+            UserData userData = (UserData) obj;
             sellerDropdownBox.addItem(userData.getUserName());
             buyerDropdownBox.addItem(userData.getUserName());
         }
@@ -83,11 +87,19 @@ public class VehicleInputForm extends IBaseInputForm
 
         JComponent[] uiInputs = new JComponent[]
                 {
+                        modelDropdownBox,
                         mileageTextField,
                         discountTextField,
                         sellerDropdownBox,
                         buyerDropdownBox,
                         };
+
+
+        if (modelDropdownBox.getSelectedIndex() == -1 && !isUpdateRecord())
+        {
+            inputIsValid = false;
+            modelDropdownBox.setBackground(getErrorBackgroundColor());
+        }
 
         for (JComponent c : uiInputs) { c.setBackground(Color.WHITE); }
 
@@ -105,9 +117,9 @@ public class VehicleInputForm extends IBaseInputForm
             discountTextField.setText("");
         }
 
-        if (buyerDropdownBox.getSelectedIndex() != 0)
+        if (buyerDropdownBox.getSelectedIndex() > 0)
         {
-            UserDataModel buyer = (UserDataModel) UserArraySingleton.get().getComponentAt(buyerDropdownBox.getSelectedIndex() - 1);
+            UserData buyer = (UserData) UserList.get().getComponentAt(buyerDropdownBox.getSelectedIndex() - 1);
             if (buyer.getUserLevel() != UserLevel.REGULAR_USER && buyer.getUserLevel() != UserLevel.VIP_USER)
             {
                 inputIsValid = false;
@@ -115,9 +127,9 @@ public class VehicleInputForm extends IBaseInputForm
             }
         }
 
-        if (sellerDropdownBox.getSelectedIndex() != 0)
+        if (sellerDropdownBox.getSelectedIndex() > 0)
         {
-            UserDataModel seller = (UserDataModel) UserArraySingleton.get().getComponentAt(sellerDropdownBox.getSelectedIndex() - 1);
+            UserData seller = (UserData) UserList.get().getComponentAt(sellerDropdownBox.getSelectedIndex() - 1);
             if (seller.getUserLevel() != UserLevel.SALES_MANAGER)
             {
                 inputIsValid = false;
@@ -129,10 +141,10 @@ public class VehicleInputForm extends IBaseInputForm
     }
 
     @Override
-    public IRecordDataModel getFinishedRecord() throws Exception
+    public IData getFinishedRecord() throws Exception
     {
-        IRecordDataModel parentModel = ModelArraySingleton.get().getComponentAt(modelDropdownBox.getSelectedIndex());
-        VehicleDataModel vehicleRecord = new VehicleDataModel((ModelDataModel) parentModel);
+        IData parentModel = ModelList.get().getComponentAt(modelDropdownBox.getSelectedIndex());
+        VehicleData vehicleRecord = new VehicleData((ModelData) parentModel);
         vehicleRecord.setVIN(vinTextField.getText());
         vehicleRecord.setLicensePlate(licensePlateTextField.getText());
         vehicleRecord.setColor(colorTextField.getText());
@@ -142,35 +154,36 @@ public class VehicleInputForm extends IBaseInputForm
 
         if (sellerDropdownBox.getSelectedIndex() > 0)
         {
-            vehicleRecord.setSeller((UserDataModel) UserArraySingleton.get().getComponentAt(sellerDropdownBox.getSelectedIndex() - 1));
+            vehicleRecord.setSeller((UserData) UserList.get().getComponentAt(sellerDropdownBox.getSelectedIndex() - 1));
         }
+
         if (buyerDropdownBox.getSelectedIndex() > 0)
         {
-            vehicleRecord.setBuyer((UserDataModel) UserArraySingleton.get().getComponentAt(buyerDropdownBox.getSelectedIndex() - 1));
+            vehicleRecord.setBuyer((UserData) UserList.get().getComponentAt(buyerDropdownBox.getSelectedIndex() - 1));
         }
 
         return vehicleRecord;
     }
 
-    public void loadVehicleData(VehicleDataModel vehicleRecord)
+    public void loadVehicleData(VehicleData vehicleRecord)
     {
         if (vehicleRecord == null) { return; }
         vinTextField.setText(vehicleRecord.getVIN());
         licensePlateTextField.setText(vehicleRecord.getLicensePlate());
         colorTextField.setText(vehicleRecord.getColor());
         mileageTextField.setText(vehicleRecord.getMileage().toString());
-        int modelIndex = ModelArraySingleton.get().getIndexForComponent(vehicleRecord.getModel());
+        int modelIndex = ModelList.get().getIndexForComponent(vehicleRecord.getModel());
         modelDropdownBox.setSelectedIndex(modelIndex);
         priceSpinner.setValue(vehicleRecord.getPrice());
         discountTextField.setText(vehicleRecord.getDiscount().toString());
         if (vehicleRecord.getBuyer() != null)
         {
-            int buyerIndex = UserArraySingleton.get().getIndexForComponent(vehicleRecord.getBuyer());
+            int buyerIndex = UserList.get().getIndexForComponent(vehicleRecord.getBuyer());
             buyerDropdownBox.setSelectedIndex(buyerIndex + 1);
         }
         if (vehicleRecord.getSeller() != null)
         {
-            int sellerIndex = UserArraySingleton.get().getIndexForComponent(vehicleRecord.getSeller());
+            int sellerIndex = UserList.get().getIndexForComponent(vehicleRecord.getSeller());
             sellerDropdownBox.setSelectedIndex(sellerIndex + 1);
         }
     }

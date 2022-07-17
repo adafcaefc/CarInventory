@@ -6,9 +6,9 @@ public class Main
 {
     public static void main(String[] args)
     {
-        var databaseManager = new DatabaseManager("jdbc:mysql://localhost:3307/joecar", "root", "");
-        databaseManager.loadData();
+        DatabaseManager.get().connect("jdbc:mysql://localhost:3307/joecar", "root", "");
+        DatabaseManager.get().loadData();
         SessionManager.get().loadSession();
-        new Thread(() -> new MainWindow(databaseManager).setVisible(true)).start();
+        new Thread(() -> new MainWindow().setVisible(true)).start();
     }
 }

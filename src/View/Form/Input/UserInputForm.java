@@ -1,9 +1,9 @@
 package View.Form.Input;
 
-import Model.ArraySingleton.UserArraySingleton;
-import Model.Model.IRecordDataModel;
-import Model.Model.UserDataModel;
-import Model.Model.UserLevel;
+import Model.Enum.UserLevel;
+import Model.Record.Data.IData;
+import Model.Record.Data.UserData;
+import Model.Record.List.UserList;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,10 +18,10 @@ public class UserInputForm extends IBaseInputForm
     public UserInputForm(
             JFrame parentFrame,
             boolean updateRecord,
-            UserDataModel originalRecord)
+            UserData originalRecord)
     throws HeadlessException
     {
-        super(updateRecord, originalRecord, UserArraySingleton.get());
+        super(updateRecord, originalRecord, UserList.get());
 
         setTitle("User Form");
 
@@ -55,9 +55,9 @@ public class UserInputForm extends IBaseInputForm
 
         if (!isUpdateRecord())
         {
-            for (var obj : UserArraySingleton.get())
+            for (var obj : UserList.get())
             {
-                UserDataModel userRecord = (UserDataModel) obj;
+                UserData userRecord = (UserData) obj;
                 if (userRecord.getUserName().equals(userNameTextField.getText()))
                 {
                     userNameTextField.setBackground(getErrorBackgroundColor());
@@ -88,9 +88,9 @@ public class UserInputForm extends IBaseInputForm
     }
 
     @Override
-    public IRecordDataModel getFinishedRecord() throws Exception
+    public IData getFinishedRecord() throws Exception
     {
-        UserDataModel userRecord = new UserDataModel();
+        UserData userRecord = new UserData();
         userRecord.setUserName(userNameTextField.getText());
         userRecord.setPasswordRaw(new String(passwordTextField.getPassword()));
         userRecord.setUserLevel(UserLevel.valueOf(userLevelDropdownBox.getSelectedIndex()));
@@ -105,7 +105,7 @@ public class UserInputForm extends IBaseInputForm
         }
     }
 
-    public void loadUserData(UserDataModel userRecord)
+    public void loadUserData(UserData userRecord)
     {
         if (userRecord == null) { return; }
         userNameTextField.setText(userRecord.getUserName());

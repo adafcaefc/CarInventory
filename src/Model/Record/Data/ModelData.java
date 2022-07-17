@@ -1,9 +1,9 @@
-package Model.Model;
+package Model.Record.Data;
 
-import Model.Exception.DataNotBoundToList;
-import Model.ArraySingleton.BrandArraySingleton;
+import Model.Exception.InvalidData;
+import Model.Record.List.BrandList;
 
-public class ModelDataModel extends IRecordDataModel
+public class ModelData extends IData
 {
     private String modelName;
     private Integer modelYear = 0;
@@ -12,19 +12,19 @@ public class ModelDataModel extends IRecordDataModel
     private Integer seatCount = 0;
     private Double fuelCapacity = 0.0;
 
-    public ModelDataModel(BrandDataModel brandRecord) throws DataNotBoundToList
+    public ModelData(BrandData brandRecord) throws InvalidData
     {
         if (brandRecord == null) { return; }
-        if (!BrandArraySingleton.get().componentIsRegisteredAtPool(brandRecord))
+        if (!BrandList.get().componentIsRegisteredAtPool(brandRecord))
         {
-            throw new DataNotBoundToList("The 'brand' object passed to bindToBrand does not exist inside BrandPool");
+            throw new InvalidData("The 'brand' object passed to bindToBrand does not exist inside BrandPool");
         }
         brandRecord.addChild(this);
     }
 
-    public BrandDataModel getBrand()
+    public BrandData getBrand()
     {
-        return (BrandDataModel) getParent();
+        return (BrandData) getParent();
     }
 
     public String getModelName()

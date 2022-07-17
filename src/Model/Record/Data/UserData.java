@@ -1,10 +1,11 @@
-package Model.Model;
+package Model.Record.Data;
 
 import Controller.Utility.PasswordUtilities;
+import Model.Enum.UserLevel;
 
 import java.security.NoSuchAlgorithmException;
 
-public class UserDataModel extends IRecordDataModel
+public class UserData extends IData
 {
     private String userName;
     private String password;

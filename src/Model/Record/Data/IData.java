@@ -1,24 +1,24 @@
-package Model.Model;
+package Model.Record.Data;
 
 import java.util.ArrayList;
 
-public abstract class IRecordDataModel
+public abstract class IData
 {
-    private final ArrayList<IRecordDataModel> children = new ArrayList<>();
+    private final ArrayList<IData> children = new ArrayList<>();
 
-    private IRecordDataModel parent = null;
+    private IData parent = null;
 
-    public IRecordDataModel getParent()
+    public IData getParent()
     {
         return parent;
     }
 
-    public void setParent(IRecordDataModel newParent)
+    public void setParent(IData newParent)
     {
         parent = newParent;
     }
 
-    public void addChild(IRecordDataModel child)
+    public void addChild(IData child)
     {
         if (child.parent != this)
         {
@@ -27,7 +27,7 @@ public abstract class IRecordDataModel
         }
     }
 
-    public void removeChild(IRecordDataModel child)
+    public void removeChild(IData child)
     {
         children.remove(child);
     }
@@ -50,13 +50,13 @@ public abstract class IRecordDataModel
     {
         for (int i = children.size(); i > 0; i--)
         {
-            IRecordDataModel targetChild = children.get(0);
+            IData targetChild = children.get(0);
             targetChild.removeAllChildrenRecursively();
             targetChild.removeFromParent();
         }
     }
 
-    public IRecordDataModel getChildAt(int index)
+    public IData getChildAt(int index)
     {
         return children.get(index);
     }
@@ -69,7 +69,7 @@ public abstract class IRecordDataModel
     public int countChildrenRecursively()
     {
         int totalChildren = children.size();
-        for (IRecordDataModel child : children)
+        for (IData child : children)
         {
             totalChildren += child.countChildrenRecursively();
         }

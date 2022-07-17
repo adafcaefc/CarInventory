@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class JoeButton extends JButton
+public class SideButton extends JButton
 {
     public static final Color SELECTED_COLOR = new Color(0x183265);
     public static final Color UNSELECTED_COLOR = new Color(0x1F4690);
@@ -16,11 +16,12 @@ public class JoeButton extends JButton
     public static final Color TEXT_COLOR = new Color(0xEFEFEF);
     public static final Color DISABLED_TEXT_COLOR = new Color(0xF1EEE9);
 
-    public static final Font JOE_BUTTON_FONT = new Font("Century Gothic", Font.BOLD, 16);
-    boolean isJoeSelected = false;
-    boolean isJoeEnabled = true;
+    public static final Font BUTTON_FONT = new Font("Century Gothic", Font.BOLD, 16);
 
-    public JoeButton(String text)
+    boolean isSideButtonSelected = false;
+    boolean isSideButtonEnabled = true;
+
+    public SideButton(String text)
     {
         super(text);
         setFocusPainted(false);
@@ -41,41 +42,41 @@ public class JoeButton extends JButton
                 setBackground(getSelectedColor());
             }
         });
-        setFont(JOE_BUTTON_FONT);
+        setFont(BUTTON_FONT);
     }
 
-    public boolean isJoeSelected()
+    public boolean isSideButtonSelected()
     {
-        return isJoeSelected;
+        return isSideButtonSelected;
     }
 
-    public void setJoeSelected(boolean joeSelected)
+    public void setSideButtonSelected(boolean sideButtonSelected)
     {
-        setSelected(joeSelected);
-        isJoeSelected = joeSelected;
+        setSelected(sideButtonSelected);
+        isSideButtonSelected = sideButtonSelected;
         updateAppearance();
     }
 
-    public boolean isJoeEnabled()
+    public boolean isSideButtonEnabled()
     {
-        return isJoeEnabled;
+        return isSideButtonEnabled;
     }
 
-    public void setJoeEnabled(boolean joeEnabled)
+    public void setSideButtonEnabled(boolean sideButtonEnabled)
     {
-        setEnabled(joeEnabled);
-        isJoeEnabled = joeEnabled;
+        setEnabled(sideButtonEnabled);
+        isSideButtonEnabled = sideButtonEnabled;
         updateAppearance();
     }
 
     private Color getSelectedColor()
     {
-        return isJoeSelected ? SELECTED_COLOR : UNSELECTED_COLOR;
+        return isSideButtonSelected ? SELECTED_COLOR : UNSELECTED_COLOR;
     }
 
     private Color getTextColor()
     {
-        return isJoeEnabled ? TEXT_COLOR : DISABLED_TEXT_COLOR;
+        return isSideButtonEnabled ? TEXT_COLOR : DISABLED_TEXT_COLOR;
     }
 
     public void updateAppearance()

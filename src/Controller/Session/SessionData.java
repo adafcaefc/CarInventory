@@ -1,7 +1,7 @@
 package Controller.Session;
 
-import Model.ArraySingleton.UserArraySingleton;
-import Model.Model.UserDataModel;
+import Model.Record.Data.UserData;
+import Model.Record.List.UserList;
 
 public class SessionData implements java.io.Serializable
 {
@@ -9,25 +9,25 @@ public class SessionData implements java.io.Serializable
     private final String password;
     private final String salt;
 
-    public SessionData(UserDataModel userRecord)
+    public SessionData(UserData userRecord)
     {
         this.userName = userRecord.getUserName();
         this.password = userRecord.getPassword();
         this.salt = userRecord.getSalt();
     }
 
-    public boolean isTheSame(UserDataModel userRecord)
+    public boolean isTheSame(UserData userRecord)
     {
         return userRecord.getUserName().equals(userName)
                 && userRecord.getPassword().equals(password)
                 && userRecord.getSalt().equals(salt);
     }
 
-    public UserDataModel getUser()
+    public UserData getUser()
     {
-        for (var obj : UserArraySingleton.get())
+        for (var obj : UserList.get())
         {
-            UserDataModel userRecord = (UserDataModel) obj;
+            UserData userRecord = (UserData) obj;
             if (isTheSame(userRecord))
             {
                 return userRecord;

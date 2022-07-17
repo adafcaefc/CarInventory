@@ -1,25 +1,27 @@
 package Controller.Model;
 
-import Controller.Model.Listener.UpdateListener;
-import Model.ArraySingleton.IRecordArraySingleton;
-import Model.Model.IRecordDataModel;
+import Controller.Model.Listener.IUpdateListener;
+import Controller.Model.Table.TableData;
+import Model.Record.Data.IData;
+import Model.Record.List.IList;
+import Model.Record.List.VehicleList;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 
-public abstract class IDataRecordController
+public abstract class IController
 {
     protected JTable table;
-    protected UpdateListener updateListener;
+    protected IUpdateListener updateListener;
 
-    public IDataRecordController(JTable table, UpdateListener updateListener)
+    public IController(JTable table, IUpdateListener updateListener)
     {
         this.table = table;
         this.updateListener = updateListener;
     }
 
-    public final IRecordDataModel getSelectedItem(IRecordArraySingleton pool)
+    public final IData getSelectedItem(IList pool)
     {
         int row = table.getSelectedRow();
         if (row == -1 || row >= pool.countRegisteredComponents()) { return null; }
@@ -36,6 +38,23 @@ public abstract class IDataRecordController
         table.setModel(tableModel);
         table.setDefaultEditor(Object.class, null);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    }
+
+    public void loadTableData(ArrayList<TableData> entries, IList list)
+    {
+        var tableDataMatrix = new ArrayList<ArrayList<Object>>();
+        for (var obj : list)
+        {
+            ArrayList<Object> innerData = new ArrayList<>();
+            var innerValues = TableData.getTableData(entries);
+            for (var v : innerValues)
+            {
+                innerData.add(v.run(obj));
+            }
+            tableDataMatrix.add(innerData);
+        }
+
+        setTableSettings(TableData.getHeader(entries), tableDataMatrix);
     }
 
     public abstract void openCreateWindow(JFrame parent);

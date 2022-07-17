@@ -2,10 +2,10 @@ package View;
 
 import Controller.Database.DatabaseManager;
 import Controller.Model.*;
-import Controller.Model.Listener.UpdateListener;
+import Controller.Model.Listener.IUpdateListener;
 import Controller.Session.SessionManager;
-import Model.Model.UserLevel;
-import View.Button.JoeButton;
+import Model.Enum.UserLevel;
+import View.Button.SideButton;
 import View.Form.User.LoginForm;
 import View.Utility.FormUtilities;
 import View.Utility.SpringUtilities;
@@ -17,7 +17,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
 
-public class MainWindow extends JFrame implements UpdateListener
+public class MainWindow extends JFrame implements IUpdateListener
 {
     public final static String BRAND_ID = "Card.Brand.Panel";
     public final static String MODEL_ID = "Card.Model.Panel";
@@ -25,43 +25,53 @@ public class MainWindow extends JFrame implements UpdateListener
     public final static String SALES_ID = "Card.Sales.Panel";
     public final static String USER_ID = "Card.Sales.UserRecord";
     private static final Color BACKGROUND_COLOR = new Color(0x2C394B);
-    private final JoeButton vehiclesButton = new JoeButton("VEHICLES");
-    private final JoeButton modelsButton = new JoeButton("MODELS");
-    private final JoeButton brandsButton = new JoeButton("BRANDS");
-    private final JoeButton transactionsButton = new JoeButton("SALES");
-    private final JoeButton userButton = new JoeButton("USERS");
+    private final SideButton vehiclesButton = new SideButton("VEHICLES");
+    private final SideButton modelsButton = new SideButton("MODELS");
+    private final SideButton brandsButton = new SideButton("BRANDS");
+    private final SideButton transactionsButton = new SideButton("SALES");
+    private final SideButton userButton = new SideButton("USERS");
 
+    private final JPanel mainPanel = new JPanel();
     private final JTable displayTable = new JTable();
     private final JScrollPane cCenterPanel = new JScrollPane(displayTable);
     private final JPanel cLeftPanel = new JPanel();
     private final JPanel cRightPanel = new JPanel();
+
     private final JLabel welcomeLabel = new JLabel();
+    private final JLabel mainLabel = new JLabel("JoeCar Inventory System");
+    private final JLabel sepLabel = new JLabel("...");
+    private final SideButton closeButton = new SideButton("X");
 
-    private final JoeButton insertButton = new JoeButton("INSERT");
-    private final JoeButton modifyButton = new JoeButton("MODIFY");
-    private final JoeButton deleteButton = new JoeButton("DELETE");
-    private final JoeButton logInButton = new JoeButton("LOG IN");
-    private final JoeButton logOutButton = new JoeButton("LOG OUT");
-    private final JoeButton registerButton = new JoeButton("REGISTER");
+    private final SideButton insertButton = new SideButton("INSERT");
+    private final SideButton modifyButton = new SideButton("MODIFY");
+    private final SideButton deleteButton = new SideButton("DELETE");
+    private final SideButton logInButton = new SideButton("LOG IN");
+    private final SideButton logOutButton = new SideButton("LOG OUT");
+    private final SideButton registerButton = new SideButton("REGISTER");
 
-    private final DatabaseManager databaseManager;
-    private IDataRecordController crudController;
-    private HashMap<String, JoeButton> idToButtonMap;
-    private HashMap<String, IDataRecordController> idToCRUDControllerMap;
+    private IController crudController;
+    private HashMap<String, SideButton> idToButtonMap;
+    private HashMap<String, IController> idToCRUDControllerMap;
 
-    public MainWindow(DatabaseManager databaseManager)
+    private void doRainbowCalculation()
     {
-        super("JoeCar");
+        double counter = 0;
+        while (true)
+        {
+            try { Thread.sleep(10); }
+            catch (InterruptedException e) { e.printStackTrace(); }
+            counter += 0.05;
+            while (counter > 2.f * Math.PI) { counter -= 2.f * Math.PI; }
+            var color = new Color(
+                    (int) (FormUtilities.calculateRainbow(counter + 0) * 255.),
+                    (int) (FormUtilities.calculateRainbow(counter + 2) * 255.),
+                    (int) (FormUtilities.calculateRainbow(counter + 4) * 255.));
+            mainPanel.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, color));
+        }
+    }
 
-        this.databaseManager = databaseManager;
-
-        JPanel mainPanel = new JPanel();
-        mainPanel.setBackground(BACKGROUND_COLOR);
-
-        setContentPane(mainPanel);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(820, 640);
-
+    private void buildLeftPanel()
+    {
         cLeftPanel.setBackground(BACKGROUND_COLOR);
         cLeftPanel.setLayout(new SpringLayout());
         cLeftPanel.add(brandsButton);
@@ -70,7 +80,10 @@ public class MainWindow extends JFrame implements UpdateListener
         cLeftPanel.add(transactionsButton);
         cLeftPanel.add(userButton);
         SpringUtilities.makeCompactGrid(cLeftPanel, 5, 1, 6, 6, 6, 6);
+    }
 
+    private void buildRightPanel()
+    {
         cRightPanel.setBackground(BACKGROUND_COLOR);
         cRightPanel.setLayout(new SpringLayout());
         cRightPanel.add(insertButton);
@@ -80,7 +93,10 @@ public class MainWindow extends JFrame implements UpdateListener
         cRightPanel.add(logOutButton);
         cRightPanel.add(registerButton);
         SpringUtilities.makeCompactGrid(cRightPanel, 6, 1, 6, 6, 6, 6);
+    }
 
+    public void buildCenterPanel()
+    {
         var cellRenderer = new DefaultTableCellRenderer()
         {
             @Override
@@ -100,16 +116,16 @@ public class MainWindow extends JFrame implements UpdateListener
         cellRenderer.setHorizontalAlignment(JLabel.CENTER);
         cCenterPanel.getViewport().setBackground(BACKGROUND_COLOR);
         displayTable.setBackground(BACKGROUND_COLOR);
-        displayTable.setForeground(JoeButton.TEXT_COLOR);
-        displayTable.setSelectionBackground(JoeButton.SELECTED_COLOR);
-        displayTable.setSelectionForeground(JoeButton.TEXT_COLOR);
+        displayTable.setForeground(SideButton.TEXT_COLOR);
+        displayTable.setSelectionBackground(SideButton.SELECTED_COLOR);
+        displayTable.setSelectionForeground(SideButton.TEXT_COLOR);
         displayTable.setShowVerticalLines(false);
         displayTable.setDefaultRenderer(Object.class, cellRenderer);
         displayTable.setRowHeight(28);
 
         var header = displayTable.getTableHeader();
         header.setBackground(BACKGROUND_COLOR);
-        header.setForeground(JoeButton.TEXT_COLOR);
+        header.setForeground(SideButton.TEXT_COLOR);
         var headerRenderer = new DefaultTableCellRenderer()
         {
             @Override
@@ -122,7 +138,7 @@ public class MainWindow extends JFrame implements UpdateListener
                     int column)
             {
                 Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                c.setFont(JoeButton.JOE_BUTTON_FONT);
+                c.setFont(SideButton.BUTTON_FONT);
                 return c;
             }
         };
@@ -132,21 +148,21 @@ public class MainWindow extends JFrame implements UpdateListener
         header.setPreferredSize(new Dimension(0, 48));
 
         cCenterPanel.setBorder(BorderFactory.createEmptyBorder());
+    }
 
-        JLabel mainLabel = new JLabel("JoeCar Inventory System");
+    public void buildTopPanel()
+    {
         mainLabel.setFont(new Font("Century Gothic", Font.BOLD, 36));
-        mainLabel.setForeground(JoeButton.TEXT_COLOR);
+        mainLabel.setForeground(SideButton.TEXT_COLOR);
         mainLabel.setHorizontalAlignment(JLabel.CENTER);
 
         welcomeLabel.setFont(new Font("Century Gothic", Font.PLAIN, 18));
-        welcomeLabel.setForeground(JoeButton.TEXT_COLOR);
+        welcomeLabel.setForeground(SideButton.TEXT_COLOR);
         welcomeLabel.setHorizontalAlignment(JLabel.CENTER);
 
-        var sepLabel = new JLabel("...");
         sepLabel.setFont(new Font("Century Gothic", Font.PLAIN, 36));
         sepLabel.setVisible(false);
 
-        var closeButton = new JoeButton("X");
         closeButton.addActionListener(e -> System.exit(0));
         closeButton.setBorderPainted(false);
         closeButton.setContentAreaFilled(false);
@@ -154,32 +170,10 @@ public class MainWindow extends JFrame implements UpdateListener
         closeButton.setOpaque(false);
         closeButton.setHorizontalAlignment(JLabel.RIGHT);
         closeButton.setPreferredSize(new Dimension(24, 24));
+    }
 
-        mainPanel.add(new JLabel());
-        mainPanel.add(new JLabel());
-        mainPanel.add(closeButton);
-
-        mainPanel.add(new JLabel());
-        mainPanel.add(mainLabel);
-        mainPanel.add(new JLabel());
-
-        mainPanel.add(new JLabel());
-        mainPanel.add(welcomeLabel);
-        mainPanel.add(new JLabel());
-
-        mainPanel.add(new JLabel());
-        mainPanel.add(sepLabel);
-        mainPanel.add(new JLabel());
-
-        mainPanel.add(cLeftPanel);
-        mainPanel.add(cCenterPanel);
-        mainPanel.add(cRightPanel);
-
-        mainPanel.setLayout(new SpringLayout());
-        SpringUtilities.makeCompactGrid(mainPanel, 5, 3, 6, 6, 6, 6);
-
-        setUndecorated(true);
-
+    public void addDragListener()
+    {
         MouseAdapter frameDragListener = new MouseAdapter()
         {
             private Point mouseDownCompCoords = null;
@@ -197,38 +191,20 @@ public class MainWindow extends JFrame implements UpdateListener
         };
         addMouseListener(frameDragListener);
         addMouseMotionListener(frameDragListener);
+    }
 
-        mainPanel.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, JoeButton.CLICKED_COLOR));
-
-        new Thread(() ->
-        {
-            double counter = 0;
-            while (true)
-            {
-                try { Thread.sleep(10); }
-                catch (InterruptedException e) { e.printStackTrace(); }
-                counter += 0.05;
-                while (counter > 2.f * Math.PI) { counter -= 2.f * Math.PI; }
-                var color = new Color(
-                        (int) (FormUtilities.calculateRainbow(counter + 0) * 255.),
-                        (int) (FormUtilities.calculateRainbow(counter + 2) * 255.),
-                        (int) (FormUtilities.calculateRainbow(counter + 4) * 255.));
-                mainPanel.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, color));
-            }
-        }).start();
-
-
-        initializeIdToObjectMappings();
-        setupSidebarButtons();
-        setupCRUDButtons();
-        updateMenuState(VEHICLE_ID); // Set the "VehicleRecord" menu as the starting position
+    public void addToMainPanel(Component a, Component b, Component c)
+    {
+        mainPanel.add(a == null ? new JLabel() : a);
+        mainPanel.add(b == null ? new JLabel() : b);
+        mainPanel.add(c == null ? new JLabel() : c);
     }
 
     private void highlightButton(JButton targetButton)
     {
-        for (JoeButton currButton : idToButtonMap.values())
+        for (SideButton currButton : idToButtonMap.values())
         {
-            currButton.setJoeSelected(targetButton == currButton);
+            currButton.setSideButtonSelected(targetButton == currButton);
             currButton.updateAppearance();
         }
     }
@@ -236,7 +212,7 @@ public class MainWindow extends JFrame implements UpdateListener
     public void updateMenuState(String id)
     {
         JButton button = idToButtonMap.get(id);
-        IDataRecordController controller = idToCRUDControllerMap.get(id);
+        IController controller = idToCRUDControllerMap.get(id);
         if (button != null && controller != null)
         {
             highlightButton(button);
@@ -255,19 +231,19 @@ public class MainWindow extends JFrame implements UpdateListener
         {
             welcomeLabel.setText("You are not logged in, please log in.");
 
-            registerButton.setJoeEnabled(true);
-            logInButton.setJoeEnabled(true);
-            logOutButton.setJoeEnabled(false);
+            registerButton.setSideButtonEnabled(true);
+            logInButton.setSideButtonEnabled(true);
+            logOutButton.setSideButtonEnabled(false);
 
-            vehiclesButton.setJoeEnabled(false);
-            modelsButton.setJoeEnabled(false);
-            brandsButton.setJoeEnabled(false);
-            transactionsButton.setJoeEnabled(false);
-            userButton.setJoeEnabled(false);
+            vehiclesButton.setSideButtonEnabled(false);
+            modelsButton.setSideButtonEnabled(false);
+            brandsButton.setSideButtonEnabled(false);
+            transactionsButton.setSideButtonEnabled(false);
+            userButton.setSideButtonEnabled(false);
 
-            insertButton.setJoeEnabled(false);
-            modifyButton.setJoeEnabled(false);
-            deleteButton.setJoeEnabled(false);
+            insertButton.setSideButtonEnabled(false);
+            modifyButton.setSideButtonEnabled(false);
+            deleteButton.setSideButtonEnabled(false);
 
             cCenterPanel.setVisible(false);
         }
@@ -275,23 +251,23 @@ public class MainWindow extends JFrame implements UpdateListener
         {
             welcomeLabel.setText(String.format("Welcome, %s! You are logged in as %s.", user.getUserName(), user.getUserLevel().toString()));
 
-            registerButton.setJoeEnabled(false);
-            logInButton.setJoeEnabled(false);
-            logOutButton.setJoeEnabled(true);
+            registerButton.setSideButtonEnabled(false);
+            logInButton.setSideButtonEnabled(false);
+            logOutButton.setSideButtonEnabled(true);
 
             boolean salesAccess = user.getUserLevel() == UserLevel.ADMIN || user.getUserLevel() == UserLevel.SALES_MANAGER;
             boolean adminAccess = user.getUserLevel() == UserLevel.ADMIN;
             boolean managerAccess = user.getUserLevel() == UserLevel.ADMIN || user.getUserLevel() == UserLevel.PRODUCT_MANAGER;
 
-            vehiclesButton.setJoeEnabled(true);
-            transactionsButton.setJoeEnabled(salesAccess);
-            brandsButton.setJoeEnabled(managerAccess);
-            modelsButton.setJoeEnabled(managerAccess);
-            userButton.setJoeEnabled(adminAccess);
+            vehiclesButton.setSideButtonEnabled(true);
+            transactionsButton.setSideButtonEnabled(salesAccess);
+            brandsButton.setSideButtonEnabled(managerAccess);
+            modelsButton.setSideButtonEnabled(managerAccess);
+            userButton.setSideButtonEnabled(adminAccess);
 
-            insertButton.setJoeEnabled(true);
-            modifyButton.setJoeEnabled(true);
-            deleteButton.setJoeEnabled(true);
+            insertButton.setSideButtonEnabled(true);
+            modifyButton.setSideButtonEnabled(true);
+            deleteButton.setSideButtonEnabled(true);
 
             cCenterPanel.setVisible(true);
         }
@@ -307,7 +283,7 @@ public class MainWindow extends JFrame implements UpdateListener
         registerButton.addActionListener(e -> ((UserController) idToCRUDControllerMap.get(USER_ID)).openRegistrationWindow(MainWindow.this));
     }
 
-    private void setupCRUDButtons()
+    private void setupControllerButtons()
     {
         insertButton.addActionListener(e -> crudController.openCreateWindow(MainWindow.this));
         modifyButton.addActionListener(e -> crudController.openModifyWindow(MainWindow.this));
@@ -347,6 +323,41 @@ public class MainWindow extends JFrame implements UpdateListener
     public void onUpdateRecord()
     {
         crudController.loadViewTable();
-        databaseManager.saveData();
+        DatabaseManager.get().saveData();
+    }
+
+    public MainWindow()
+    {
+        super("JoeCar");
+
+        setContentPane(mainPanel);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(1200, 640);
+        setUndecorated(true);
+        addDragListener();
+
+        buildLeftPanel();
+        buildRightPanel();
+        buildCenterPanel();
+        buildTopPanel();
+
+        addToMainPanel(null, null, closeButton);
+        addToMainPanel(null, mainLabel, null);
+        addToMainPanel(null, welcomeLabel, null);
+        addToMainPanel(null, sepLabel, null);
+        addToMainPanel(cLeftPanel, cCenterPanel, cRightPanel);
+
+        mainPanel.setLayout(new SpringLayout());
+        SpringUtilities.makeCompactGrid(mainPanel, 5, 3, 6, 6, 6, 6);
+
+        mainPanel.setBackground(BACKGROUND_COLOR);
+
+        mainPanel.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, SideButton.CLICKED_COLOR));
+        new Thread(this::doRainbowCalculation).start();
+
+        initializeIdToObjectMappings();
+        setupSidebarButtons();
+        setupControllerButtons();
+        updateMenuState(VEHICLE_ID); // Set the "VehicleRecord" menu as the starting position
     }
 }

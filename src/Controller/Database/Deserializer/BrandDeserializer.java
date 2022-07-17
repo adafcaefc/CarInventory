@@ -1,17 +1,17 @@
 package Controller.Database.Deserializer;
 
-import Model.Model.BrandDataModel;
-import Model.Model.IRecordDataModel;
+import Model.Record.Data.BrandData;
+import Model.Record.Data.IData;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class BrandDeserializer implements IDataRecordDeserializer
+public class BrandDeserializer implements IDeserializer
 {
     @Override
-    public IRecordDataModel deserialize(ResultSet rs) throws SQLException
+    public IData deserialize(ResultSet rs) throws SQLException
     {
-        var brand = new BrandDataModel();
+        var brand = new BrandData();
         brand.setBrandName(rs.getString("brandName"));
         return brand;
     }

@@ -1,7 +1,7 @@
 package View.Form.User;
 
 import Controller.Session.SessionManager;
-import Model.Model.UserDataModel;
+import Model.Record.Data.UserData;
 import View.Form.IBaseForm;
 import View.MainWindow;
 
@@ -30,7 +30,7 @@ public class LoginForm extends IBaseForm
         this.mainWindow = mainWindow;
     }
 
-    private UserDataModel logIn() throws NoSuchAlgorithmException
+    private UserData logIn() throws NoSuchAlgorithmException
     {
         String userName = userNameTextField.getText();
         String password = String.valueOf(passwordTextField.getPassword());
@@ -44,7 +44,7 @@ public class LoginForm extends IBaseForm
         {
             try
             {
-                UserDataModel userRecord = logIn();
+                UserData userRecord = logIn();
                 if (userRecord != null)
                 {
                     JOptionPane.showMessageDialog(

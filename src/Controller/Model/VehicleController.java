@@ -1,17 +1,22 @@
 package Controller.Model;
 
-import Controller.Model.Listener.UpdateListener;
-import Model.ArraySingleton.VehicleArraySingleton;
-import Model.Model.UserDataModel;
-import Model.Model.VehicleDataModel;
+import Controller.Model.Listener.IUpdateListener;
+import Controller.Model.Table.TableData;
+import Controller.Session.SessionManager;
+import Model.Enum.UserLevel;
+import Model.Record.Data.TransactionData;
+import Model.Record.Data.UserData;
+import Model.Record.Data.VehicleData;
+import Model.Record.List.VehicleList;
 import View.Form.Input.VehicleInputForm;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
-public class VehicleController extends IDataRecordController
+public class VehicleController extends IController
 {
-    public VehicleController(JTable table, UpdateListener updateListener)
+    public VehicleController(JTable table, IUpdateListener updateListener)
     {
         super(table, updateListener);
     }
@@ -27,7 +32,7 @@ public class VehicleController extends IDataRecordController
     @Override
     public void openModifyWindow(JFrame parent)
     {
-        VehicleDataModel vehicleRecord = (VehicleDataModel) getSelectedItem(VehicleArraySingleton.get());
+        VehicleData vehicleRecord = (VehicleData) getSelectedItem(VehicleList.get());
         if (vehicleRecord == null) { return; }
         VehicleInputForm form = new VehicleInputForm(parent, true, vehicleRecord);
         form.bindUpdateListener(updateListener);
@@ -37,9 +42,9 @@ public class VehicleController extends IDataRecordController
     @Override
     public void openDeleteWindow()
     {
-        VehicleDataModel vehicleRecord = (VehicleDataModel) getSelectedItem(VehicleArraySingleton.get());
+        VehicleData vehicleRecord = (VehicleData) getSelectedItem(VehicleList.get());
         if (vehicleRecord == null) { return; }
-        int vehicleIndex = VehicleArraySingleton.get().getIndexForComponent(vehicleRecord);
+        int vehicleIndex = VehicleList.get().getIndexForComponent(vehicleRecord);
         String deleteMsg = String.format(
                 "Are you sure you want to delete vehicleRecord no.%d with VehicleRecord Identification Number %s?",
                 vehicleIndex + 1,
@@ -47,7 +52,7 @@ public class VehicleController extends IDataRecordController
         int choice = JOptionPane.showConfirmDialog(null, deleteMsg, "Delete VehicleRecord", JOptionPane.YES_NO_OPTION);
         if (choice == JOptionPane.YES_OPTION)
         {
-            VehicleArraySingleton.get().unregisterComponent(vehicleRecord);
+            VehicleList.get().unregisterComponent(vehicleRecord);
             updateListener.onUpdateRecord();
         }
     }
@@ -55,34 +60,34 @@ public class VehicleController extends IDataRecordController
     @Override
     public void loadViewTable()
     {
-        String[] header = new String[]
-                {
-                        "Vehicle ID",
-                        "Plate",
-                        "Colour",
-                        "Mileage",
-                        "Model",
-                        "Seller",
-                        "Buyer"
-                };
+        ArrayList<TableData> entries = new ArrayList<>();
+        entries.add(new TableData("Vehicle ID", (n) -> ((VehicleData) n).getVIN()));
+        entries.add(new TableData("Plate", (n) -> ((VehicleData) n).getLicensePlate()));
+        entries.add(new TableData("Model", (n) -> ((VehicleData) n).getModel().getModelName()));
 
-        var tableDataMatrix = new ArrayList<ArrayList<Object>>();
-        for (var obj : VehicleArraySingleton.get())
+        if (SessionManager.get().isLoggedIn())
         {
-            VehicleDataModel vehicleRecord = (VehicleDataModel) obj;
-            UserDataModel seller = vehicleRecord.getSeller();
-            UserDataModel buyer = vehicleRecord.getBuyer();
-            ArrayList<Object> innerData = new ArrayList<>();
-            innerData.add(vehicleRecord.getVIN());
-            innerData.add(vehicleRecord.getLicensePlate());
-            innerData.add(vehicleRecord.getColor());
-            innerData.add(vehicleRecord.getMileage());
-            innerData.add(vehicleRecord.getModel().getModelName());
-            innerData.add(seller == null ? "-" : seller.getUserName());
-            innerData.add(buyer == null ? "-" : buyer.getUserName());
-            tableDataMatrix.add(innerData);
+            UserLevel level = SessionManager.get().getCurrentUser().getUserLevel();
+            if (level == UserLevel.ADMIN || level == UserLevel.PRODUCT_MANAGER || level == UserLevel.SALES_MANAGER)
+            {
+                entries.add(new TableData("Colour", (n) -> ((VehicleData) n).getColor()));
+                entries.add(new TableData("Mileage", (n) -> ((VehicleData) n).getMileage()));
+                entries.add(new TableData("Price", (n) -> ((VehicleData) n).getPrice()));
+                entries.add(new TableData("VIP Discount", (n) -> String.format("%.2f%%", ((VehicleData) n).getDiscount() * 100.)));
+                entries.add(new TableData("Seller", (n) -> ((VehicleData) n).getSeller() == null ? "-" : ((VehicleData) n).getSeller().getUserName()));
+                entries.add(new TableData("Buyer", (n) -> ((VehicleData) n).getBuyer() == null ? "-" : ((VehicleData) n).getBuyer().getUserName()));
+            }
+            else if (level == UserLevel.REGULAR_USER)
+            {
+                entries.add(new TableData("Price", (n) -> ((VehicleData) n).getPrice()));
+                entries.add(new TableData("Seller", (n) -> ((VehicleData) n).getSeller() == null ? "-" : ((VehicleData) n).getSeller().getUserName()));
+            }
+            else if (level == UserLevel.VIP_USER)
+            {
+                entries.add(new TableData("Price", (n) -> (int)(((VehicleData) n).getPrice() * (1. - ((VehicleData) n).getDiscount()))));
+                entries.add(new TableData("Seller", (n) -> ((VehicleData) n).getSeller() == null ? "-" : ((VehicleData) n).getSeller().getUserName()));
+            }
         }
-
-        setTableSettings(header, tableDataMatrix);
+        loadTableData(entries, VehicleList.get());
     }
 }

@@ -1,18 +1,18 @@
 package Controller.Database.Deserializer;
 
-import Model.Model.IRecordDataModel;
-import Model.Model.UserDataModel;
-import Model.Model.UserLevel;
+import Model.Enum.UserLevel;
+import Model.Record.Data.IData;
+import Model.Record.Data.UserData;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserDeserializer implements IDataRecordDeserializer
+public class UserDeserializer implements IDeserializer
 {
     @Override
-    public IRecordDataModel deserialize(ResultSet rs) throws SQLException
+    public IData deserialize(ResultSet rs) throws SQLException
     {
-        var user = new UserDataModel();
+        var user = new UserData();
         user.setUserName(rs.getString("userName"));
         user.setPassword(rs.getString("password"));
         user.setSalt(rs.getString("salt"));
