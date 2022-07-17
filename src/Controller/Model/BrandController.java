@@ -1,7 +1,9 @@
 package Controller.Model;
 
 import Controller.Model.Listener.IUpdateListener;
+import Controller.Model.Table.TableData;
 import Model.Record.Data.BrandData;
+import Model.Record.Data.UserData;
 import Model.Record.List.BrandList;
 import View.Form.Input.BrandInputForm;
 
@@ -56,17 +58,8 @@ public class BrandController extends IController
     @Override
     public void loadViewTable()
     {
-        String[] header = new String[]{ "Brand Name" };
-
-        var tableDataMatrix = new ArrayList<ArrayList<Object>>();
-        for (var obj : BrandList.get())
-        {
-            BrandData brandRecord = (BrandData) obj;
-            ArrayList<Object> innerData = new ArrayList<>();
-            innerData.add(brandRecord.getBrandName());
-            tableDataMatrix.add(innerData);
-        }
-
-        setTableSettings(header, tableDataMatrix);
+        ArrayList<TableData> entries = new ArrayList<>();
+        entries.add(new TableData("Brand Name", (n) -> ((BrandData) n).getBrandName()));
+        loadTableData(entries, BrandList.get());
     }
 }

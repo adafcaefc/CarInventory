@@ -13,13 +13,25 @@ import java.sql.SQLException;
 
 public class DatabaseManager
 {
-    Connection conn;
+    private static final DatabaseManager instance = new DatabaseManager();
 
-    public DatabaseManager(String url, String username, String password)
+    private DatabaseManager()
+    {
+        super();
+    }
+
+    public static DatabaseManager get()
+    {
+        return instance;
+    }
+
+    Connection connection;
+
+    public void connect(String url, String username, String password)
     {
         try
         {
-            conn = DriverManager.getConnection(url, username, password);
+            connection = DriverManager.getConnection(url, username, password);
         }
         catch (SQLException ex)
         {
@@ -37,7 +49,7 @@ public class DatabaseManager
             ISerializer serializer)
     throws SQLException
     {
-        conn.createStatement().executeUpdate(String.format("TRUNCATE TABLE `%s`;", tableName));
+        connection.createStatement().executeUpdate(String.format("TRUNCATE TABLE `%s`;", tableName));
 
         for (var obj : pool)
         {
@@ -53,7 +65,7 @@ public class DatabaseManager
                 if (values.length() > 0) { values.append(", "); }
                 values.append(String.format("'%s'", set.getValue()));
             }
-            conn.createStatement().executeUpdate(String.format("INSERT INTO `%s` (%s) VALUES (%s);", tableName, vars, values));
+            connection.createStatement().executeUpdate(String.format("INSERT INTO `%s` (%s) VALUES (%s);", tableName, vars, values));
         }
     }
 
@@ -87,7 +99,7 @@ public class DatabaseManager
             InvalidData
     {
 
-        ResultSet rs = conn.createStatement().executeQuery(query);
+        ResultSet rs = connection.createStatement().executeQuery(query);
         while (rs.next())
         {
             pool.registerComponent(deserializer.deserialize(rs));

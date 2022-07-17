@@ -1,6 +1,7 @@
 package Controller.Model;
 
 import Controller.Model.Listener.IUpdateListener;
+import Controller.Model.Table.TableData;
 import Model.Record.Data.TransactionData;
 import Model.Record.Data.UserData;
 import Model.Record.Data.VehicleData;
@@ -54,33 +55,13 @@ public class TransactionController extends IController
     @Override
     public void loadViewTable()
     {
-        String[] header = new String[]
-                {
-                        "Vehicle ID",
-                        "Plate",
-                        "Amount",
-                        "Date",
-                        "Seller",
-                        "Buyer"
-                };
-
-        var tableDataMatrix = new ArrayList<ArrayList<Object>>();
-        for (var obj : TransactionList.get())
-        {
-            TransactionData vehicleObject = (TransactionData) obj;
-            ArrayList<Object> innerData = new ArrayList<>();
-            VehicleData vehicle = (VehicleData) obj.getParent();
-            UserData seller = vehicle.getSeller();
-            UserData buyer = vehicle.getBuyer();
-            innerData.add(vehicle.getVIN());
-            innerData.add(vehicle.getLicensePlate());
-            innerData.add(vehicleObject.getPaidAmount());
-            innerData.add(new SimpleDateFormat("dd-MMM-yyyy").format(vehicleObject.getDateOfTransaction().getTime()));
-            innerData.add(seller == null ? "-" : seller.getUserName());
-            innerData.add(buyer == null ? "-" : buyer.getUserName());
-            tableDataMatrix.add(innerData);
-        }
-
-        setTableSettings(header, tableDataMatrix);
+        ArrayList<TableData> entries = new ArrayList<>();
+        entries.add(new TableData("Vehicle ID", (n) -> ((TransactionData) n).getVehicle().getVIN()));
+        entries.add(new TableData("Plate", (n) -> ((TransactionData) n).getVehicle().getLicensePlate()));
+        entries.add(new TableData("Amount", (n) -> ((TransactionData) n).getPaidAmount()));
+        entries.add(new TableData("Date", (n) -> (new SimpleDateFormat("dd-MMM-yyyy").format(((TransactionData) n).getDateOfTransaction().getTime()))));
+        entries.add(new TableData("Seller", (n) -> ((TransactionData) n).getVehicle().getSeller() == null ? "-" : ((TransactionData) n).getVehicle().getSeller().getUserName()));
+        entries.add(new TableData("Buyer", (n) -> ((TransactionData) n).getVehicle().getBuyer() == null ? "-" : ((TransactionData) n).getVehicle().getBuyer().getUserName()));
+        loadTableData(entries, TransactionList.get());
     }
 }

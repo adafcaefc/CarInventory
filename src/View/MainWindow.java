@@ -31,11 +31,16 @@ public class MainWindow extends JFrame implements IUpdateListener
     private final SideButton transactionsButton = new SideButton("SALES");
     private final SideButton userButton = new SideButton("USERS");
 
+    private final JPanel mainPanel = new JPanel();
     private final JTable displayTable = new JTable();
     private final JScrollPane cCenterPanel = new JScrollPane(displayTable);
     private final JPanel cLeftPanel = new JPanel();
     private final JPanel cRightPanel = new JPanel();
+
     private final JLabel welcomeLabel = new JLabel();
+    private final JLabel mainLabel = new JLabel("JoeCar Inventory System");
+    private final JLabel sepLabel = new JLabel("...");
+    private final SideButton closeButton = new SideButton("X");
 
     private final SideButton insertButton = new SideButton("INSERT");
     private final SideButton modifyButton = new SideButton("MODIFY");
@@ -44,24 +49,29 @@ public class MainWindow extends JFrame implements IUpdateListener
     private final SideButton logOutButton = new SideButton("LOG OUT");
     private final SideButton registerButton = new SideButton("REGISTER");
 
-    private final DatabaseManager databaseManager;
     private IController crudController;
     private HashMap<String, SideButton> idToButtonMap;
     private HashMap<String, IController> idToCRUDControllerMap;
 
-    public MainWindow(DatabaseManager databaseManager)
+    private void doRainbowCalculation()
     {
-        super("JoeCar");
+        double counter = 0;
+        while (true)
+        {
+            try { Thread.sleep(10); }
+            catch (InterruptedException e) { e.printStackTrace(); }
+            counter += 0.05;
+            while (counter > 2.f * Math.PI) { counter -= 2.f * Math.PI; }
+            var color = new Color(
+                    (int) (FormUtilities.calculateRainbow(counter + 0) * 255.),
+                    (int) (FormUtilities.calculateRainbow(counter + 2) * 255.),
+                    (int) (FormUtilities.calculateRainbow(counter + 4) * 255.));
+            mainPanel.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, color));
+        }
+    }
 
-        this.databaseManager = databaseManager;
-
-        JPanel mainPanel = new JPanel();
-        mainPanel.setBackground(BACKGROUND_COLOR);
-
-        setContentPane(mainPanel);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(820, 640);
-
+    private void buildLeftPanel()
+    {
         cLeftPanel.setBackground(BACKGROUND_COLOR);
         cLeftPanel.setLayout(new SpringLayout());
         cLeftPanel.add(brandsButton);
@@ -70,7 +80,10 @@ public class MainWindow extends JFrame implements IUpdateListener
         cLeftPanel.add(transactionsButton);
         cLeftPanel.add(userButton);
         SpringUtilities.makeCompactGrid(cLeftPanel, 5, 1, 6, 6, 6, 6);
+    }
 
+    private void buildRightPanel()
+    {
         cRightPanel.setBackground(BACKGROUND_COLOR);
         cRightPanel.setLayout(new SpringLayout());
         cRightPanel.add(insertButton);
@@ -80,7 +93,10 @@ public class MainWindow extends JFrame implements IUpdateListener
         cRightPanel.add(logOutButton);
         cRightPanel.add(registerButton);
         SpringUtilities.makeCompactGrid(cRightPanel, 6, 1, 6, 6, 6, 6);
+    }
 
+    public void buildCenterPanel()
+    {
         var cellRenderer = new DefaultTableCellRenderer()
         {
             @Override
@@ -132,8 +148,10 @@ public class MainWindow extends JFrame implements IUpdateListener
         header.setPreferredSize(new Dimension(0, 48));
 
         cCenterPanel.setBorder(BorderFactory.createEmptyBorder());
+    }
 
-        JLabel mainLabel = new JLabel("JoeCar Inventory System");
+    public void buildTopPanel()
+    {
         mainLabel.setFont(new Font("Century Gothic", Font.BOLD, 36));
         mainLabel.setForeground(SideButton.TEXT_COLOR);
         mainLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -142,11 +160,9 @@ public class MainWindow extends JFrame implements IUpdateListener
         welcomeLabel.setForeground(SideButton.TEXT_COLOR);
         welcomeLabel.setHorizontalAlignment(JLabel.CENTER);
 
-        var sepLabel = new JLabel("...");
         sepLabel.setFont(new Font("Century Gothic", Font.PLAIN, 36));
         sepLabel.setVisible(false);
 
-        var closeButton = new SideButton("X");
         closeButton.addActionListener(e -> System.exit(0));
         closeButton.setBorderPainted(false);
         closeButton.setContentAreaFilled(false);
@@ -154,32 +170,10 @@ public class MainWindow extends JFrame implements IUpdateListener
         closeButton.setOpaque(false);
         closeButton.setHorizontalAlignment(JLabel.RIGHT);
         closeButton.setPreferredSize(new Dimension(24, 24));
+    }
 
-        mainPanel.add(new JLabel());
-        mainPanel.add(new JLabel());
-        mainPanel.add(closeButton);
-
-        mainPanel.add(new JLabel());
-        mainPanel.add(mainLabel);
-        mainPanel.add(new JLabel());
-
-        mainPanel.add(new JLabel());
-        mainPanel.add(welcomeLabel);
-        mainPanel.add(new JLabel());
-
-        mainPanel.add(new JLabel());
-        mainPanel.add(sepLabel);
-        mainPanel.add(new JLabel());
-
-        mainPanel.add(cLeftPanel);
-        mainPanel.add(cCenterPanel);
-        mainPanel.add(cRightPanel);
-
-        mainPanel.setLayout(new SpringLayout());
-        SpringUtilities.makeCompactGrid(mainPanel, 5, 3, 6, 6, 6, 6);
-
-        setUndecorated(true);
-
+    public void addDragListener()
+    {
         MouseAdapter frameDragListener = new MouseAdapter()
         {
             private Point mouseDownCompCoords = null;
@@ -197,31 +191,13 @@ public class MainWindow extends JFrame implements IUpdateListener
         };
         addMouseListener(frameDragListener);
         addMouseMotionListener(frameDragListener);
+    }
 
-        mainPanel.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, SideButton.CLICKED_COLOR));
-
-        new Thread(() ->
-        {
-            double counter = 0;
-            while (true)
-            {
-                try { Thread.sleep(10); }
-                catch (InterruptedException e) { e.printStackTrace(); }
-                counter += 0.05;
-                while (counter > 2.f * Math.PI) { counter -= 2.f * Math.PI; }
-                var color = new Color(
-                        (int) (FormUtilities.calculateRainbow(counter + 0) * 255.),
-                        (int) (FormUtilities.calculateRainbow(counter + 2) * 255.),
-                        (int) (FormUtilities.calculateRainbow(counter + 4) * 255.));
-                mainPanel.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, color));
-            }
-        }).start();
-
-
-        initializeIdToObjectMappings();
-        setupSidebarButtons();
-        setupCRUDButtons();
-        updateMenuState(VEHICLE_ID); // Set the "VehicleRecord" menu as the starting position
+    public void addToMainPanel(Component a, Component b, Component c)
+    {
+        mainPanel.add(a == null ? new JLabel() : a);
+        mainPanel.add(b == null ? new JLabel() : b);
+        mainPanel.add(c == null ? new JLabel() : c);
     }
 
     private void highlightButton(JButton targetButton)
@@ -307,7 +283,7 @@ public class MainWindow extends JFrame implements IUpdateListener
         registerButton.addActionListener(e -> ((UserController) idToCRUDControllerMap.get(USER_ID)).openRegistrationWindow(MainWindow.this));
     }
 
-    private void setupCRUDButtons()
+    private void setupControllerButtons()
     {
         insertButton.addActionListener(e -> crudController.openCreateWindow(MainWindow.this));
         modifyButton.addActionListener(e -> crudController.openModifyWindow(MainWindow.this));
@@ -347,6 +323,41 @@ public class MainWindow extends JFrame implements IUpdateListener
     public void onUpdateRecord()
     {
         crudController.loadViewTable();
-        databaseManager.saveData();
+        DatabaseManager.get().saveData();
+    }
+
+    public MainWindow()
+    {
+        super("JoeCar");
+
+        setContentPane(mainPanel);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(1200, 640);
+        setUndecorated(true);
+        addDragListener();
+
+        buildLeftPanel();
+        buildRightPanel();
+        buildCenterPanel();
+        buildTopPanel();
+
+        addToMainPanel(null, null, closeButton);
+        addToMainPanel(null, mainLabel, null);
+        addToMainPanel(null, welcomeLabel, null);
+        addToMainPanel(null, sepLabel, null);
+        addToMainPanel(cLeftPanel, cCenterPanel, cRightPanel);
+
+        mainPanel.setLayout(new SpringLayout());
+        SpringUtilities.makeCompactGrid(mainPanel, 5, 3, 6, 6, 6, 6);
+
+        mainPanel.setBackground(BACKGROUND_COLOR);
+
+        mainPanel.setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, SideButton.CLICKED_COLOR));
+        new Thread(this::doRainbowCalculation).start();
+
+        initializeIdToObjectMappings();
+        setupSidebarButtons();
+        setupControllerButtons();
+        updateMenuState(VEHICLE_ID); // Set the "VehicleRecord" menu as the starting position
     }
 }

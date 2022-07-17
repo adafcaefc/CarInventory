@@ -5,8 +5,11 @@ import Model.Record.Data.TransactionData;
 import Model.Record.List.TransactionList;
 import Model.Record.List.VehicleList;
 
+import java.text.SimpleDateFormat;
+import java.time.temporal.TemporalField;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.TimeZone;
 
 public class TransactionSerializer implements ISerializer
 {
@@ -22,9 +25,7 @@ public class TransactionSerializer implements ISerializer
         map.put("parentVehicleId", String.valueOf(parentObjIndex));
         map.put("paidAmount", String.valueOf(transactionData.getPaidAmount()));
 
-        map.put("dateOfTransactionDate", String.valueOf(transactionData.getDateOfTransaction().get(Calendar.DAY_OF_MONTH)));
-        map.put("dateOfTransactionMonth", String.valueOf(transactionData.getDateOfTransaction().get(Calendar.MONTH)));
-        map.put("dateOfTransactionYear", String.valueOf(transactionData.getDateOfTransaction().get(Calendar.YEAR)));
+        map.put("dateOfTransaction", new SimpleDateFormat("yyyy-MM-dd").format(transactionData.getDateOfTransaction().getTime()));
 
         return map;
     }

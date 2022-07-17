@@ -18,11 +18,7 @@ public class TransactionDeserializer implements IDeserializer
         var transactionData = new TransactionData(parentObj);
 
         transactionData.setPaidAmount(rs.getInt("paidAmount"));
-
-        transactionData.setDateOfTransaction(new GregorianCalendar(
-                rs.getInt("dateOfTransactionYear"),
-                rs.getInt("dateOfTransactionMonth"),
-                rs.getInt("dateOfTransactionDate")));
+        transactionData.getDateOfTransaction().setTime(rs.getDate("dateOfTransaction"));
 
         return transactionData;
     }

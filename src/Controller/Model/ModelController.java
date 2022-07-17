@@ -1,7 +1,9 @@
 package Controller.Model;
 
 import Controller.Model.Listener.IUpdateListener;
+import Controller.Model.Table.TableData;
 import Model.Record.Data.ModelData;
+import Model.Record.Data.UserData;
 import Model.Record.List.ModelList;
 import View.Form.Input.ModelInputForm;
 
@@ -68,32 +70,14 @@ public class ModelController extends IController
     @Override
     public void loadViewTable()
     {
-        String[] header = new String[]
-                {
-                        "Name",
-                        "Year",
-                        "Sunroof",
-                        "Doors",
-                        "Seats",
-                        "Fuel",
-                        "Brand",
-                        };
-
-        var tableDataMatrix = new ArrayList<ArrayList<Object>>();
-        for (var obj : ModelList.get())
-        {
-            ModelData modelRecord = (ModelData) obj;
-            ArrayList<Object> innerData = new ArrayList<>();
-            innerData.add(modelRecord.getModelName());
-            innerData.add(modelRecord.getModelYear());
-            innerData.add(modelRecord.getHasSunroof() ? "Yes" : "No");
-            innerData.add(modelRecord.getDoorCount());
-            innerData.add(modelRecord.getSeatCount());
-            innerData.add(modelRecord.getFuelCapacity());
-            innerData.add(modelRecord.getBrand().getBrandName());
-            tableDataMatrix.add(innerData);
-        }
-
-        setTableSettings(header, tableDataMatrix);
+        ArrayList<TableData> entries = new ArrayList<>();
+        entries.add(new TableData("Model Name", (n) -> ((ModelData) n).getModelName()));
+        entries.add(new TableData("Year", (n) -> ((ModelData) n).getModelYear()));
+        entries.add(new TableData("Sunroof", (n) -> ((ModelData) n).getHasSunroof() ? "Yes" : "No"));
+        entries.add(new TableData("Doors", (n) -> ((ModelData) n).getDoorCount()));
+        entries.add(new TableData("Seats", (n) -> ((ModelData) n).getSeatCount()));
+        entries.add(new TableData("Fuel", (n) -> ((ModelData) n).getFuelCapacity()));
+        entries.add(new TableData("Brand", (n) -> ((ModelData) n).getBrand().getBrandName()));
+        loadTableData(entries, ModelList.get());
     }
 }

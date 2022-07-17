@@ -1,8 +1,10 @@
 package Controller.Model;
 
 import Controller.Model.Listener.IUpdateListener;
+import Controller.Model.Table.TableData;
 import Model.Record.Data.IData;
 import Model.Record.List.IList;
+import Model.Record.List.VehicleList;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -36,6 +38,23 @@ public abstract class IController
         table.setModel(tableModel);
         table.setDefaultEditor(Object.class, null);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    }
+
+    public void loadTableData(ArrayList<TableData> entries, IList list)
+    {
+        var tableDataMatrix = new ArrayList<ArrayList<Object>>();
+        for (var obj : list)
+        {
+            ArrayList<Object> innerData = new ArrayList<>();
+            var innerValues = TableData.getTableData(entries);
+            for (var v : innerValues)
+            {
+                innerData.add(v.run(obj));
+            }
+            tableDataMatrix.add(innerData);
+        }
+
+        setTableSettings(TableData.getHeader(entries), tableDataMatrix);
     }
 
     public abstract void openCreateWindow(JFrame parent);

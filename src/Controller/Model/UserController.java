@@ -1,6 +1,7 @@
 package Controller.Model;
 
 import Controller.Model.Listener.IUpdateListener;
+import Controller.Model.Table.TableData;
 import Model.Record.Data.UserData;
 import Model.Record.Data.VehicleData;
 import Model.Record.List.UserList;
@@ -88,22 +89,9 @@ public class UserController extends IController
     @Override
     public void loadViewTable()
     {
-        String[] header = new String[]
-                {
-                        "User Name",
-                        "User Type",
-                        };
-
-        var tableDataMatrix = new ArrayList<ArrayList<Object>>();
-        for (var obj : UserList.get())
-        {
-            UserData userRecord = (UserData) obj;
-            ArrayList<Object> innerData = new ArrayList<>();
-            innerData.add(userRecord.getUserName());
-            innerData.add(userRecord.getUserLevel().name());
-            tableDataMatrix.add(innerData);
-        }
-
-        setTableSettings(header, tableDataMatrix);
+        ArrayList<TableData> entries = new ArrayList<>();
+        entries.add(new TableData("User Name", (n) -> ((UserData) n).getUserName()));
+        entries.add(new TableData("User Type", (n) -> ((UserData) n).getUserLevel().name()));
+        loadTableData(entries, UserList.get());
     }
 }

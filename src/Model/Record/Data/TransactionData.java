@@ -7,7 +7,7 @@ import java.util.GregorianCalendar;
 
 public class TransactionData extends IData
 {
-    private GregorianCalendar dateOfTransaction;
+    private GregorianCalendar dateOfTransaction = new GregorianCalendar();
     private int paidAmount;
 
     public TransactionData(VehicleData sourceVehicleRecord) throws InvalidData

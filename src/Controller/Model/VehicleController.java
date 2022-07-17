@@ -1,6 +1,10 @@
 package Controller.Model;
 
 import Controller.Model.Listener.IUpdateListener;
+import Controller.Model.Table.TableData;
+import Controller.Session.SessionManager;
+import Model.Enum.UserLevel;
+import Model.Record.Data.TransactionData;
 import Model.Record.Data.UserData;
 import Model.Record.Data.VehicleData;
 import Model.Record.List.VehicleList;
@@ -8,6 +12,7 @@ import View.Form.Input.VehicleInputForm;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class VehicleController extends IController
 {
@@ -55,34 +60,34 @@ public class VehicleController extends IController
     @Override
     public void loadViewTable()
     {
-        String[] header = new String[]
-                {
-                        "Vehicle ID",
-                        "Plate",
-                        "Colour",
-                        "Mileage",
-                        "Model",
-                        "Seller",
-                        "Buyer"
-                };
+        ArrayList<TableData> entries = new ArrayList<>();
+        entries.add(new TableData("Vehicle ID", (n) -> ((VehicleData) n).getVIN()));
+        entries.add(new TableData("Plate", (n) -> ((VehicleData) n).getLicensePlate()));
+        entries.add(new TableData("Model", (n) -> ((VehicleData) n).getModel().getModelName()));
 
-        var tableDataMatrix = new ArrayList<ArrayList<Object>>();
-        for (var obj : VehicleList.get())
+        if (SessionManager.get().isLoggedIn())
         {
-            VehicleData vehicleRecord = (VehicleData) obj;
-            UserData seller = vehicleRecord.getSeller();
-            UserData buyer = vehicleRecord.getBuyer();
-            ArrayList<Object> innerData = new ArrayList<>();
-            innerData.add(vehicleRecord.getVIN());
-            innerData.add(vehicleRecord.getLicensePlate());
-            innerData.add(vehicleRecord.getColor());
-            innerData.add(vehicleRecord.getMileage());
-            innerData.add(vehicleRecord.getModel().getModelName());
-            innerData.add(seller == null ? "-" : seller.getUserName());
-            innerData.add(buyer == null ? "-" : buyer.getUserName());
-            tableDataMatrix.add(innerData);
+            UserLevel level = SessionManager.get().getCurrentUser().getUserLevel();
+            if (level == UserLevel.ADMIN || level == UserLevel.PRODUCT_MANAGER || level == UserLevel.SALES_MANAGER)
+            {
+                entries.add(new TableData("Colour", (n) -> ((VehicleData) n).getColor()));
+                entries.add(new TableData("Mileage", (n) -> ((VehicleData) n).getMileage()));
+                entries.add(new TableData("Price", (n) -> ((VehicleData) n).getPrice()));
+                entries.add(new TableData("VIP Discount", (n) -> String.format("%.2f%%", ((VehicleData) n).getDiscount() * 100.)));
+                entries.add(new TableData("Seller", (n) -> ((VehicleData) n).getSeller() == null ? "-" : ((VehicleData) n).getSeller().getUserName()));
+                entries.add(new TableData("Buyer", (n) -> ((VehicleData) n).getBuyer() == null ? "-" : ((VehicleData) n).getBuyer().getUserName()));
+            }
+            else if (level == UserLevel.REGULAR_USER)
+            {
+                entries.add(new TableData("Price", (n) -> ((VehicleData) n).getPrice()));
+                entries.add(new TableData("Seller", (n) -> ((VehicleData) n).getSeller() == null ? "-" : ((VehicleData) n).getSeller().getUserName()));
+            }
+            else if (level == UserLevel.VIP_USER)
+            {
+                entries.add(new TableData("Price", (n) -> (int)(((VehicleData) n).getPrice() * (1. - ((VehicleData) n).getDiscount()))));
+                entries.add(new TableData("Seller", (n) -> ((VehicleData) n).getSeller() == null ? "-" : ((VehicleData) n).getSeller().getUserName()));
+            }
         }
-
-        setTableSettings(header, tableDataMatrix);
+        loadTableData(entries, VehicleList.get());
     }
 }

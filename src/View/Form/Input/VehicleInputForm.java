@@ -87,11 +87,19 @@ public class VehicleInputForm extends IBaseInputForm
 
         JComponent[] uiInputs = new JComponent[]
                 {
+                        modelDropdownBox,
                         mileageTextField,
                         discountTextField,
                         sellerDropdownBox,
                         buyerDropdownBox,
                         };
+
+
+        if (modelDropdownBox.getSelectedIndex() == -1 && !isUpdateRecord())
+        {
+            inputIsValid = false;
+            modelDropdownBox.setBackground(getErrorBackgroundColor());
+        }
 
         for (JComponent c : uiInputs) { c.setBackground(Color.WHITE); }
 
@@ -109,7 +117,7 @@ public class VehicleInputForm extends IBaseInputForm
             discountTextField.setText("");
         }
 
-        if (buyerDropdownBox.getSelectedIndex() != 0)
+        if (buyerDropdownBox.getSelectedIndex() > 0)
         {
             UserData buyer = (UserData) UserList.get().getComponentAt(buyerDropdownBox.getSelectedIndex() - 1);
             if (buyer.getUserLevel() != UserLevel.REGULAR_USER && buyer.getUserLevel() != UserLevel.VIP_USER)
@@ -119,7 +127,7 @@ public class VehicleInputForm extends IBaseInputForm
             }
         }
 
-        if (sellerDropdownBox.getSelectedIndex() != 0)
+        if (sellerDropdownBox.getSelectedIndex() > 0)
         {
             UserData seller = (UserData) UserList.get().getComponentAt(sellerDropdownBox.getSelectedIndex() - 1);
             if (seller.getUserLevel() != UserLevel.SALES_MANAGER)
@@ -148,6 +156,7 @@ public class VehicleInputForm extends IBaseInputForm
         {
             vehicleRecord.setSeller((UserData) UserList.get().getComponentAt(sellerDropdownBox.getSelectedIndex() - 1));
         }
+
         if (buyerDropdownBox.getSelectedIndex() > 0)
         {
             vehicleRecord.setBuyer((UserData) UserList.get().getComponentAt(buyerDropdownBox.getSelectedIndex() - 1));

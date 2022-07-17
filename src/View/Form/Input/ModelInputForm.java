@@ -59,7 +59,7 @@ public class ModelInputForm extends IBaseInputForm
                         capacityTextField,
                         doorCountSpinner,
                         seatCountSpinner,
-                        };
+                };
 
         for (JComponent c : uiInputs) { c.setBackground(Color.WHITE); }
 

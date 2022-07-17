@@ -15,9 +15,9 @@ import java.security.NoSuchAlgorithmException;
 public class SessionManager
 {
     private static final SessionManager instance = new SessionManager();
-    final String USERNAME_FILE = "JoeCarSession_1.dat";
-    final String PASSWORD_FILE = "JoeCarSession_2.dat";
-    final String SALT_FILE = "JoeCarSession_3.dat";
+    final String USERNAME_FILE = "SESSION_USERNAME.dat";
+    final String PASSWORD_FILE = "SESSION_PASSWORD.dat";
+    final String SALT_FILE = "SESSION_SALT.dat";
     UserData currentUserRecord = null;
 
     private SessionManager() { }
@@ -70,6 +70,9 @@ public class SessionManager
     public void logOut()
     {
         currentUserRecord = null;
+        saveStringToFile(USERNAME_FILE, "");
+        saveStringToFile(PASSWORD_FILE, "");
+        saveStringToFile(SALT_FILE, "");
     }
 
     public void saveSession()
