@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3307
--- Generation Time: Jul 16, 2022 at 12:15 PM
+-- Generation Time: Jul 18, 2022 at 02:59 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.28
 
@@ -63,8 +63,9 @@ CREATE TABLE `models` (
 --
 
 INSERT INTO `models` (`modelId`, `parentBrandId`, `modelName`, `modelYear`, `hasSunroof`, `doorCount`, `seatCount`, `fuelCapacity`) VALUES
-(0, 0, 'Alphard', 1234, 1, 10, 20, 4235),
-(1, 1, 'Suzuki X', 1200, 1, 20, 30, 325);
+(0, 0, 'Alphard', 2009, 1, 6, 8, 6000),
+(1, 1, 'Suzuki X', 2001, 1, 4, 6, 2000),
+(2, 2, 'Audi Y', 1999, 0, 6, 6, 1000);
 
 -- --------------------------------------------------------
 
@@ -76,17 +77,18 @@ CREATE TABLE `transactions` (
   `transactionId` int(11) NOT NULL,
   `parentVehicleId` int(11) NOT NULL,
   `paidAmount` int(11) NOT NULL,
-  `dateOfTransactionDate` int(11) NOT NULL,
-  `dateOfTransactionMonth` int(11) NOT NULL,
-  `dateOfTransactionYear` int(11) NOT NULL
+  `dateOfTransaction` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `transactions`
 --
 
-INSERT INTO `transactions` (`transactionId`, `parentVehicleId`, `paidAmount`, `dateOfTransactionDate`, `dateOfTransactionMonth`, `dateOfTransactionYear`) VALUES
-(0, 0, 20000000, 30, 5, 2022);
+INSERT INTO `transactions` (`transactionId`, `parentVehicleId`, `paidAmount`, `dateOfTransaction`) VALUES
+(0, 0, 10000000, '2022-07-12'),
+(1, 2, 10000000, '2022-07-18'),
+(2, 1, 10000000, '2022-07-18'),
+(3, 1, 90000000, '2022-07-18');
 
 -- --------------------------------------------------------
 
@@ -129,7 +131,7 @@ CREATE TABLE `vehicles` (
   `licensePlate` text NOT NULL,
   `color` text NOT NULL,
   `mileage` double NOT NULL,
-  `discount` decimal(10,0) NOT NULL,
+  `discount` double NOT NULL,
   `price` int(11) NOT NULL,
   `buyerUserId` int(11) NOT NULL,
   `sellerUserId` int(11) NOT NULL
@@ -140,7 +142,9 @@ CREATE TABLE `vehicles` (
 --
 
 INSERT INTO `vehicles` (`vehicleId`, `parentModelId`, `VIN`, `licensePlate`, `color`, `mileage`, `discount`, `price`, `buyerUserId`, `sellerUserId`) VALUES
-(0, 0, '1', 'D 9999 X', 'red', 4, '6', 120500000, 6, 1);
+(0, 0, 'S0001', 'D 9999 X', 'red', 4, 0.05, 120500000, 6, 1),
+(1, 1, 'S0002', 'D 1000 X', 'red', 100.2, 0.1, 100000000, 7, 1),
+(2, 2, 'S0003', 'D 1200 N', 'purple', 200, 0.5, 200000000, 7, 1);
 
 --
 -- Indexes for dumped tables
@@ -156,8 +160,7 @@ ALTER TABLE `brands`
 -- Indexes for table `models`
 --
 ALTER TABLE `models`
-  ADD PRIMARY KEY (`modelId`),
-  ADD UNIQUE KEY `parentBrandId` (`parentBrandId`);
+  ADD PRIMARY KEY (`modelId`);
 
 --
 -- Indexes for table `transactions`
@@ -169,8 +172,7 @@ ALTER TABLE `transactions`
 -- Indexes for table `vehicles`
 --
 ALTER TABLE `vehicles`
-  ADD PRIMARY KEY (`vehicleId`),
-  ADD UNIQUE KEY `parentModelId` (`parentModelId`);
+  ADD PRIMARY KEY (`vehicleId`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
