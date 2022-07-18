@@ -74,6 +74,7 @@ public class VehicleController extends IController
                 entries.add(new TableData("Mileage", (n) -> ((VehicleData) n).getMileage()));
                 entries.add(new TableData("Price", (n) -> ((VehicleData) n).getPrice()));
                 entries.add(new TableData("VIP Discount", (n) -> String.format("%.2f%%", ((VehicleData) n).getDiscount() * 100.)));
+                entries.add(new TableData("Paid", (n) -> String.format("%.2f%%", ((VehicleData) n).getPercentagePaid() * 100.)));
                 entries.add(new TableData("Seller", (n) -> ((VehicleData) n).getSeller() == null ? "-" : ((VehicleData) n).getSeller().getUserName()));
                 entries.add(new TableData("Buyer", (n) -> ((VehicleData) n).getBuyer() == null ? "-" : ((VehicleData) n).getBuyer().getUserName()));
             }

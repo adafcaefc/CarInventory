@@ -8,16 +8,18 @@ import Model.Record.List.VehicleList;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class TransactionForm extends IBaseInputForm
 {
-    private final JSpinner paidAmountSpinner = new JSpinner();
-    private final JComboBox<Integer> dayComboBox = new JComboBox<>();
-    private final JComboBox<String> monthComboBox = new JComboBox<>();
-    private final JComboBox<String> vehicleComboBox = new JComboBox<>();
-    private final JSpinner yearSpinner = new JSpinner();
+    public final JSpinner paidAmountSpinner = new JSpinner();
+    public final JComboBox<Integer> dayComboBox = new JComboBox<>();
+    public final JComboBox<String> monthComboBox = new JComboBox<>();
+    public final JComboBox<String> vehicleComboBox = new JComboBox<>();
+    public final JSpinner yearSpinner = new JSpinner();
+    public final ArrayList<VehicleData> vehicleTransactionList = new ArrayList<>();
 
     public TransactionForm(
             JFrame parentFrame,

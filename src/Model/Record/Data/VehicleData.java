@@ -1,7 +1,9 @@
 package Model.Record.Data;
 
+import Model.Enum.UserLevel;
 import Model.Exception.InvalidData;
 import Model.Record.List.ModelList;
+import Model.Record.List.TransactionList;
 
 public class VehicleData extends IData
 {
@@ -107,5 +109,32 @@ public class VehicleData extends IData
     public void setMileage(Double newMillage)
     {
         this.mileage = newMillage;
+    }
+
+    public int getPaidAmount()
+    {
+        int total = 0;
+        for (var obj : TransactionList.get())
+        {
+            TransactionData transactionData = (TransactionData) obj;
+            if (transactionData.getVehicle() == this)
+            {
+                total += transactionData.getPaidAmount();
+            }
+        }
+        return total;
+    }
+
+    public double getRealPrice()
+    {
+        return buyer.getUserLevel() == UserLevel.VIP_USER
+               ? (double) (price) * (1. - discount)
+               : (double) price;
+    }
+
+    public double getPercentagePaid()
+    {
+        if (seller == null || buyer == null) { return 0.; }
+        return (double) getPaidAmount() / (double) getRealPrice();
     }
 }

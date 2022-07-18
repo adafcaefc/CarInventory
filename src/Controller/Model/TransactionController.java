@@ -7,6 +7,8 @@ import Model.Record.Data.UserData;
 import Model.Record.Data.VehicleData;
 import Model.Record.List.TransactionList;
 import View.Form.Input.TransactionForm;
+import View.Form.User.DoTransactionForm;
+import View.Form.User.RegistrationForm;
 
 import javax.swing.*;
 import java.text.SimpleDateFormat;
@@ -17,6 +19,13 @@ public class TransactionController extends IController
     public TransactionController(JTable table, IUpdateListener updateListener)
     {
         super(table, updateListener);
+    }
+
+    public void openDoTransactionWindow(JFrame parent)
+    {
+        DoTransactionForm form = new DoTransactionForm(parent, false, null);
+        form.bindUpdateListener(updateListener);
+        form.setVisible(true);
     }
 
     @Override

@@ -44,6 +44,14 @@ public abstract class IBaseForm extends JDialog
         addComponentPair(label, c);
     }
 
+    protected void addComponentPair(String text_1, String text_2)
+    {
+        var label_1 = new JLabel(text_1, JLabel.TRAILING);
+        var label_2 = new JLabel(text_2, JLabel.TRAILING);
+        label_1.setLabelFor(label_2);
+        addComponentPair(label_1, label_2);
+    }
+
     protected void addComponentPair(Component c)
     {
         addComponentPair("", c);

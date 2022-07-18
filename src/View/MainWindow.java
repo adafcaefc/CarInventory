@@ -7,6 +7,7 @@ import Controller.Session.SessionManager;
 import Model.Enum.UserLevel;
 import View.Button.SideButton;
 import View.Form.User.LoginForm;
+import View.Form.User.VehicleListForm;
 import View.Utility.FormUtilities;
 import View.Utility.SpringUtilities;
 
@@ -48,6 +49,8 @@ public class MainWindow extends JFrame implements IUpdateListener
     private final SideButton logInButton = new SideButton("LOG IN");
     private final SideButton logOutButton = new SideButton("LOG OUT");
     private final SideButton registerButton = new SideButton("REGISTER");
+    private final SideButton doTransactionButton = new SideButton("PAY");
+    private final SideButton vehicleListButton = new SideButton("VEHICLE LIST");
 
     private IController crudController;
     private HashMap<String, SideButton> idToButtonMap;
@@ -92,7 +95,9 @@ public class MainWindow extends JFrame implements IUpdateListener
         cRightPanel.add(logInButton);
         cRightPanel.add(logOutButton);
         cRightPanel.add(registerButton);
-        SpringUtilities.makeCompactGrid(cRightPanel, 6, 1, 6, 6, 6, 6);
+        cRightPanel.add(doTransactionButton);
+        cRightPanel.add(vehicleListButton);
+        SpringUtilities.makeCompactGrid(cRightPanel, 8, 1, 6, 6, 6, 6);
     }
 
     public void buildCenterPanel()
@@ -231,7 +236,7 @@ public class MainWindow extends JFrame implements IUpdateListener
         {
             welcomeLabel.setText("You are not logged in, please log in.");
 
-            registerButton.setSideButtonEnabled(true);
+            registerButton.setVisible(true);
             logInButton.setSideButtonEnabled(true);
             logOutButton.setSideButtonEnabled(false);
 
@@ -246,18 +251,22 @@ public class MainWindow extends JFrame implements IUpdateListener
             deleteButton.setSideButtonEnabled(false);
 
             cCenterPanel.setVisible(false);
+
+            doTransactionButton.setVisible(false);
+            vehicleListButton.setVisible(false);
         }
         else
         {
             welcomeLabel.setText(String.format("Welcome, %s! You are logged in as %s.", user.getUserName(), user.getUserLevel().toString()));
 
-            registerButton.setSideButtonEnabled(false);
+            registerButton.setVisible(false);
             logInButton.setSideButtonEnabled(false);
             logOutButton.setSideButtonEnabled(true);
 
             boolean salesAccess = user.getUserLevel() == UserLevel.ADMIN || user.getUserLevel() == UserLevel.SALES_MANAGER;
             boolean adminAccess = user.getUserLevel() == UserLevel.ADMIN;
             boolean managerAccess = user.getUserLevel() == UserLevel.ADMIN || user.getUserLevel() == UserLevel.PRODUCT_MANAGER;
+            boolean userAccess = user.getUserLevel() == UserLevel.REGULAR_USER || user.getUserLevel() == UserLevel.VIP_USER;
 
             vehiclesButton.setSideButtonEnabled(true);
             transactionsButton.setSideButtonEnabled(salesAccess);
@@ -265,11 +274,18 @@ public class MainWindow extends JFrame implements IUpdateListener
             modelsButton.setSideButtonEnabled(managerAccess);
             userButton.setSideButtonEnabled(adminAccess);
 
-            insertButton.setSideButtonEnabled(true);
-            modifyButton.setSideButtonEnabled(true);
-            deleteButton.setSideButtonEnabled(true);
+            insertButton.setVisible(salesAccess || managerAccess);
+            modifyButton.setVisible(salesAccess || managerAccess);
+            deleteButton.setVisible(salesAccess || managerAccess);
+
+            insertButton.setSideButtonEnabled(salesAccess || managerAccess);
+            modifyButton.setSideButtonEnabled(salesAccess || managerAccess);
+            deleteButton.setSideButtonEnabled(salesAccess || managerAccess);
 
             cCenterPanel.setVisible(true);
+
+            doTransactionButton.setVisible(userAccess);
+            vehicleListButton.setVisible(userAccess);
         }
     }
 
@@ -281,6 +297,8 @@ public class MainWindow extends JFrame implements IUpdateListener
         transactionsButton.addActionListener(e -> updateMenuState(SALES_ID));
         userButton.addActionListener(e -> updateMenuState(USER_ID));
         registerButton.addActionListener(e -> ((UserController) idToCRUDControllerMap.get(USER_ID)).openRegistrationWindow(MainWindow.this));
+        doTransactionButton.addActionListener(e -> ((TransactionController) idToCRUDControllerMap.get(SALES_ID)).openDoTransactionWindow(MainWindow.this));
+        vehicleListButton.addActionListener(e -> new VehicleListForm(this).setVisible(true));
     }
 
     private void setupControllerButtons()
