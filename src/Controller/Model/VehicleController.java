@@ -81,12 +81,12 @@ public class VehicleController extends IController
             else if (level == UserLevel.REGULAR_USER)
             {
                 entries.add(new TableData("Price", (n) -> ((VehicleData) n).getPrice()));
-                entries.add(new TableData("Seller", (n) -> ((VehicleData) n).getSeller() == null ? "-" : ((VehicleData) n).getSeller().getUserName()));
+                entries.add(new TableData("Seller", (n) -> ((VehicleData) n).getSeller() == null ? "Available" : "Sold"));
             }
             else if (level == UserLevel.VIP_USER)
             {
                 entries.add(new TableData("Price", (n) -> (int)(((VehicleData) n).getPrice() * (1. - ((VehicleData) n).getDiscount()))));
-                entries.add(new TableData("Seller", (n) -> ((VehicleData) n).getSeller() == null ? "-" : ((VehicleData) n).getSeller().getUserName()));
+                entries.add(new TableData("Seller", (n) -> ((VehicleData) n).getSeller() == null ? "Available" : "Sold"));
             }
         }
         loadTableData(entries, VehicleList.get());
